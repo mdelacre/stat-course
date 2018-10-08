@@ -1,0 +1,123 @@
+---
+title: "Untitled"
+author: "Delacre, Leys, Mora, Lakens"
+date: "7 octobre 2018"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r,include=FALSE}
+
+# Plan de travail
+chap_intro="chapitre 1" # qu'est-ce que la stat, et à quoi ça sert?
+chap_variables="chapitre 2" # catégorisation des variables
+chap_graph="chapitre 3" # exploration graphique des données
+chap_algebre="chapitre 4" # exploration algébrique des données
+chap_distributions="chapitre 5" # les distributions binomiales et normales
+
+# Table and Figure list
+
+# Chapitre 1
+table1_brut="Table 1.1" # Données brutes récoltées sur un échantillon de n employés belges du secteur                               #automobile" , utilise les données data1_brut
+
+# Chapitre 3
+table3.1_brut= "Table 3.1.1"     # Données brutes correspondant au nombre d'enfants par ménage
+table3.1_freq= "Table 3.1.2"     # Données transnumérisées correspondant au nombre d'enfants par ménage
+table3.1_degres = "Table 3.1.3"  # degrés pour le diagramme circulaire
+
+table3.2_freq="Table 3.2.1"      # PIB par habitant et par pays
+table3.3_freq_a="Table 3.3.1"    # âge des habitants (catégories homogènes)
+table3.3_freq_b="Table 3.3.2"    # âge des habitants (catégories non homogènes)
+
+table3.4_brut="Table 3.4"
+table3.5_brut="Table 3.5"
+
+table3.6_serie1="Table 3.6.1"
+table3.6_serie2="Table 3.6.2"
+table3.6_serie3="Table 3.6.3"
+
+# Chapitre 4
+table4.1="Table 4.1" # extrait de la Table 1.1
+table4.2="Table 4.2"  # extrait de la Table 1.1
+
+barplot_data3.1_freq="Figure 3.1.1" # barplot des fréquences de la variable nombre d'enfants
+pie_data3.1_freq="Figure 3.1.2"     # pie chart des fréquences de la variable nombre d'enfants
+stair_data3.1_freq="Figure 3.1.3"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+
+barplot_data3.2_freq="Figure 3.2"  
+barplot_data3.3_freq_a="Figure 3.3.1"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+barplot_data3.3_freq_b="Figure 3.3.2"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+### Variables quantitatives discrètes
+
+#### Simplification des données: calcul de la médiane et des quartiles
+
+##### Au départ de données brutes
+
+```{r med, echo=FALSE,include=FALSE}
+serie1=c(3,7,2,11,9,8,1)
+serie1_ordered=sort(serie1)
+serie2=c(3,7,2,6,9,8,11,14)
+serie2_ordered=sort(serie2)
+serie3=c(3,8,2,6,9,8,11,14)
+serie3_ordered=sort(serie3)
+```
+
+Soit une série statistique contenant un nombre impair de sujets (n=7): $$ **Série 1**   `r serie1`$$
+
+La médiane va consister à déterminer une valeur tel qu'il y ait la moitié des observations de la série dont la valeur lui est inférieure, et l'autre moitié dont la valeur lui est supérieure. Dans un premier temps, il faudra ordonner la série par ordre croissant. Ensuite, on pourra déterminer la position à laquelle se trouve la médiane. Il s'agira de la valeur qui occupe le rang $\frac{n+1}{2}$. 
+
+Voici la série ordonnée: $$`r serie1_ordered`$$.   
+
+La médiane sera l'observation qui occupera le rang $\frac{`r (length(serie1))`+1}{2}$ (soit la $`r (length(serie1)+1)/2`^e$ observation) de la série. Or, la $`r (length(serie1)+1)/2`^e$ observation de la série a pour valeur `r (length(serie1)+1)/2`. La médiane vaut donc `r (length(serie1)+1)/2`. 
+
+Attention: il ne faut pas confondre le **rang médian** (soit la position occupée par la médiane dans la série) et la **médiane** (la valeur de l'observation située au rang médian). 
+
+Soit une autre série statistique, contenant cette fois un nombre pair de sujets (n=8):$$ **Série 2**   `r serie2`$$
+On commence par ordonnée la série: $$`r serie2_ordered`$$
+On calcule ensuite le rang médian: $\frac{`r length(serie2)`+1}{2}=`r (length(serie2)+1)/2`$. Cette fois, le rang n'est pas un nombre rond. On en déduit que la médiane sera la valeur entre la $`r floor((length(serie2)+1)/2)`^e$ observation (valant `r  serie2_ordered[floor((length(serie2)+1)/2)]`) et la $`r ceiling((length(serie2)+1)/2)`^e$ observation de la série (valant `r serie2_ordered[ceiling((length(serie2)+1)/2)]`). Par convention, on prend la moyenne de ces deux valeurs, ce qui donne `r (serie2_ordered[floor((length(serie2)+1)/2)]+serie2_ordered[ceiling((length(serie2)+1)/2)])/2`.   
+
+Comme ces deux exemples permettent de l'illustrer, avec un nombre impair d'observations, la valeur de la médiane correspond nécessairement à une valeur observée de la variable. Par contre, avec un nombre pair d'observations, la valeur de la médiane ne correspond "pas nécessairement" à une valeur observée de la médiane. Attention, pas nécessairement ne veut pas dire jamais: imaginons que les deux valeurs de part et d'autre du rang moyen soient identiques, comme dans la série ordonnée suivante:   
+$$**Série 3** `r serie3_ordered`$$.
+Dans ce cas, étant donné que le rang médian vaut `r (length(serie3)+1)/2`, la médiane sera la moyenne entre `r serie3_ordered[floor((length(serie3)+1)/2)]` et `r serie3_ordered[ceiling((length(serie3)+1)/2)]`, soit `r (serie3_ordered[floor((length(serie3)+1)/2)]+serie3_ordered[ceiling((length(serie3)+1)/2)])/2`. 
+
+##### Au départ de tableaux de fréquences
+
+```{r,include=FALSE}
+library(knitr)
+
+names_serie1=names(table(serie1))
+abs_serie1=tabulate(serie1)[tabulate(serie1)!=0]
+rel_serie1=round(abs_serie1/length(serie1),2)
+serie1_freq=data.frame(names_serie1,abs_serie1,rel_serie1)
+
+kable(serie1_freq,format="markdown",align="c",col.names = c("$x_{j}$","$n_{j}$","$f_{j}$"))
+
+```
+
+La `r table3.6_serie1` est le tableau de fréquence des données de la série 1.
+
+La `r table3.6_serie2` 
+
+La `r table3.6_serie3` 
+
+
+#### Réalisation graphique: le boxplot
+
+### Variables quantitatives continues
+
+#### Simplification des données: calcul de la médiane et des quartiles
+
+##### Au départ de données brutes
+##### Au départ de tableaux de fréquences
+
+#### Réalisation graphique: le boxplot
+
