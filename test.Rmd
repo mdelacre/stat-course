@@ -1,0 +1,118 @@
+---
+title: "Statistiques"
+author: "Marie Delacre"
+fig_caption: yes
+output:
+  word_document: 
+    reference_docx: draft-styles.docx
+  pdf_document: default
+figurelist: no
+figsintext: yes
+email: marie.delacre@ulb.ac.be
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(bookdown)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,include=FALSE}
+
+# Plan de travail
+chap_intro="chapitre 1" # qu'est-ce que la stat, et à quoi ça sert?
+chap_variables="chapitre 2" # catégorisation des variables
+chap_graph="chapitre 3" # exploration graphique des données
+chap_algebre="chapitre 4" # exploration algébrique des données
+chap_distributions="chapitre 5" # les distributions binomiales et normales
+
+# Table and Figure list
+
+# Chapitre 1
+table1_brut="Table 1.1" # Données brutes récoltées sur un échantillon de n employés belges du secteur                               #automobile" , utilise les données data1_brut
+
+# Chapitre 3
+fumeur_freq = "Table 3.1"
+table3.1_brut= "Table 3.2"     # Données brutes correspondant au nombre d'enfants par ménage
+table3.1_freq= "Table 3.3"     # Données transnumérisées correspondant au nombre d'enfants par ménage
+fumeur_degres = "Table 3.4"  # degrés pour le diagramme circulaire
+data3.1_degres="Table 3.5"
+
+table3.2_freq="Table 3.6"      # PIB par habitant et par pays
+table3.3_freq_a="Table 3.7"    # âge des habitants (catégories homogènes)
+table3.3_freq_b="Table 3.8"    # âge des habitants (catégories non homogènes)
+
+table3.4_brut="Table 3.9"
+table3.5_brut="Table 3.10"
+
+table3.6_serie1="Table 3.11"
+table3.6_serie2="Table 3.12"
+table3.6_serie3="Table 3.13"
+
+table3.7="Table 3.14"
+
+barplot_fumeur_freq="Figure 3.1"
+pie_fumeur_freq="Figure 3.2"
+barplot_data3.1_freq="Figure 3.3" # barplot des fréquences de la variable nombre d'enfants
+pie_data3.1_freq="Figure 3.4"     # pie chart des fréquences de la variable nombre d'enfants
+stair_data3.1_freq="Figure 3.5"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+barplot_data3.2_freq="Figure 3.6"  
+barplot_data3.3_freq_a="Figure 3.7"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+barplot_data3.3_freq_b="Figure 3.8"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+polygone_data3.2_freq="Figure 3.9"  
+polygone_data3.3_freq_a="Figure 3.10"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+polygone_data3.3_freq_b="Figure 3.11"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+boxplot_serie1="Figure 3.12"
+
+# Chapitre 4
+table4.1="Table 4.1" # extrait de la Table 1.1
+table4.2="Table 4.2"  # extrait de la Table 1.1
+notes_compta="Table 4.3" # données pour illustrer la variance
+notes_ecart_math="Table 4.4"
+notes_ecart_francais="Table 4.5"
+
+Figure4.1="Figure 4.1"
+```
+###### Pagebreak
+# Chapitre 1: qu'est-ce que la statistique, et à quoi sert-elle?
+
+\ref{fig:barplot_fumeur}
+
+## Qu'est-ce que la statistique? 
+
+```{r echo=FALSE, results='asis'}
+n=15
+id <-1:n
+genre<-c(0,0,1,0,0,0,1,1,1,0,0,1,1,0,1)
+genre[genre==0]="masculin"
+genre[genre==1]="féminin"
+age<-c(19,25,21,27,30,32,30,19,21,21,24,27,26,30,26)
+anciennete <-c(1,5,2,8,8,9,9,1,1,1,8,8,7,10,8)
+langue <-c(3,1,1,2,1,2,3,2,2,1,1,2,2,2,2)
+langue[langue==1]="français"
+langue[langue==2]="néerlandais"
+langue[langue==3]="allemand"
+data1_brut=data.frame(id,genre,age,anciennete,langue)
+```
+
+La statistique est l'ensemble des instruments de recherches mathématiques qui permettent de **récolter**, **traiter** et **interpréter** un ensemble de données (généralement vaste). 
+
+### La récolte des données: les concepts de population, individus et échantillons 
+
+La **population** est l'ensemble des éléments (individus ou objets) auxquels on s'intéresse. Les éléments qui constitue cette population sont appelés **individus** ou **unité statistique**. Admettons par exemple que l'on souhaite étudier les caractéristiques de l'ensemble des employés belges du secteur automobile. Chaque employé de nationalité belge travaillant dans ce secteur constituera une unité statistique, et leur ensemble constituera la population d'intérêt.   
+
+Il est bien souvent compliqué, voire impossible de recueillir des informations pour l'entièreté de la population tant celle-ci peut être vaste. Pour cette raison, on prélèvera généralement, aléatoirement, une partie de taille gérable de cette population que l'on appelle l'**échantillon**, et l'on mesurera, pour chaque individu de l'échantillon, un ensemble d'informations (des **variables**) qui nous intéresse, comme le genre, la situation géographique ou linguistique ou encore l'âge et le salaire moyen. 
+
+Les variables que l'on récolte au sein de l'échantillon peuvent être de diverses natures. Autrement dit, il existe plusieurs manières de les mesurer. Imaginez par exemple que je vous demande d'estimer la silhouette d'un individu. Vous pourriez prendre un mêtre et me dire que son tour de taille est de 72 cm. Vous pourriez également vous contenter de dire qu'il est de taille "Medium". Décider de la manière dont on mesure les variables aura des implications importantes en termes de possibilités d'analyses et ne doit pas être laissé au hasard. Un chapitre ultérieur sera dédié aux variables et à leurs natures possibles (`r chap_variables`). 
+
+### Le traitement des données, appelée également la statistique descriptive
+
+Après avoir récolté des données, on se retrouve avec une série de variables pour chaque individu. Ces données pourront être encodées dans une base de données tel qu'illustré à la `r table1_brut`. Cette table est une représentation fictive de données socio-démographiques récoltées auprès de  `r length(data1_brut$id)` employés du secteur automobile. 
+
+`r table1_brut`  
+_Données socio-démographiques récoltées auprès de `r length(data1_brut$id)` employés du secteur automobile_
+Table \@ref(tab:Table1)
+
+```{r echo=FALSE, results='asis'}
+Table1=kable(data1_brut,format="latex",align="c",col.names = c("i","genre ($W_i$)","âge ($X_i$)"," anciennete ($Y_i$)","langue ($Z_i$)"))
+```

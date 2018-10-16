@@ -30,35 +30,46 @@ chap_distributions="chapitre 5" # les distributions binomiales et normales
 table1_brut="Table 1.1" # Données brutes récoltées sur un échantillon de n employés belges du secteur                               #automobile" , utilise les données data1_brut
 
 # Chapitre 3
-table3.1_brut= "Table 3.1.1"     # Données brutes correspondant au nombre d'enfants par ménage
-table3.1_freq= "Table 3.1.2"     # Données transnumérisées correspondant au nombre d'enfants par ménage
-table3.1_degres = "Table 3.1.3"  # degrés pour le diagramme circulaire
+fumeur_freq = "Table 3.1"
 
-table3.2_freq="Table 3.2.1"      # PIB par habitant et par pays
-table3.3_freq_a="Table 3.3.1"    # âge des habitants (catégories homogènes)
-table3.3_freq_b="Table 3.3.2"    # âge des habitants (catégories non homogènes)
+table3.1_brut= "Table 3.2.1"     # Données brutes correspondant au nombre d'enfants par ménage
+table3.1_freq= "Table 3.2.2"     # Données transnumérisées correspondant au nombre d'enfants par ménage
+fumeur_degres = "Table 3.2.3"  # degrés pour le diagramme circulaire
+data3.1_degres="Table3.3"
 
-table3.4_brut="Table 3.4"
-table3.5_brut="Table 3.5"
+table3.2_freq="Table 3.4.1"      # PIB par habitant et par pays
+table3.3_freq_a="Table 3.5.1"    # âge des habitants (catégories homogènes)
+table3.3_freq_b="Table 3.5.2"    # âge des habitants (catégories non homogènes)
 
-table3.6_serie1="Table 3.6.1"
-table3.6_serie2="Table 3.6.2"
-table3.6_serie3="Table 3.6.3"
+table3.4_brut="Table 3.6"
+table3.5_brut="Table 3.7"
 
-table3.7="Table 3.7"
+table3.6_serie1="Table 3.8.1"
+table3.6_serie2="Table 3.8.2"
+table3.6_serie3="Table 3.8.3"
+
+table3.7="Table 3.9"
+
 # Chapitre 4
 table4.1="Table 4.1" # extrait de la Table 1.1
 table4.2="Table 4.2"  # extrait de la Table 1.1
 
-barplot_data3.1_freq="Figure 3.1.1" # barplot des fréquences de la variable nombre d'enfants
-pie_data3.1_freq="Figure 3.1.2"     # pie chart des fréquences de la variable nombre d'enfants
-stair_data3.1_freq="Figure 3.1.3"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+barplot_fumeur_freq="Figure 3.1.1"
+pie_fumeur_freq="Figure 3.1.2"
 
-barplot_data3.2_freq="Figure 3.2"  
-barplot_data3.3_freq_a="Figure 3.3.1"   # diagramme en escalier des fréquences de la variable nombre d'enfants
-barplot_data3.3_freq_b="Figure 3.3.2"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+barplot_data3.1_freq="Figure 3.2.1" # barplot des fréquences de la variable nombre d'enfants
+pie_data3.1_freq="Figure 3.2.2"     # pie chart des fréquences de la variable nombre d'enfants
+stair_data3.1_freq="Figure 3.2.3"   # diagramme en escalier des fréquences de la variable nombre d'enfants
 
-boxplot_serie1="Figure 3.4"
+barplot_data3.2_freq="Figure 3.3a"  
+barplot_data3.3_freq_a="Figure 3.4.1a"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+barplot_data3.3_freq_b="Figure 3.4.2a"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+
+polygone_data3.2_freq="Figure 3.3b"  
+polygone_data3.3_freq_a="Figure 3.4.1b"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+polygone_data3.3_freq_b="Figure 3.4.2b"   # diagramme en escalier des fréquences de la variable nombre d'enfants
+
+boxplot_serie1="Figure 3.5"
 
 ```
 
@@ -153,8 +164,114 @@ Les représentations graphiques sont généralement très appréciées, parce que lors
 Il existe une multitude de représentations graphiques si bien qu'il n'est pas toujours évident de savoir quelle représentation choisir. Par ailleurs, certains logiciels proposent des solutions plus ou moins fantaisistes qui peuvent sembler tententes (représentations en 3D, avec couleurs inhabituelles, textures bois...). Je déconseille vivement l'usage de ces artifices. Gardez qu'une bonne présentation est la clé d'une bonne communication. Afin de vous guider vers des choix judicieux, je concluerai ce chapitre sur l'exploration des graphique par quelques conseils qui m'avaient été donnés lors d'un atelier, il y a quelques années, par un brillant scientifique de l'UCL dénommé Christian Ritter. 
 
 Pour l'heure, rappelons deux éléments importants à garder à l'esprit lorsqu'on réalise un graphique. Premièrement, toutes les formes de graphiques ne conviennent pas à toutes les formes de données. Le choix du graphique devra dépendre de la nature des variables (on ne représentera pas de la même façon une variable discrète et une variable continue, par exemple). Il faudra donc bien comprendre la nature des variables que l'on souhaite représenter. Deuxièmement, un graphique constitue une représentation **simplifiée** des données. Cela signifie qu'on ne va pas y représenter directement les données brutes. Après avoir identifié la nature de la variable, la réalisation du graphique se déroulera donc en deux étapes: 1) simplification des données et 2) réalisation du graphique en tant que tel. 
+
+Nous développerons deux catégories de graphiques: ceux qui sont construits sur base de **tableaux de fréquence** et ceux qui reposent sur le calcul de **quantiles**.
  
 ## Les graphiques construits sur base des tableaux de fréquences
+
+### Variables qualitatives
+
+#### Simplification des données
+
+Imaginez que 40 participants aient répondu par "oui" ou "non" à la question suivante "Etes vous fumeur?" et que vous vous retrouvez avec l'ensemble de réponse suivant:
+
+```{r echo=FALSE, results='asis'}
+n_fumeur=40
+fumeur=c("non","oui","non","non","non","non","non","non","non","oui","oui","non","oui","oui","oui","non","non","oui","oui","non","non","non","non","non","oui","non","non","non","non","oui","non","non","non","non","non","non","non","non","non","non")
+Table=matrix(fumeur,4,n_fumeur/4)
+kable(Table)
+```
+
+C'est ce qu'on appelle les données brutes. Une manière de résumer cet ensemble d'information est de calculer un **tableau de fréquences**, tel que représenté dans la `r fumeur_freq`. 
+
+`r fumeur_freq`
+_Transformation des données brutes relatives aux fumeurs en tableau de fréquence_
+```{r echo=FALSE, results='asis'}
+names_fumeur=names(table(fumeur))
+fumeur[fumeur==1]="oui"
+fumeur[fumeur==0]="non"
+abs_fumeur=c(length(fumeur[fumeur=="non"]),length(fumeur[fumeur=="oui"]))
+rel_fumeur=abs_fumeur/length(fumeur)
+fumeur_tab=data.frame(names_fumeur,abs_fumeur,rel_fumeur)
+kable(fumeur_tab,col.names=c("fumeur ($x_{j})$","$n_{j}$","$f_{j}$"))
+```
+
+Il s'agit d'un tableau dans lequel chaque ligne représente une valeur possible de la variable. Comme vous pouvez l'observer, deux lignes ont été envisagées (une pour les fumeurs, une pour les non fumeurs) et le nombre de personnes appartenant à chaque catégorie constitue ce que l'on appelle la **fréquence absolue**. La somme des fréquences absolues correspond au nombre total de personnes constituant l'échantillon (ici, n vaut `r sum(fumeur_tab$abs_fumeur)`). 
+
+$$n=\sum_{j=1}^k n_j = `r abs_fumeur[1]`+`r abs_fumeur[2]` = `r sum(abs_fumeur)`$$ 
+La colonne suivante contient la même information mais par rapport à l'ensemble des ménages, c'est la **fréquence relative**. 
+
+$$f_j=\frac {n_j}{n}$$       
+Par exemple, `r abs_fumeur[1]` personnes de l'échantillon sur `r sum(fumeur_tab$abs_fumeur)` ne fument pas, or `r abs_fumeur[1]`/`r sum(abs_fumeur)` x 100 = `r round(abs_fumeur[1]/sum(abs_fumeur)*100,2)` %   (`r round(abs_fumeur[1]/sum(abs_fumeur)*100,2)`% des personnes ne notre échantillon ne fument pas).
+
+De même que pour les données brutes, nous prendrons l'habitude d'utiliser certaines notations. Dans un tableau de fréquence, on symbolise généralement l'ensemble des valeurs que peut prendre la variable par une lettre minuscule (Par exemple, les différentes valeurs que peut prendre la vaiable X seront symboliées par x). On utilise l'indice _j_ pour se référer à chaque valeur possible, j pouvant varier de 1 à k (dans le cas présent, k = `r length(names_fumeur)`). On symbolise par $x_j$ (x indicé j) la jème valeur possible de la variable X. Par exemple, si l'on choisit de nommer X la variable "fumer", $x_2=`r names_fumeur[2]`$. $n_j$ correspond aux fréquences absolues associées à chaque valeur $x_j$. Par exemple, $n_1$= `r abs_fumeur[1]`. Enfin, $f_i$ correspond aux fréquences relatives. Par exemple $f_2$= `r rel_fumeur[2]`. 
+
+Notons que quand on étudie des variables nominales, peu importe l'ordre d'apparition des modalités de la variable dans le tableau de fréquence. Dans l'exemple, nous avons représenté d'abord les non fumeurs, suivi des fumeurs. L'inverse aurait pu être fait également sans pour autant altérer le contenu informatif du tableau. 
+
+#### Réalisation graphique
+
+##### Diagramme en bâtons
+
+Le diagramme en bâtons consiste à représenter en abcisse les différentes valeurs que peut prendre la variable que l'on étudie($x_j$) et en ordonnée les fréquences associées à chaque valeur $x_j$ (soit $n_j$, soit $f_j$). Pour chaque valeur $x_j$, on trace un bâtonnet dont la hauteur varie en fonction de la fréquence associée à cette valeur $x_j$.
+
+L'ordre dans lequel les différents bâtonnets importe peu lorsqu'on représente des variables nominales. De plus, étant donné que l'axe des abcisses n'est pas normé, la largeur des bâtons importe peu également (même si pour le confort des yeux, on les gardera généralement uniformes). 
+
+La figure `r barplot_fumeur_freq`  montre deux diagrammes en bâtons de notre distribution. Que l'on représente les fréquences absolues ou les fréquences relatives sur l'axe des ordonnées importe peu en termes de forme de graphe. En revanche,  l'information donnée est un petit peu différente: dans le premier cas, on peut dénombrer le nombre de fumeur et de non fumeur, dans le second cas, on peut déterminer le pourcentage de personnse qui fument ou ne fument pas dans l'échantillon.
+
+`r barplot_fumeur_freq`  
+_Diagramme en barre de la distribution de la `r fumeur_freq`_
+```{r barplot_fumeur, echo=FALSE}
+par(mfrow=c(1,2))
+barplot(table(fumeur),yaxt = "n",ylim=c(0,30),main="Fait d'être ou non fumeur",cex.main=.9,col="lightblue",ylab="Fréquence absolue")
+axis(2, at = seq(0,30,2), labels = seq(0,30,2), las = 1)
+
+barplot(table(fumeur)/length(fumeur)*100,yaxt = "n",ylim=c(0,75),main="Fait d'être ou non fumeur",cex.main=.9, col="lightblue",ylab="Fréquence relative (en %)")
+axis(2, at = seq(0,75,5), labels = seq(0,75,5), las = 1)
+```
+
+##### Diagramme circulaire
+
+On trouve occasionnellement dans les rapports des diagrammes circulaires (qu'on appelle aussi graphiques en camembert) pour représenter les variables.  Réaliser un diagramme circulaire consiste à subdiviser un cercle en autant de part qu'il n'y a de modalités possibles, chaque part ayant une taille proportionnelle à la fréquence associée à la modalité qu'elle représente.
+
+La `r pie_fumeur_freq`montre deux diagrammes circulaires de notre distribution. De même que pour les diagrammes en bâtons, que ce soient les fréquences absolues ou les fréquences relatives importe peu de termes de forme de graphe, mais l'informatin donnée varie légèrement: dans le premier cas, on peut dénombrer le nombre de fumeur et de non fumeur, dans le second cas, on peut déterminer le pourcentage de personnse qui fument ou ne fument pas dans l'échantillon.
+
+`r pie_fumeur_freq`
+_Diagramme circulaire de la distribution de la `r table3.1_freq`_
+```{r pie_fumeur, echo=FALSE}
+par(mfrow=c(1,2),mar=c(2,2,2,2),xpd=FALSE)
+col_pie=colorRampPalette(c("grey", "black"))(length(names_fumeur))
+pie(table(fumeur),labels=abs_fumeur,cex.main=.9,cex.lab=.9,main="Fait d'être ou non fumeur",col=col_pie)
+legend("top", legend=c("oui", "non"),col=c("black", "grey"), pch=c(19,19), cex=0.8,box.lty=0)
+pie(table(fumeur)/length(fumeur)*100,labels=paste(round(rel_fumeur,2),"%"),cex.main=.9,cex.lab=.9,main="Fait d'être ou non fumeur",col=col_pie)
+legend("top", legend=c("oui", "non"),col=c("black", "grey"), pch=c(19,19), cex=0.8,box.lty=0)
+```
+
+Déterminer l'angle pour chaque catégorie peut se faire en procédant à une règle de trois. Un cercle fait exactement 360° et doit représenter l'ensemble des individus constituant l'échantillon, soit `r length(fumeur)`. Ces 360° doivent être répartis entre les catégories, de manière proportionnelle à la fréquence de chaque catégorie. Par exemple, `r abs_fumeur[1]` personnes ne fument pas (valeur $x_j$ = `r names_fumeur[1]`).  Cela représente `r abs_fumeur[1]/length(fumeur)*100`% de l'échantillon, l'angle correspondra donc à `r abs_fumeur[1]/length(fumeur)*100`% des 360°. 
+                                                                          
+$$`r length(fumeur)` \longrightarrow 360°$$
+$$\Longleftrightarrow 1 \longrightarrow \frac{360°}{`r length(fumeur)`}=`r 360/length(fumeur)`°$$
+$$\Longleftrightarrow `r abs_fumeur[1]` \longrightarrow \frac{360°}{`r length(fumeur)`} \times `r abs_fumeur[1]`=`r 360/length(fumeur)*abs_fumeur[1]`°$$
+
+Naturellement, dans la mesure où les parts sont de taille proportionnelle à la fréquence associée à chaque catégorie, déterminer l'angle pour chaque catégorie en utilisant les fréquences relatives, plutét que les fréquences absolues, fournit exactement le même résultat, à condition d'utiliser les valeurs exactes (non arrondies).  La preuve: 
+                    
+$$ 100 \% \longrightarrow 360°$$
+$$\Longleftrightarrow 1\% \longrightarrow \frac{360°}{100}=`r 360/100`°$$
+$$\Longleftrightarrow `r rel_fumeur[1]*100` \% \longrightarrow \frac{360°}{100} \times `r rel_fumeur[1]*100`=`r 360/100*rel_fumeur[1]*100`°$$
+
+Bien que ça ne soit pas le cas dans cet exemple, les fréquences relatives contiendront parfois un nombre important (voire infini) de décimales. Il est dès lors généralement plus facile de déterminer les angles de chaque part sur base des fréquences abolues plutôt que sur base des fréquences relatives. La `r  fumeur_degres` fournit les angles qui devraient être associés à chaque catégorie dans l'exemple de la `r fumeur_freq`:
+                                                                          
+```{r echo=FALSE, results='asis'} 
+angles_fumeurs=360/length(fumeur)*abs_fumeur
+fumeur_deg=data.frame(names_fumeur,abs_fumeur,angles_fumeurs)
+```
+
+`r fumeur_degres`  
+_Angle de chaque part du diagramme circulaire représententant les données de la `r fumeur_freq`_
+```{r echo=FALSE, results='asis'}
+kable(fumeur_deg,format="markdown",align="c",col.names=c("$x_j$","$n_j$","angle (en °)")) 
+```
+
+Ce type de graphique présente de nombreux inconvénients en termes de communication. Entre autres, ils sont peu précis: lorsque deux catégories sont associées à des fréquences relativement similaires, il devient très difficile de repérer leur différence. Cela sera illustré dans la section dédiée aux diagrammes circulaires pour représenter des variables quantitatives discrètes. 
 
 ### Variables quantitatives discrètes 
 
@@ -191,25 +308,15 @@ names_data3.1=names(freq_data3.1)
 abs_data3.1=tabulate(Enfant)
 rel_data3.1=abs_data3.1/sum(freq_data3.1)*100
 
-abscum_data3.1=NULL
-relcum_data3.1=NULL
-count_abs=0
-count_rel=0
- 
-for (i in 1:length(names_data3.1)){
-  count_abs=count_abs+abs_data3.1[i]
-  abscum_data3.1[i]=count_abs
-  count_rel=count_rel+rel_data3.1[i]
-  relcum_data3.1[i]=count_rel
-}
+abscum_data3.1=cumsum(table(Enfant))
+relcum_data3.1=cumsum(table(Enfant))/length(Enfant)*100
 
 data3.1_freq=data.frame(names_data3.1,abs_data3.1,round(rel_data3.1,2),abscum_data3.1,round(relcum_data3.1,2)) 
 ```
 
+La `r table3.1_brut` répertorie le nombre d'enfants vivant au sein de `r length(data3.1_brut$id)` ménages fictifs. Notez que j'ai représenté ces données brutes sur plusieurs colonnes distinctes par soucis d'économie de place. Cependant, dans un logiciel (excel, ,par exemple), il conviendrait de n'encoder que deux colonnes: une première relative au numéro (ou id) attribué à chaque sujet, et une deuxième relative à la variable "nombre d'enfants". Rappelez-vous: une ligne par sujet, et une colonne par variable!
 
-Pour illustration, la `r table3.1_brut` répertorie le nombre d'enfants vivant au sein de `r length(data3.1_brut$id)` ménages fictifs. Notez que j'ai représenté ces données brutes sur plusieurs colonnes distinctes par soucis d'économie de place. Cependant, dans un logiciel (excel, ,par exemple), il conviendrait de n'encoder que deux colonnes: une première relative au numéro (ou id) attribué à chaque sujet, et une deuxième relative à la variable "nombre d'enfants". Rappelez-vous: une ligne par sujet, et une colonne par variable!
-
-La première étape va être de simplifier ce tableau, ce qui peut se faire à l'aide d'une distribution de fréquences. La `r table3.1_freq` correspond à cette étape. Alors que dans la `r table3.1_brut`, chaque ligne représentait un individu, dans la `r table3.1_freq`, chaque ligne représente une valeur possible de la variable. De même que pour les données brutes, nous prendrons l'habitude d'utiliser certaines notations. Dans un tableau de fréquence, on symbolise généralement l'ensemble des valeurs que peut prendre la variable par une lettre minuscule (Par exemple, les différentes valeurs que peut prendre la vaiable X seront symboliées par x). On utilise l'indice _j_ pour se référer à chaque valeur possible, j pouvant varier de 1 à k (dans le cas présent, k = `r length(names_data3.1)`). On symbolise par $x_j$ (x indicé j) la jème valeur possible de la variable X. Par exemple, dans la $x_3=`r names_data3.1[3]`$ et $x_5=`r names_data3.1[5]`$. 
+La `r table3.1_freq` constitue le tableau de fréquence de ces données.
 
 `r table3.1_freq`  
 _Transformation de la `r table3.1_brut` en tableau de fréquence_
@@ -217,7 +324,7 @@ _Transformation de la `r table3.1_brut` en tableau de fréquence_
 kable(data3.1_freq,format="markdown",align="c",col.names=c("nombre d'enfants ($x_j$)","$n_j$","$f_j$ (en %)","$N_j$","$F_j$ (en %)"))
 ```
  
-Comme vous pouvez l'observer, les nombres possibles d'enfants par ménage ont été envisagés et le nombre de ménages ayant obtenu un certain nombre d'enfants constitue ce que l'on appelle la **fréquence absolue** (notation: $n_j$). La somme des fréquences absolues correspond au nombre total de ménages constituant l'échantillon (ici, n vaut `r sum(data3.1_freq$abs_data3.1)`). 
+Comme vous pouvez l'observer, de même que fait précédemment pour les variables nominales, les nombres possibles d'enfants par ménage ont été envisagés et on leur associe  une fréquence absolue ($n_j$), et une fréquence relative ($f_j$). Par ailleurs, la somme des fréquences absolues correspond toujours au nombre total de ménages constituant l'échantillon (ici, n vaut `r sum(data3.1_freq$abs_data3.1)`). 
 
 ```{r echo=FALSE, results='asis'}
 i=2
@@ -231,16 +338,16 @@ chaine=paste(chaine,rep[i])
 ```
 
 $$n=\sum_{j=1}^k n_j = `r chaine` = `r sum(abs_data3.1)`$$ 
-La colonne suivante contient la même information mais par rapport à l'ensemble des ménages, c'est la **fréquence relative** (notation: $f_i$). 
 
-$$f_j=\frac {n_j}{n}$$       
-Par exemple, `r abs_data3.1[3]` ménages sur `r sum(data3.1_freq$abs_data3.1)` ont obtenu `r names_data3.1[3]` enfants, or `r abs_data3.1[3]`/`r sum(abs_data3.1)` x 100 = `r round(abs_data3.1[3]/sum(abs_data3.1)*100,2)` %   (`r round(abs_data3.1[3]/sum(abs_data3.1)*100,2)`% des ménages de notre échantillon ont exactement `r names_data3.1[3]` enfants).
+Contrairement au cas des variables nominales, l'ordre de présentation de chaque ligne a une importance. On triera généralement les valeurs possibles de la variable représentée par ordre croissant (`r names_data3.1[1]` apparait avant `r names_data3.1[2]`, `r names_data3.1[2]` apparait avant `r names_data3.1[3]`, etc.). 
 
-La colonne suivante contient la somme des fréquences absolues, ce qu'on appelle les **fréquences cumulées** (notation: $N_i$).  
+De plus, on pourra calculer ce qu'on appelle les **fréquences cumulées**, soit le cumul de plusieurs fréquences. 
+
+Les fréquences absolues cumulées sont la somme de plusieurs fréquences absolues (notation: $N_i$).  
 
 $$N_j=\sum_{j=1}^j \frac {n_j}{n},  1 \le j \le k$$
 
-Cela me permet de déterminer rapidement, par exemple, que `r abscum_data3.1[4]` ménages sont constitués de maximum `r names_data3.1[4]` enfants. Enfin,  cette information peut être exprimée par rapport à l'ensemble des ménages. On dira alors que `r round(relcum_data3.1[4],2)` % des ménages sont constitués de maximum `r names_data3.1[4]` enfants. Cette dernière expression correspond aux  **fréquences relatives cumulées**, soit la dernière colonne du tableau (notation: $F_i$). 
+Cela permet de déterminer rapidement, par exemple, que `r abscum_data3.1[4]` ménages sont constitués de maximum `r names_data3.1[4]` enfants. Enfin,  cette information peut être exprimée par rapport à l'ensemble des ménages. On dira alors que `r round(relcum_data3.1[4],2)` % des ménages sont constitués de maximum `r names_data3.1[4]` enfants. Cette dernière expression correspond aux  **fréquences relatives cumulées**, soit la dernière colonne du tableau (notation: $F_i$). 
 
 $$F_j=\sum_{j=1}^j f_j=\sum_{j=1}^j \frac {n_j}{n},1 \le j \le k $$   
 
@@ -248,9 +355,9 @@ $$F_j=\sum_{j=1}^j f_j=\sum_{j=1}^j \frac {n_j}{n},1 \le j \le k $$
 
 ##### Diagramme en bâtons
 
-Le diagramme en bâtons consiste à représenter en abcisse les différentes valeurs que peut prendre la variable que l'on étudie($x_j$) et en ordonnée les fréquences associées à chaque valeur $x_j$ (soit $n_j$, soit $f_j$). Pour chaque valeur $x_j$, on trace un bâtonnet dont la hauteur varie en fonction de la fréquence associée à cette valeur $x_j$.
+Dans la mesure où il existe un ordre logique entre les différentes valeurs de la variable représentée, l'ordre des bâtonnets importe (contrairement au cas des variables nominales). 
 
-La `r barplot_data3.1_freq` montre deux diagrammes en bâtons de notre distribution. Que ce soient les fréquences absolues ou les fréquences relatives importe peu en termes de formes de graphe. En revanche, l'information donnée est un petit peu différente: dans le premier cas, on peut dénombrer le nombre de ménages qui ont un nombre donné d'enfants, dans le second cas, on peut déterminer le pourcentage de ménages qui ont ce nombre d'enfants.
+La `r barplot_data3.1_freq` montre deux diagrammes en bâtons de notre distribution. On constate à nouveau que l'allure générale du graphique est la même, que l'on représente les fréquences absolues ou relatives sur le diagramme. En revanche, l'information donnée est un petit peu différente: dans le premier cas, on peut dénombrer le nombre de ménages qui ont un nombre donné d'enfants, dans le second cas, on peut déterminer le pourcentage de ménages qui ont ce nombre d'enfants.
 
 `r barplot_data3.1_freq`  
 _Diagramme en barre de la distribution de la `r table3.1_freq`_
@@ -265,47 +372,34 @@ axis(2, at = seq(0,50,5), labels = seq(0,50,5), las = 1)
 
 ##### Diagramme circulaire
 
-On trouve occasionnellement dans les rapports des diagrammes circulaires (qu'on appelle aussi graphiques en camembert) pour représenter les variables.  Réaliser un diagramme circulaire consiste à subdiviser un cercle en autant de part qu'il n'y a de modalités possibles, chaque part ayant une taille proportionnelle à la fréquence associée à la modalité qu'elle représente.
-                                                                          
-La `r pie_data3.1_freq` montre deux diagrammes circulaires de notre distribution. De même que pour les diagrammes en bâtons, que ce soient les fréquences absolues ou les fréquences relatives importe peu en termes de formes de graphe, mais l'information donnée varie légèrement: dans le premier cas, on peut dénombrer le nombre de ménages qui ont un nombre donné d'enfants et dans le second cas, on peut déterminer le pourcentage de ménages qui ont ce nombre d'enfants.
-                                                                          
+La `r pie_data3.1_freq` montre deux diagrammes circulaires de notre distribution: l'un qui représente les fréquences absolues, et l'autre qui représente les fréquences relatives. 
+
 `r pie_data3.1_freq`
 _Diagramme circulaire de la distribution de la `r table3.1_freq`_
 ```{r pie_data3.1, echo=FALSE}
 par(mfrow=c(1,2),mar=c(1,2,2,2))
-
-col_pie=colorRampPalette(c("white", "black"))(5)                                                            
-
+col_pie=colorRampPalette(c("lightgrey","black"))(length(names_data3.1))
 pie(table(data3.1_brut$Enfant),labels=names_data3.1,cex.main=.9,cex.lab=.9,main="Nombre d'enfants par ménages",col=col_pie)
+legend("top", legend=names_data3.1,col=col_pie, pch=c(19,19), cex=0.8,box.lty=0,,horiz=T)
+
 pie(table(data3.1_brut$Enfant)/length(data3.1_brut$id)*100,labels=paste(round(rel_data3.1,2),"%"),cex.main=.9,cex.lab=.9,main="Nombre d'enfants par ménages",col=col_pie)
-
-
+legend("top", legend=names_data3.1,col=col_pie, pch=c(19,19), cex=0.8,box.lty=0,horiz=T)
 ```
-                                                                          
-Déterminer l'angle pour chaque catégorie peut se faire en procédant à une règle de trois. Un cercle fait exactement 360° et doit représenter l'ensemble des individus constituant l'échantillon, soit `length(data3.1_brut$id)`. Ces 360° doivent être répartis entre les catégories, de manière proportionnelle à la fréquence de chaque catégorie. Par exemple, `r abs_data3.1[1]` ménages sont associés à la valeur $x_j$ = `r names_data3.1[1]`.  Cela représente `r abs_data3.1[1]/length(data3.1_brut$id)*100`% de l'échantillon, l'angle correspondra donc à `r abs_data3.1[1]/length(data3.1_brut$id)*100`% des 360°. 
-                                                                          
-$$`r length(data3.1_brut$id)` \longrightarrow 360°$$
-$$\Longleftrightarrow 1 \longrightarrow \frac{360°}{`r length(data3.1_brut$id)`}=`r 360/length(data3.1_brut$id)`°$$
-$$\Longleftrightarrow `r abs_data3.1[1]` \longrightarrow \frac{360°}{`r length(data3.1_brut$id)`} \times `r abs_data3.1[1]`=`r 360/length(data3.1_brut$id)*abs_data3.1[1]`°$$
-Naturellement, dans la mesure où les parts sont de taille proportionnelle à la fréquence associée à chaque catégorie, déterminer l'angle pour chaque catégorie en utilisant les fréquences relatives, plutét que les fréquences absolues, fournit exactement le même résultat, à condition d'utiliser les valeurs exactes (non arrondies).  La preuve: 
-                                                                            
-$$ 100 \% \longrightarrow 360°$$
-$$\Longleftrightarrow 1\% \longrightarrow \frac{360°}{100}=`r 360/100`°$$
-$$\Longleftrightarrow `r rel_data3.1[1]` \% \longrightarrow \frac{360°}{100} \times `r rel_data3.1[1]`=`r 360/100*rel_data3.1[1]`°$$
-Dans la mesure où les fréquences relatives contiendront parfois un nombre important (voire infini) de décimales, il est généralement plus facile de déterminer les angles de chaque part sur base des fréquences abolues plutôt que sur base des fréquences relatives. La `r  table3.1_degres` fournit les angles qui devraient être associés à chaque catégorie dans l'exemple de la `r table3.1_freq`:
+                
+La `r  data3.1_degres` fournit les angles qui devraient être associés à chaque catégorie dans l'exemple de la `r table3.1_freq`. Ceux-ci ont été déterminés en procédant à une règle de trois, comme expliqué dans la section dédiée aux diagrammes circulaires pour représenter des variables nominales. 
                                                                           
 ```{r echo=FALSE, results='asis'} 
-angles_tab3=360/length(data3.1_brut$id)*abs_data3.1
-data3.1_degres=data.frame(names_data3.1,abs_data3.1,angles_tab3)
+angles_data3.1=360/length(data3.1_brut$id)*abs_data3.1
+data3.1_deg=data.frame(names_data3.1,abs_data3.1,angles_data3.1)
 ```
 
-`r table3.1_degres`  
+`r data3.1_degres`  
 _Angle de chaque part du diagramme circulaire représententant les données de la `r table3.1_freq`_
 ```{r echo=FALSE, results='asis'}
-kable(data3.1_degres,format="markdown",align="c",col.names=c("$x_j$","$n_j$","angle (en °)") ) 
+kable(data3.1_deg,format="markdown",align="c",col.names=c("$x_j$","$n_j$","angle (en °)")) 
 ```
-                                                                          
-Malheureusement, ce type de graphique présente de nombreux inconvénients en termes de communication. Entre autres, ils sont peu précis: lorsque deux catégories sont associées à des fréquences relativement similaires, il devient très difficile de repérer leur différence. Dans la `r pie_data3.1_freq`, les deux premières catégories semblent de taille égale, alors qu'elles ne le sont pas. Il est nettement plus aisé de le voir dans la `r barplot_data3.1_freq`. C'est dû au fait que notre oeil repère plus facilement une différence d'hauteur entre deux objets alignés (deux rectangles du diagramme en bâtons) qu'une différence d'aire dans un cercle. Pour cette raison, je vous recommanderai de privilégier autant que possible le diagramme en bâtons. La simplicité est la clé d'un bon graphique!
+
+Il a déjà été précisé ce type de graphique est peu précis et que lorsque deux catégories sont associées à des fréquences relativement similaires, il devient très difficile de repérer leur différence. Dans la `r pie_data3.1_freq`, les deux premières catégories semblent de taille égale, alors qu'elles ne le sont pas. Il est nettement plus aisé de le voir dans la `r barplot_data3.1_freq`. C'est dû au fait que notre oeil repère plus facilement une différence d'hauteur entre deux objets alignés (deux rectangles du diagramme en bâtons) qu'une différence d'aire dans un cercle. Pour cette raison, je vous recommanderai de privilégier autant que possible le diagramme en bâtons. La simplicité est la clé d'un bon graphique!
                                                                           
 ##### Diagramme en escaliers
 
@@ -332,11 +426,13 @@ points(i+1,relcum_data3.1[i])
 
 #### Simplification des données
 
-Dans la mesure où les variables _**continues**_, il  n'est pas possible d'associer une fréquence à chaque valeur possible de la variable, similairement à ce que l'on fait pour des variables discrètes. On procédera alors à des regroupements des valeurs en classes (d'amplitude à déterminer), et on déterminera les fréquences associées ces classes. 
+Dans la mesure où les variables _**continues**_, il  n'est pas possible d'associer une fréquence à chaque valeur possible de la variable, similairement à ce que l'on fait pour des variables discrètes. On procédera alors à des regroupements des valeurs en classes (d'amplitude à déterminer), et on déterminera les fréquences associées à ces classes. 
 
 Il existe de nombreux critères pour déterminer le nombre de classes. De manière générale, plus on aura de classes, plus grande sera la précision. Lorsque l'on doit effectuer les calculs manuellement, on se contentera généralement d'une dizaine de classes. Le choix peut également être guidé par des raisons théoriques(catégories pré-existantes dans la nature). Lorsqu'on utilise des logiciels informatiques prévus à cet effet, on peut par contre travailler avec beaucoup plus de classes (soit des classes ayant une amplitude nettement plus faible), ce qui permettra de se faire une idée bien plus précise de l'allure des données, comme nous y reviendrons à la fin de cette sous-section (voir la partie sur les distributions statistiques).   
 
 Lorsque c'est possible, il est préférable d'utiliser des classes ayant toutes la même amplitude, tel que dans la `r table3.2_freq` et la `r table3.3_freq_a`, notamment pour des raisons de lisibilité graphique. Cependant, il peut arriver que pour des raisons théoriques, nous soyons amenés à envisager des classes de tailles différentes. Par exemple, si l'on veut distinguer des caractéristiques de la petite enfance, enfance, adolescence, âge adulte et troisième âge, on pourra créer 5 classes: une regroupant les individus	de	0	à	3 ans, de ceux de 3 à 12 ans ,	de	 12 à 18 ans, 18 à 65	ans et de plus de 65 ans (voir la `r table3.3_freq_b`).
+
+Enfin, le **centre de classe** est la valeur qui se trouve à égale distance de la borne inférieure et de la borne supérieure d'une classe. Connaître cette valeur servira à estimer les **quantiles** de variables continues (ce concept sera très prochainement expliqué). 
 
 ```{r echo=FALSE, results='asis'}
 Pays<-c("Luxembourg","Norvâge","Suisse","Irlande","Danemark","Suède","Pays-Bas","Islande","Autriche","Finlande","Allemagne","Belgique","Andorre","France","Royaume-Uni","Zone Euro","Union Européenne","Italie","Espagne","Chypre","Malte","Slovénie","Portugal","Grêce","République Tchèque","Slovaquie","Estonie","Lituanie","Pologne","Hongrie","Lettonie","Croatie","Turquie","Russie","Roumanie","Bulgarie","Monténégro","Biélorussie","Serbie","Bosnie-Herzégovine","Macédoine","Albanie","Kosovo","Ukraine","Moldavie")
@@ -347,9 +443,11 @@ mini=0
 maxi=120000
 nb_categ_PIB=6
 categ_PIB=NULL
+centre_PIB=NULL
 
 for(j in 1:nb_categ_PIB){
   categ_PIB[j]=paste0("[",as.numeric((j-1)*(maxi-mini)/nb_categ_PIB),"-",as.numeric(j*(maxi-mini)/nb_categ_PIB),"[")  
+  centre_PIB[j]=(as.numeric((j-1)*(maxi-mini)/nb_categ_PIB)+as.numeric(j*(maxi-mini)/nb_categ_PIB))/2
 }
 
 data3.2_brut=data.frame(Pays,PIB_hab)
@@ -374,13 +472,13 @@ for (i in 1:length(categ_PIB)){
   relcum_data3.2[i]=count_rel_data3.2
 }
 
-data3.2_freq=data.frame(categ_PIB,abs_data3.2,round(count_rel_data3.2,2),abscum_data3.2,round(relcum_data3.2,2)) 
+data3.2_freq=data.frame(categ_PIB,centre_PIB,abs_data3.2,round(count_rel_data3.2,2),abscum_data3.2,round(relcum_data3.2,2)) 
 ```
 
 `r table3.2_freq`  
 _Table des PIB par habitants de `r length(PIB_hab)` pays d'Europe_
 ```{r echo=FALSE, results='asis'}
-kable(data3.2_freq,format="markdown",align="c",col.names=c("Classe","$n_j$","$f_j$ (en%)","$N_j$","$F_j$ (en %)") ) 
+kable(data3.2_freq,format="markdown",align="c",col.names=c("Classe","Centre de classe","$n_j$","$f_j$ (en%)","$N_j$","$F_j$ (en %)") ) 
 ```
 Source: https://fr.tradingeconomics.com/country-list/gdp-per-capitaécontinent=europe
 
@@ -395,9 +493,11 @@ mini=0
 maxi=110
 nb_categ_Age_a=11
 categ_Age_a=NULL
+centre_Age_a=NULL
 
 for(j in 1:nb_categ_Age_a){
 categ_Age_a[j]=paste0("[",as.numeric((j-1)*(maxi-mini)/nb_categ_Age_a),"-",as.numeric(j*(maxi-mini)/nb_categ_Age_a),"[")  
+  centre_Age_a[j]=(as.numeric((j-1)*(maxi-mini)/nb_categ_Age_a)+as.numeric(j*(maxi-mini)/nb_categ_Age_a))/2
 }
 
 data3.3_brut=data.frame(id,Age)
@@ -422,7 +522,7 @@ count_rel_data3.3.1=count_rel_data3.3.1+rel_data3.3.1[i]
 relcum_data3.3.1[i]=count_rel_data3.3.1
 }
 
-data3.3_freq_a=data.frame(categ_Age_a,abs_data3.3.1,round(rel_data3.3.1,2),abscum_data3.3.1,round(relcum_data3.3.1,2))
+data3.3_freq_a=data.frame(categ_Age_a,centre_Age_a,abs_data3.3.1,round(rel_data3.3.1,2),abscum_data3.3.1,round(relcum_data3.3.1,2))
 ```
 
 
@@ -430,8 +530,11 @@ data3.3_freq_a=data.frame(categ_Age_a,abs_data3.3.1,round(rel_data3.3.1,2),abscu
 min_categ_b=c(0,3,12,18,65)
 max_categ_b=c(3,12,18,65,110)
 categ_Age_b=NULL
+centre_Age_b=NULL
+
 for (i in 1:length(min_categ_b)){
 categ_Age_b[i]=paste0("[",min_categ_b[i],"-",max_categ_b[i],"[")
+centre_Age_b[i]=(min_categ_b[i]+max_categ_b[i])/2
 }
 
 abs_data3.3.2=NULL
@@ -451,50 +554,54 @@ count_rel_data3.3.2=count_rel_data3.3.2+rel_data3.3.2[i]
 relcum_data3.3.2[i]=count_rel_data3.3.2
 }
 
-data3.3_freq_b=data.frame(categ_Age_b,abs_data3.3.2,round(rel_data3.3.2,2),abscum_data3.3.2,round(relcum_data3.3.2,2)) 
+data3.3_freq_b=data.frame(categ_Age_b,centre_Age_b,abs_data3.3.2,round(rel_data3.3.2,2),abscum_data3.3.2,round(relcum_data3.3.2,2)) 
 ```
 
 `r table3.3_freq_a`  
 _Table de fréquence de catégories d'âges dans un échantillon de `r length(Age)` personnes_
 ```{r echo=FALSE, results='asis'}
-kable(data3.3_freq_a,format="markdown",align="c",col.names=c("Classe","$n_j$","$f_j$ (en%)","$N_j$","$F_j$ (en %)")) 
+kable(data3.3_freq_a,format="markdown",align="c",col.names=c("Classe","Centre","$n_j$","$f_j$ (en%)","$N_j$","$F_j$ (en %)")) 
 
 ```
 
 `r table3.3_freq_b`  
 _Table de fréquence de catégories d'âges dans un échantillon de `r length(Age)` personnes_
 ```{r echo=FALSE, results='asis'}
-kable(data3.3_freq_b,format="markdown",align="c",col.names=c("Classe","$n_j$","$f_j$ (en%)","$N_j$","$F_j$ (en %)")) 
+kable(data3.3_freq_b,format="markdown",align="c",col.names=c("Classe","Centre","$n_j$","$f_j$ (en%)","$N_j$","$F_j$ (en %)")) 
 ```
 
 #### Réalisation graphique
 
+##### Histogramme
+
 Le graphique le plus couramment utilisé pour représenter des variables continues est l'histogramme. Un histogramme ressemble à un diagramme en bâtons, mais au lieu d'avoir des bâtons isolés qui représentent une valeur unique, on a des rectangles, collés les uns aux autres (pour rendre compte du caractère continu de la variable) qui représentent une classe de valeurs. 
 
-Les classes de valeurs sont représentées en abcisse. Lorsque toutes les classes sont de taille égale, la hauteur des rectangles est proportionnelle aux fréquences (absolues ou relatives; les fréquences correspondent à l'ordonnée), tel qu'on peut le voir dans la `r barplot_data3.1_freq` ainsi que dans la `barplot_age_a`   .  
+Les classes de valeurs sont représentées en abcisse. Lorsque toutes les classes sont de taille égale, la hauteur des rectangles est proportionnelle aux fréquences (absolues ou relatives; les fréquences correspondent à l'ordonnée), tel qu'on peut le voir dans la `r barplot_data3.1_freq` ainsi que dans la `r barplot_age_a`   .  
 
 `r barplot_data3.2_freq`  
 _Histogramme de la distribution de la `r table3.2_freq`_
 ```{r PIB, echo=FALSE}
-par(mfrow=c(1,2),mar=c(8,4,4,4))
 
-barplot(abs_data3.2,space=0,col="lightgrey",main="Histogramme de PIB",ylab="Fréquence absolue",cex.lab=1)
-axis(1, at = seq(0.3,length(abs_data3.2)-.5,1), labels = categ_PIB,las = 2,cex.axis=.8)
+par(mfrow=c(1,2),mar=c(4,2,2,2))
 
-barplot(rel_data3.2,space=0,col="lightgrey",main="Histogramme de PIB",ylab="Fréquence relative",cex.lab=1)
-axis(1, at = seq(0.3,length(abs_data3.2)-.5,1), labels = categ_PIB,las = 2,cex.axis=.8)
+hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence absolue",cex.lab=1,xlab="PIB",las=2,cex.axis=.8)
+
+hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence relative",cex.lab=1,xlab="PIB",yaxt='n',las=2,cex.axis=.8)
+axis(2, at = seq(0,max(abs_data3.2),2), labels = round(seq(0,max(abs_data3.2),2)/sum(abs_data3.2),2),las = 2,cex.axis=.8)
 ```
 
 `r barplot_data3.3_freq_a`  
 _Histogramme de la distribution de la `r table3.3_freq_a`_ 
 ```{r Agea, echo=FALSE}
-par(mfrow=c(1,2),mar=c(8,4,4,4))
+par(mfrow=c(1,2),mar=c(2,2,2,2))
 
-barplot(abs_data3.3.1,space=0,col="lightgrey",main="Histogramme de l'âge",ylab="Fréquence absolue",cex.lab=.5)
-axis(1, at = seq(0.3,length(abs_data3.3.1)-.5,1), labels = categ_Age_a,las = 2,cex.axis=.8)
+hist(data3.3_brut$Age,breaks=length(categ_Age_a),xlim=c(0,110),col="lightgrey",cex.main=.8,main="Histogramme de l'âge",ylab="Fréquence absolue",cex.lab=1,xlab="Age",las=2,cex.axis=.8,xaxt="n")
+axis(1, at = seq(0,110,10), labels = seq(0,110,10),las = 2,cex.axis=.8)
 
-barplot(rel_data3.3.1,space=0,col="lightgrey",main="Histogramme de L'âge",ylab="Fréquence relative",cex.lab=.5)
-axis(1, at = seq(0.3,length(rel_data3.3.1)-.5,1), labels = categ_Age_a,las = 2,cex.axis=.8)
+hist(data3.3_brut$Age,breaks=length(categ_Age_a),xlim=c(0,110),col="lightgrey",cex.main=.8,main="Histogramme de l'âge",ylab="Fréquence relative",cex.lab=1,xlab="Age",yaxt='n',xaxt="n",las=2,cex.axis=.8)
+limsup_y=max(abs_data3.3.1)+100-max(abs_data3.3.1)%%100
+axis(1, at = seq(0,110,10), labels = seq(0,110,10),las = 2,cex.axis=.8)
+axis(2, at = seq(0,limsup_y,limsup_y/7), labels = round(seq(0,limsup_y,limsup_y/7)/sum(abs_data3.3.1),2),las = 2,cex.axis=.8)
 ```
 
 Par contre, lorsque les classes sont de tailles inégales, la hauteur du rectancle est proportionnelle à la densité de la classe (soit l'effectif divisé par l'amplitude de la classe), ce qui rend la comparaison des fréquences des classes plus compliquée.
@@ -504,39 +611,114 @@ $h_i=\frac{n_i}{a_i}$
 `r barplot_data3.3_freq_b`
 _Histogramme de la distribution de la `r table3.3_freq_b`_
 ```{r ageb, echo=FALSE}
-par(mfrow=c(1,1),mar=c(8,4,4,4))
+par(mfrow=c(1,2),mar=c(2,2,2,2))
 
-amplitude=max_categ_b-min_categ_b
-hauteur=abs_data3.3.2/amplitude
-
-barplot(hauteur,space=0,col="lightgrey",main="Histogramme de l'âge",ylab="Fréquence absolue",cex.lab=1,width=amplitude)
-axis(1, at = (max_categ_b+min_categ_b)/2, labels = categ_Age_b,las = 2,cex.axis=.8)
+hist(data3.3_brut$Age,breakpoints <- c(0, 3,12,18,65,110),xaxt="n",col="lightgrey",main="Histogramme de l'âge",ylab="Densité",cex.lab=1,xlab="Age")
+axis(1, at = c(0, 3,12,18,65,110), labels = c(0, 3,12,18,65,110),las = 2,cex.axis=.8)
 ```
 
-RAJOUTER LES POLYGONES DES EFFECTIFS  
+Dans la mesure où les données sont continues, cela signifie que toutes les valeurs de la variable représentée sont considérées comme possibles. Par exemple, le premier rectangle de la `r barplot_data3.3_freq_a` englobe toutes les personnes dont l'âge est compris entre 0 et 10 ans (incluant les personnes ayant 2,38574 ans), et lorsque je me déplace du premier centre de classe vers le deuxième centre de classe, j'envisage n'importe quelle valeur comprise entre `r centre_Age_a[1]` et `r centre_Age_a[2]`. Pour mieux rendre compte de la continuité de la variable, on peut tracer ce qu'on appelle le **polygone des effectifs**, en reliant par des segments de droite le centre du côté supérieur de chaque rectangle.
+
+`r polygone_data3.2_freq`  
+_Histogramme de la distribution de la `r table3.2_freq` et polygone des effectifs_
+```{r polygon_PIB, echo=FALSE}
+par(mfrow=c(1,2),mar=c(4,2,2,2),xpd=TRUE)
+amplitude=as.numeric((2)*(maxi-mini)/nb_categ_PIB)-as.numeric((1)*(maxi-mini)/nb_categ_PIB)
+
+hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence absolue",cex.lab=1,xlab="PIB",las=2,cex.axis=.8,xlim=c(0,120000))
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+segments(centre_PIB[length(centre_PIB)],abs_data3.2[length(centre_PIB)],centre_PIB[length(centre_PIB)]+(amplitude),0,lwd=2)  
+
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abs_data3.2[i],centre_PIB[i+1],abs_data3.2[i+1],lwd=2)
+points(centre_PIB[i],abs_data3.2[i],pch=16)
+}
+
+hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence relative",cex.lab=1,xlab="PIB",yaxt='n',las=2,cex.axis=.8,xlim=c(0,120000))
+axis(2, at = seq(0,max(abs_data3.2),2), labels = round(seq(0,max(abs_data3.2),2)/sum(abs_data3.2),2),las = 2,cex.axis=.8)
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+segments(centre_PIB[length(centre_PIB)],abs_data3.2[length(centre_PIB)],centre_PIB[length(centre_PIB)]+(amplitude),0,lwd=2)  
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abs_data3.2[i],centre_PIB[i+1],abs_data3.2[i+1],lwd=2)  
+points(centre_PIB[i],abs_data3.2[i],pch=16)
+}
+```
+
+`r polygone_data3.3_freq_a`  
+_Histogramme de la distribution de la `r table3.3_freq_a` et polygone des effectifs_ 
+```{r polygon_Agea, echo=FALSE}
+par(mfrow=c(1,2),mar=c(2,2,2,2),xpd=TRUE)
+
+amplitude=as.numeric((2)*(maxi-mini)/nb_categ_Age_a)-as.numeric((1)*(maxi-mini)/nb_categ_Age_a)
+
+hist(data3.3_brut$Age,breaks=length(categ_Age_a),xlim=c(0,110),col="lightgrey",cex.main=.8,main="Histogramme de l'âge",ylab="Fréquence absolue",cex.lab=1,xlab="Age",las=2,cex.axis=.8,xaxt="n")
+axis(1, at = seq(0,110,10), labels = seq(0,110,10),las = 2,cex.axis=.8)
+segments(centre_Age_a[1]-(amplitude),0,centre_Age_a[1],abs_data3.3.1[1],lwd=2)  
+segments(centre_Age_a[length(centre_Age_a)],abs_data3.3.1[length(centre_Age_a)],centre_Age_a[length(centre_Age_a)]+(amplitude),0,lwd=2)  
+for(i in 1:(length(centre_Age_a))){
+segments(centre_Age_a[i],abs_data3.3.1[i],centre_Age_a[i+1],abs_data3.3.1[i+1],lwd=2)  
+points(centre_Age_a[i],abs_data3.3.1[i],pch=16)
+}
+
+
+hist(data3.3_brut$Age,breaks=length(categ_Age_a),xlim=c(0,110),col="lightgrey",cex.main=.8,main="Histogramme de l'âge",ylab="Fréquence relative",cex.lab=1,xlab="Age",yaxt='n',xaxt="n",las=2,cex.axis=.8)
+limsup_y=max(abs_data3.3.1)+100-max(abs_data3.3.1)%%100
+axis(1, at = seq(0,110,10), labels = seq(0,110,10),las = 2,cex.axis=.8)
+axis(2, at = seq(0,limsup_y,limsup_y/7), labels = round(seq(0,limsup_y,limsup_y/7)/sum(abs_data3.3.1),2),las = 2,cex.axis=.8)
+segments(centre_Age_a[1]-(amplitude),0,centre_Age_a[1],abs_data3.3.1[1],lwd=2)  
+segments(centre_Age_a[length(centre_Age_a)],abs_data3.3.1[length(centre_Age_a)],centre_Age_a[length(centre_Age_a)]+(amplitude),0,lwd=2)  
+for(i in 1:(length(centre_Age_a))){
+segments(centre_Age_a[i],abs_data3.3.1[i],centre_Age_a[i+1],abs_data3.3.1[i+1],lwd=2)  
+points(centre_Age_a[i],abs_data3.3.1[i],pch=16)
+}
+```
+
+##### Histogramme des effectifs (ou fréquences) cumulé(e)s
+
+Les histogrammes des effectifs (ou fréquences) cumulées ressemblet aux diagrammes en escalier, si ce n'est que cette fois, les différents bâtons sont collés les uns aux autres pour rendre compte du caractère continu de la variable. 
+
+De même que pour les histogrammes vu dans la section précédente, il est possible de tracer le polygone des effectifs (ou fréquences) cumulé(e)s pour mieux rendre compte du caractère continu de la variable. 
+
+`r polygone_data3.2_freq`  
+_Histogramme de la distribution de la `r table3.2_freq` et polygone des effectifs_
+```{r cumpolygon_PIB, echo=FALSE}
+
+amplitude=centre_PIB[2]-centre_PIB[1]
+par(mfrow=c(1,2),xpd=TRUE)
+h=hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,plot=FALSE)
+h$counts <- cumsum(h$counts) # replace the cell freq.s by cumulative freq.s
+plot(h,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence absolue",cex.lab=1,xlab="PIB",las=2,cex.axis=.8,xlim=c(0,120000),ylim=c(0,length(data3.2_brut$PIB_hab)),yaxt="n") # plot a cumulative histogram of y
+axis(2, at = seq(0,length(data3.2_brut$PIB_hab),5), labels = seq(0,length(data3.2_brut$PIB_hab),5),las = 2,cex.axis=.8)
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+points(centre_PIB[i],abscum_data3.2[i],pch=16)
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abscum_data3.2[i],centre_PIB[i+1],abscum_data3.2[i+1],lwd=2)  
+points(centre_PIB[i],abscum_data3.2[i],pch=16)
+}
+
+
+h=hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,plot=FALSE)
+h$counts <- cumsum(h$counts) # replace the cell freq.s by cumulative freq.s
+plot(h,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence relative",cex.lab=1,xlab="PIB",las=2,cex.axis=.8,xlim=c(0,120000),ylim=c(0,length(data3.2_brut$PIB_hab)),yaxt="n") # plot a cumulative histogram of y
+axis(2, at = seq(0,length(data3.2_brut$PIB_hab),5), labels = round(seq(0,length(data3.2_brut$PIB_hab),5)/length(data3.2_brut$PIB_hab),2),las = 2,cex.axis=.8)
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+points(centre_PIB[i],abscum_data3.2[i],pch=16)
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abscum_data3.2[i],centre_PIB[i+1],abscum_data3.2[i+1],lwd=2)  
+points(centre_PIB[i],abscum_data3.2[i],pch=16)
+}
+
+```
 
 #### Remarque: les distributions 
 
-Nous avons brièvement suggéré qu'en augmentant le nombre de classes (et donc en réduisant l'amplitude de chacune d'elles), on pouvait augmenter considérablement la précision de notre représentation des données. 
- A FAIRE, REPRODUIRE LE GRAPHIQUE DE L AGE AVEC CATEG HOMOGENES ET MONTRER QUE CA DEVIENT UNE DISTRIBUTION
- 
-### Variables qualitatives
-
-#### Simplification des données
-
-De même que pour les variables quantitatives discrètes, il est possible de réaliser une distribution de fréquence. 
-
-Lorsqu'on représente des variables qualitatives ordinales, l'ordre d'apparition des classes dans la table est important. La table de fréquences sera très similaire à celle obtenue pour une variable quantitative discrète (voir la `r table3.5_brut`).
-
-Par contre pour les variables qualitatives nominales, ;l'ordre d'apparition des classes n'est aucune importance. Autrement dit, les classes pourront être représentées dans n'importe quel ordre  sans altérer le contenu informatif de la représentation. Dans la `r table3.4_brut`, on spécifie pour un échantillon de 150 personnes, leur nationalité, sachant que tous proviennent de l'un de trois pays suivants: la Belgique, la France et l'Espagne. Deux tables de fréquences ont été réalisées: dans la première, les trois pays apparaissent dans l'ordre pré-cité, et dans la deuxième, l'ordre de présentation a changé. Les deux choix sont parfaitement valables (puisque l'ordre d'apparition des catégories est totalement arbitraire).
-
-AJOUTER LES TABLES table3.4_brut et table3.5_brut
-
-#### Réalisation graphique
-
-Le diagramme en barres peut aussi être appliqué, mais pourra se présenter différemment que pour les variables quantitatives. Cette fois, l'axe des x ne sera plus normé (une unité n'aura pas obligatoirement une dimension constante et la largeur des bâtons importera peu, même si pour le confort des yeux, on les gardera généralement uniformes). 
-
-Lorsqu'on représente des variables qualitatives ordinales, l'ordre des classes est important, par contre pour les variables qualitatives nominales, il ne l'est pas. Autrement dit, les barres pourront apparaêtre dans n'importe quel ordre sans altérer le contenu informatif de la représentation. 
+```{r cumpolygon_PIB3, echo=FALSE}
+par(mfrow=c(1,3))
+Newexemple=rnorm(10000000,0,5)
+hist(Newexemple,breaks=nb_categ_Age_a)
+hist(Newexemple,breaks=nb_categ_Age_a*5)
+hist(Newexemple,breaks=nb_categ_Age_a*10000)
+```
 
 ## Les graphiques construits sur base des quantiles
 
@@ -583,7 +765,7 @@ On commence par ordonnée la série: $$`r serie2_ordered`$$
 On calcule ensuite le rang médian: $\frac{`r length(serie2)`+1}{2}=`r (length(serie2)+1)/2`$. Cette fois, le rang n'est pas un nombre rond. On en déduit que la médiane sera la valeur entre la $`r floor((length(serie2)+1)/2)`^e$ observation (valant `r  serie2_ordered[floor((length(serie2)+1)/2)]`) et la $`r ceiling((length(serie2)+1)/2)`^e$ observation de la série (valant `r serie2_ordered[ceiling((length(serie2)+1)/2)]`). Par convention, on prend la moyenne de ces deux valeurs, ce qui donne `r (serie2_ordered[floor((length(serie2)+1)/2)]+serie2_ordered[ceiling((length(serie2)+1)/2)])/2`.   
 
 Comme ces deux exemples permettent de l'illustrer, avec un nombre impair d'observations, la valeur de la médiane correspond nécessairement à une valeur observée de la variable. Par contre, avec un nombre pair d'observations, la valeur de la médiane ne correspond "pas nécessairement" à une valeur observée de la médiane. Attention, pas nécessairement ne veut pas dire jamais: imaginons que les deux valeurs de part et d'autre du rang moyen soient identiques, comme dans la série ordonnée suivante:   
-$$**Série 3** `r serie3_ordered`$$.
+$$**Série 3** `r serie3_ordered`$$.  
 Dans ce cas, étant donné que le rang médian vaut `r (length(serie3)+1)/2`, la médiane sera la moyenne entre `r serie3_ordered[floor((length(serie3)+1)/2)]` et `r serie3_ordered[ceiling((length(serie3)+1)/2)]`, soit `r (serie3_ordered[floor((length(serie3)+1)/2)]+serie3_ordered[ceiling((length(serie3)+1)/2)])/2`. 
 
 La valeur du premier quartile d'une série sera celle qui est telle que si l'on s'intéresse exclusivemenet aux valeurs à gauche de la médiane, la moitié des observations sélectionnées lui est inférieure et l'autre moitié lui est supérieure. Similairement, la valeur du troisième quartile sera celle qui est telle que si l'on s'intéresse exclusivement aux valeurs à droite de la médiane, la moitié des observations sélectionnées lui est inférieure et l'autre moitié lui est supérieure.
@@ -780,7 +962,7 @@ boxplot(data3.7_brut,ylim=c(0,20),col="lightblue")
 
 L'axe vertical représente les différentes valeurs que peut prendre la variable étudiée. Etant donné que la valeur la plus basse de la série est `r min(data3.7_brut)`, et que sa valeur la plus haute est `r max(data3.7_brut)`, cela signifie que l'ensemble des observations de la série devra être représenté entre ces deux valeurs.
 
-La **boîte centrale** (en bleu) s'étend du premier quartile (la limite inférieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][1]`) au troisème quartile (= la limite supérieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][3]`). Elle correspond donc aux 50% des données centrales de la distribution. La distance qui sépare Q1 et Q3 s'appelle **l'écart inter-quartile** et se calcule comme suit: Q3 - Q1 = `r quartiles(data3.7_brut)[[1]][3]`-`r quartiles(data3.7_brut)[[1]][1]`=`r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]`.
+La **boîte centrale** (en bleu) s'étend du premier quartile (la limite inférieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][1]`) au troisème quartile (= la limite supérieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][3]`). Elle correspond donc aux 50% des données centrales de la distribution. La distance qui sépare Q1 et Q3 s'appelle **l'écart inter-quartile** et se calcule comme suit: Q3 - Q1 = `r quartiles(data3.7_brut)[[1]][3]`-`r quartiles(data3.7_brut)[[1]][1]`=`r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]`. L'écart inter-quartile est une mesure de dispersion. Ce type de mesure sera décrit ultérieurement. 
 
 La barre à l'intérieur de la boîte représente la **médiane** (valant `r quartiles(data3.7_brut)[[1]][2]` dans l'exemple de la `r table3.7`). La position de la médiane à l'intérieur de la boîte indique le degré de symétrie ou d'asymétrie de la portion centrale de la distribution.
 
@@ -798,20 +980,46 @@ Les **moustaches** (les lignes qui sortent de part et d'autre de la boîte centra
 
 Cependant, une fois les barrières déterminées, il se peut qu'elles ne correspondent à aucune valeur existante de la distribution. Nous allons donc observer les valeurs adjacentes à l'intérieur des barrières. Les scores de la variables étudiée qui se situent à l'**intérieur** des barrières varient de `r min(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])` à `r max(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])`. Donc, la valeur adjacente inférieure est de `r min(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])` et la valeur adjacente supérieure est de `r max(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])`. C'est à ces valeurs adjacentes que correspondent les extrémités visibles des moustaches. 
 
-Les **valeurs extrêmes** sont les points de part et d'autres des moustaches. Ce sont des valeurs qui sont supérieures à la barrière supérieure, ou inférieures à la barrière inférieure. 
+Les **valeurs extrêmes** sont les points de part et d'autres des moustaches. Ce sont des valeurs qui sont supérieures à la barrière supérieure, ou inférieures à la barrière inférieure. Elles correspondent à des valeurs dont le score semble anormalement élevé ou bas, compte tenu de l'ensemble des observations étudiées. Ce serait par exemple le casde l'âge d'un individu ayant 51 ans, dans une étude consacrée à des adolescents. 
 
-Le boxplot est une représentation qui permet relativement aisément de se représenter mentalement l'allure d'une distribution (est-elle symétrique ou asymétrique?) et qui sert surtout à mettre en évidence des valeurs qui semblent anormalement élevées ou basses compte tenu de la distribution que l'on étudie.
+Le boxplot a pour avantage de permettre de détecter très rapidement ces valeurs extrêmes. Par ailleurs, elle permet de se représenter mentalement l'allure de la distribution: est-elle symétrique ou asymétrique?
 
 ### Variables quantitatives continues
 
 #### Simplification des données: calcul de la médiane et des quartiles
 
 ##### Au départ de données brutes
+
+Lorsque les données brutes sont fournies, le calcul de la médiane se réalise exactement de la même manière que pour les données quantitatives discrètes. Je vous renvoie donc à la section antérieure sur les variables quantitatives discrètes.
+
 ##### Au départ de tableaux de fréquences
+
+Au début du chapitre, il a été vu que réaliser un tableau de fréquences de données continues implique préalablement de regrouper les valeurs par classe. Bien que ces regroupements constituent une perte d'information, il est malgré tout possible d'estimer la valeur de la médiane et des quantiles, en utilisant le **polygone des effectifs**.
+
+Revenons une fois encore à l'exemple du PIB de la `r table3.2_freq` dont je reproduis ci-dessous le polygone des effectifs cumulés, pour votre convénience. Comme vous l'aurez compris, travailler sur le graphique dans lequel l'axe des y représente les fréquences absolues cumulées, ou dans celui sur lequel l'axe des y représente les fréquences relatives cumulées revient au même. Comme je trouve personnellement plus facile d'utiliser celui qui représente les fréquences relatives cumulées, j'opte pour ce choix.
+
+```{r cumpolygon_PIB2, echo=FALSE}
+h=hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,plot=FALSE)
+h$counts <- cumsum(h$counts) # replace the cell freq.s by cumulative freq.s
+plot(h,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence relative",cex.lab=1,xlab="PIB",las=2,cex.axis=.8,xlim=c(0,120000),ylim=c(0,length(data3.2_brut$PIB_hab)),yaxt="n") # plot a cumulative histogram of y
+axis(2, at = seq(0,length(data3.2_brut$PIB_hab),5), labels = round(seq(0,length(data3.2_brut$PIB_hab),5)/length(data3.2_brut$PIB_hab),2),las = 2,cex.axis=.8)
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+points(centre_PIB[i],abscum_data3.2[i],pch=16)
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abscum_data3.2[i],centre_PIB[i+1],abscum_data3.2[i+1],lwd=2)  
+points(centre_PIB[i],abscum_data3.2[i],pch=16)
+}
+```
+
+La fréquence cumulée de la valeur `r as.character(centre_PIB[1])` vaut `r round(rel_data3.2[1],2)` (soit une valeur inférieure à .5 ou 50%). La fréquence cumulée  de la valeur `r as.character(centre_PIB[2])` vaut `r round(rel_data3.2[2],2)` (soit une valeur supérieure à .5 ou 50%). Je sais donc que la valeur de la médiane se situera entre `r centre_PIB[1]` et `r centre_PIB[2]` et sera telle qu'il y ait exactement 50% des observations à sa gauche, et 50% des observations à sa droite. Une simple règle de trois permet de déterminer sa valeur: il y a une distance de `r round(relcum_data3.2[2],2)- round(relcum_data3.2[1],2)` unités entre `r round(relcum_data3.2[2],2)`% et `r round(relcum_data3.2[1],2)`%. Sur l'axe des x, cette distance est projetée sur une distance de `r as.character(centre_PIB[2]-centre_PIB[1])` (soit l'écart entre les deux centres de classes). 
+
+Il y a une distance de `r 50 - round(relcum_data3.2[1],2)` unités entre 50% et `r round(relcum_data3.2[1],2)`%. Par règle de trois, on en déduit que cela correspond à une distance de $\frac{`r as.character(centre_PIB[2]-centre_PIB[1])`}{20} \times `r 50- round(relcum_data3.2[1],2)` = `r (centre_PIB[2]-centre_PIB[1])/(round(relcum_data3.2[2],2)- round(relcum_data3.2[1],2))*(50- round(relcum_data3.2[1],2))`$ sur l'axe des x. Par conséquent, la médiane sera estimée à `r as.character(centre_PIB[1])`+`r (centre_PIB[2]-centre_PIB[1])/(round(relcum_data3.2[2],2)- round(relcum_data3.2[1],2))*(50- round(relcum_data3.2[1],2))` = `r as.character(centre_PIB[1]+(centre_PIB[2]-centre_PIB[1])/(round(relcum_data3.2[2],2)- round(relcum_data3.2[1],2))*(50- round(relcum_data3.2[1],2)))`. 
+
+En suivant un raisonnement identique, l'on estime les valeurs du premier et troisième quartile... A FAIRE!
 
 #### Réalisation graphique: le boxplot
 
-
+A nouveau, le boxplot se déroulement de manière identique à ce qui a été vu dans le chapitre sur les variables quantitatives discrètes. Seule la manière de déterminer la médiane ainsi que les premier et troisième quartile diffère. 
 
 # Chapitre 4: exploration algébrique des données à une dimension
 
@@ -996,10 +1204,18 @@ Nous voyons bien à quel point il est important d'étudier la forme d'une distribu
 
 ## Mesures de dispersion
 
+### Etendue
+### Ecart inter-quartile
+### Variance et ecart-type
 
 ## Mesures d'asymétrie et d'aplatissement
 
-# Chapitre 5: les distributions binomiales et normales
+### Skewness
+### Kurtosis
+
+Ici, ne pas leur demander de le calculer (sans intérêt). Plutôt leur demander de savoir interpréter.
+
+# Chapitre 5: relation entre deux variables continues: le coefficient r de Pearson
 
 # Références
 
