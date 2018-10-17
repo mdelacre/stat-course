@@ -17,6 +17,24 @@ library(bookdown)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r echo=FALSE, results='asis'} 
+id = 1:10
+math=c(8.5,4,4.5,6,3.5,6.5,7,5,7.5,7.5)
+francais=c(7,6,5.5,6,4.5,6,6.5,5.5,6.5,6.5)
+notes_brut=data.frame(id,math,francais)
+```
+
+La montre le graphe qui reprend les deux valeurs les unes par rapport aux autres. On y voit un nuage de points, chacun de ceux-ci ayant une double coordonnée: sur l'axe des x, et sur l'axe des y. Par exemple, le point entouré correspond à un individu ayant obtenu la note `r math[math==3.5]` au cours de mathématiques (coordonnée sur l'axe des x) et `r francais[math==3.5]` au cours de francais (coordonnée sur l'axe des y). 
+
+_Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
+```{r echo=FALSE, results='asis'}
+plot(math,francais,pch=19,bty="n",xlim=c(0,10),ylim=c(4,8))
+axis(1,at=seq(0,10,1),labels=seq(0,10,1))
+points(3.5,4.5,pch=21,cex=5)
+```
+
+
 ```{r,include=FALSE}
 
 # Plan de travail

@@ -72,11 +72,17 @@ table4.2="Table 4.2"  # extrait de la Table 1.1
 notes_compta="Table 4.3" # données pour illustrer la variance
 notes_ecart_math="Table 4.4"
 notes_ecart_francais="Table 4.5"
+notes_compta2="Table 4.6"
 
 Figure4.1="Figure 4.1"
 Figure4.2="Figure 4.2"
 Figure4.3="Figure 4.3"
 Figure4.4="Figure 4.4"
+
+correlation_graph_a= "Figure 5.1"
+correlation_graph_b= "Figure 5.2"
+correlation_graph_geo= "Figure 5.3"
+correlation_graph_agls= "Figure 5.4"
 ```
 ###### Pagebreak
 # Chapitre 1: qu'est-ce que la statistique, et à quoi sert-elle?
@@ -1229,8 +1235,8 @@ Pour l'illustrer, considérons les deux séries suivantes qui représentent (fictiv
 
 ```{r echo=FALSE, results='asis'} 
 id = 1:10
-math=c(5,6.5,4.5,8.5,6,7.5,3.5,7,4,7.5)
-francais=c(6,6,7,5.5,5.5,5.5,5.5,6.5,6,6.5)
+math=c(8.5,4,4.5,6,3.5,6.5,7,5,7.5,7.5)
+francais=c(7,6,5.5,6,4.5,6,6.5,5.5,6.5,6.5)
 notes_brut=data.frame(id,math,francais)
 ```
 
@@ -1432,6 +1438,115 @@ De même que pour la mesure d'asymétrie, il n'est pas important que vous puissiez
 
 # Chapitre 5: relation entre deux variables continues: le coefficient r de Pearson
 
+Jusque là, nous avons passé beaucoup de temps à étudier les variables. Nous avons vu comment il était possible de les représenter graphiquement et aussi comment les étudier algébriquement. Tout cela relève de la statistique descriptive **univariée**. 
+
+Le dernier objectif de ce cours est d'apprendre à observer comment deux variables peuvent varier **en même temps**, ou covarier. Cela relève de la statistique **bivariée**.
+
+Revenons à l'exemple de la `r notes_ecart_math`  dans laquelle nous avions étudié la note de 10 étudiants à deux cours: le cours de mathématiques et le cours de français. 
+
+Nous avons déjà précédemment étudié comment les notes de chacun de ces cours pouvaient varier individuellement d'un étudiant à l'autre. La question que nous nous posons maintenant est de savoir comment les notes de ces deux cours **covarient**. Autrement dit, existe-t-il un lien entre les notes aux deux cours ou encore, lorsque les notes à un cours augmentent, est-ce que celles de l'autre cours tendent à augmenter également? 
+
+## Représentation graphique de la relation entre deux variables  
+
+Une première manière d'appréhender la question est de se représenter graphiquement la situation. Lorsque l'on souhaite pouvoir étudier le lien entre deux variables, la meilleure représentation graphique consiste à tracer deux axes perpendiculaires, l'un représentant l'une des deux variables, l'autre représentant l'autre variable.
+
+`r notes_compta`  
+_Notes (/10) obtenues par `r length(id)` des étudiants en mathématiques et en français_
+```{r echo=FALSE, results='asis'}
+kable(notes_brut,format="markdown",align="c",col.names=c("$i$","math($X_i)$","francais($Z_i)$")) 
+```
+
+La `r correlation_graph_a` montre le graphe qui reprend les deux valeurs les unes par rapport aux autres. On y voit un nuage de points, chacun de ceux-ci ayant une double coordonnée: sur l'axe des x, et sur l'axe des y. Par exemple, le point entouré correspond à un individu ayant obtenu la note `r math[math==3.5]` au cours de mathématiques (coordonnée sur l'axe des x) et `r francais[math==3.5]` au cours de francais (coordonnée sur l'axe des y). 
+
+`r correlation_graph_a`  
+_Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
+```{r echo=FALSE, results='asis'}
+par(mar=c(4,2,2,4))
+plot(math,francais,pch=19,bty="n",xlim=c(0,10),ylim=c(0,10))
+axis(1,at=seq(0,10,1),labels=seq(0,10,1))
+axis(2,at=seq(0,10,1),labels=seq(0,10,1))
+points(3.5,4.5,pch=21,cex=5)
+segments(math[5],0,math[5],francais[5],lty=3)
+segments(0,francais[5],math[5],francais[5],lty=3)
+```
+
+En observant le nuage de points dans son ensemble, il apparait que celui-ci n'est pas du tout aléatoire. Globalement, les individus ayant les meilleurs points en mathématiques semblent également avoir des points élevés en français. A contrario, ceux qui ont les moins bon points en mathématiques semblent avoir également de moins bons points en français. 
+
+Pour mieux encore appréhender la relation qui existe entre deux variables, il est possible de tracer, au départ du nuage de points, une droite qui se rapproche le plus possible de l'ensemble des points (selon des règles très précises), que l'on appelera la **droite de régression**.   
+
+`r correlation_graph_b`  
+_Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
+```{r echo=FALSE, results='asis'}
+par(mar=c(4,2,2,4))
+plot(math,francais,pch=19,bty="n",xlim=c(0,10),ylim=c(0,10))
+axis(1,at=seq(0,10,1),labels=seq(0,10,1))
+axis(2,at=seq(0,10,1),labels=seq(0,10,1))
+abline(a=lm(francais~math)$coefficients[1],b=lm(francais~math)$coefficients[2],lty=2)
+```
+
+On constate que l'ensemble des points semblent se rapprocher d'une droite de régression dont la pente est croissante. Ca sera le cas chaque fois que la relation linéaire entre deux variables est positive (càd quand le score des deux variables tend à varier dans le même sens). 
+
+Imaginons à présent que nous souhaitions étudier la relation entre le cours de mathématiques et un cours de géographie suivi par les 10 mêmes étudiants. 
+ 
+```{r echo=FALSE, results='asis'} 
+id = 1:10
+math=c(8.5,4,4.5,6,3.5,6.5,7,5.5,7.5,7.5)
+geo=c(6,9,8.5,6.5,8.5,6.5,6,8,5.5,5.5)
+notes_geo=data.frame(id,math,geo)
+```
+
+`r notes_compta2`  
+_Notes (/10) obtenues par `r length(id)` des étudiants en mathématiques et en français_
+```{r echo=FALSE, results='asis'}
+kable(notes_geo,format="markdown",align="c",col.names=c("$i$","math($X_i)$","geographie($W_i)$")) 
+```
+
+Comme précédemment, l'étude du nuage de points et de la droite de régression associée aidera à mieux se représenter la relation entre les deux variables (voir `r `).
+
+`r correlation_graph_geo`  
+_Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie_  
+```{r echo=FALSE, results='asis'}
+par(mar=c(4,2,2,4))
+plot(math,geo,pch=19,bty="n",xlim=c(0,10),ylim=c(0,10))
+axis(1,at=seq(0,10,1),labels=seq(0,10,1))
+axis(2,at=seq(0,10,1),labels=seq(0,10,1))
+abline(a=lm(geo~math)$coefficients[1],b=lm(geo~math)$coefficients[2],lty=2)
+```
+
+Cette fois, les points semblent se rapprocher d'une droite de régression décroissante.Ca sera le cas chaque fois que la relation linéaire entre deux variables est négative (càd quand le score des deux variables tend à varier dans des sens opposés: lorsque score de mathématiques augmente, celui de géographique diminue, et réciproquement). 
+
+Comme dernier cas de figure, imaginons que nous souhaitions étudier la relation entre le cours de géographie et d'anglais, toujours suivi par les 10 mêmes étudiants. 
+
+```{r echo=FALSE, results='asis'} 
+id = 1:10
+geo=c(5.5,9,6,6,6.5,6.5,8,8.5,8.5,9)
+anglais=c(10,5,6,7,5,8,8,9,8.5,9)
+notes_geo=data.frame(id,geo,anglais)
+```
+
+`r notes_compta2`  
+_Notes (/10) obtenues par `r length(id)` des étudiants en mathématiques et en français_
+```{r echo=FALSE, results='asis'}
+kable(notes_geo,format="markdown",align="c",col.names=c("$i$","geographie($W_i)$","anglais($V_i)$")) 
+```
+
+Encore une fois, l'étude du nuage de points et de la droite de régression associée aidera à mieux se représenter la relation entre les deux variables (voir `r `).
+
+`r correlation_graph_agls`  
+_Nuage de points représentant la relation entre la note à un cours de géographie et la note à un cours d'anglais_  
+```{r echo=FALSE, results='asis'}
+par(mar=c(4,8,2,4))
+plot(geo,anglais,pch=19,bty="n",xlim=c(0,10),ylim=c(0,10))
+axis(1,at=seq(0,10,1),labels=seq(0,10,1))
+axis(2,at=seq(0,10,1),labels=seq(0,10,1))
+abline(a=lm(geo~anglais)$coefficients[1],b=lm(geo~anglais)$coefficients[2],lty=2)
+```
+
+Contrairement au deux situations précédentes, les points ne se rapprochent ni d'une droite croissante, ni d'une droite décroissante. Il ne semble pas y avoir de relation entre les notes obtenues au cours de géographiques et celles obtenues au cours d'histoire. Par ailleurs, la droite de régression a une pente quasiment nulle. 
+
+## Détermination algébrique de la relation entre deux variables  
+
+ 
 ###### Pagebreak
  
 # Références
