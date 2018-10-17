@@ -73,46 +73,67 @@ notes_ecart_francais="Table 4.5"
 
 Figure4.1="Figure 4.1"
 ```
-###### Pagebreak
-# Chapitre 1: qu'est-ce que la statistique, et à quoi sert-elle?
-
-\ref{fig:barplot_fumeur}
-
-## Qu'est-ce que la statistique? 
-
 ```{r echo=FALSE, results='asis'}
-n=15
-id <-1:n
-genre<-c(0,0,1,0,0,0,1,1,1,0,0,1,1,0,1)
-genre[genre==0]="masculin"
-genre[genre==1]="féminin"
-age<-c(19,25,21,27,30,32,30,19,21,21,24,27,26,30,26)
-anciennete <-c(1,5,2,8,8,9,9,1,1,1,8,8,7,10,8)
-langue <-c(3,1,1,2,1,2,3,2,2,1,1,2,2,2,2)
-langue[langue==1]="français"
-langue[langue==2]="néerlandais"
-langue[langue==3]="allemand"
-data1_brut=data.frame(id,genre,age,anciennete,langue)
+Pays<-c("Luxembourg","Norvâge","Suisse","Irlande","Danemark","Suède","Pays-Bas","Islande","Autriche","Finlande","Allemagne","Belgique","Andorre","France","Royaume-Uni","Zone Euro","Union Européenne","Italie","Espagne","Chypre","Malte","Slovénie","Portugal","Grêce","République Tchèque","Slovaquie","Estonie","Lituanie","Pologne","Hongrie","Lettonie","Croatie","Turquie","Russie","Roumanie","Bulgarie","Monténégro","Biélorussie","Serbie","Bosnie-Herzégovine","Macédoine","Albanie","Kosovo","Ukraine","Moldavie")
+
+PIB_hab<-c(107865.27,91218.62,76667.44,74433.46,61582.17,56935.19,53597.83,49910.01,49129.23,47057.62,46747.19,46078.93,43942.9,42567.74,42514.49,40088.65,36593.03,34877.83,32405.75,29432.67,27145.81,25662.41,23116.58,23027.41,22779.29,19897.15,18977.39,16793.25,15751.23,15647.85,15553.33,15219.88,14933.27,11441,10932.33,8311.93,7812.95,6375.82,5992.28,5561.29,5245.36,4868.2,4068.21,2991.63,2165.16)
+
+mini=0
+maxi=120000
+nb_categ_PIB=6
+categ_PIB=NULL
+centre_PIB=NULL
+
+for(j in 1:nb_categ_PIB){
+  categ_PIB[j]=paste0("[",as.numeric((j-1)*(maxi-mini)/nb_categ_PIB),"-",as.numeric(j*(maxi-mini)/nb_categ_PIB),"[")  
+  centre_PIB[j]=(as.numeric((j-1)*(maxi-mini)/nb_categ_PIB)+as.numeric(j*(maxi-mini)/nb_categ_PIB))/2
+}
+
+data3.2_brut=data.frame(Pays,PIB_hab)
 ```
 
-La statistique est l'ensemble des instruments de recherches mathématiques qui permettent de **récolter**, **traiter** et **interpréter** un ensemble de données (généralement vaste). 
-
-### La récolte des données: les concepts de population, individus et échantillons 
-
-La **population** est l'ensemble des éléments (individus ou objets) auxquels on s'intéresse. Les éléments qui constitue cette population sont appelés **individus** ou **unité statistique**. Admettons par exemple que l'on souhaite étudier les caractéristiques de l'ensemble des employés belges du secteur automobile. Chaque employé de nationalité belge travaillant dans ce secteur constituera une unité statistique, et leur ensemble constituera la population d'intérêt.   
-
-Il est bien souvent compliqué, voire impossible de recueillir des informations pour l'entièreté de la population tant celle-ci peut être vaste. Pour cette raison, on prélèvera généralement, aléatoirement, une partie de taille gérable de cette population que l'on appelle l'**échantillon**, et l'on mesurera, pour chaque individu de l'échantillon, un ensemble d'informations (des **variables**) qui nous intéresse, comme le genre, la situation géographique ou linguistique ou encore l'âge et le salaire moyen. 
-
-Les variables que l'on récolte au sein de l'échantillon peuvent être de diverses natures. Autrement dit, il existe plusieurs manières de les mesurer. Imaginez par exemple que je vous demande d'estimer la silhouette d'un individu. Vous pourriez prendre un mêtre et me dire que son tour de taille est de 72 cm. Vous pourriez également vous contenter de dire qu'il est de taille "Medium". Décider de la manière dont on mesure les variables aura des implications importantes en termes de possibilités d'analyses et ne doit pas être laissé au hasard. Un chapitre ultérieur sera dédié aux variables et à leurs natures possibles (`r chap_variables`). 
-
-### Le traitement des données, appelée également la statistique descriptive
-
-Après avoir récolté des données, on se retrouve avec une série de variables pour chaque individu. Ces données pourront être encodées dans une base de données tel qu'illustré à la `r table1_brut`. Cette table est une représentation fictive de données socio-démographiques récoltées auprès de  `r length(data1_brut$id)` employés du secteur automobile. 
-
-`r table1_brut`  
-_Données socio-démographiques récoltées auprès de `r length(data1_brut$id)` employés du secteur automobile_
-Table \@ref(tab:Table1)
-
 ```{r echo=FALSE, results='asis'}
-Table1=kable(data1_brut,format="latex",align="c",col.names = c("i","genre ($W_i$)","âge ($X_i$)"," anciennete ($Y_i$)","langue ($Z_i$)"))
+abs_data3.2=NULL
+
+for(i in 1:nb_categ_PIB){
+  abs_data3.2[i]=sum((data3.2_brut$PIB_hab>=((i-1)*((maxi-mini)/nb_categ_PIB)))&(data3.2_brut$PIB_hab< (i*(maxi-mini)/nb_categ_PIB)))
+}
+rel_data3.2=abs_data3.2/sum(abs_data3.2)*100
+
+abscum_data3.2=NULL
+relcum_data3.2=NULL
+count_abs_data3.2=0
+count_rel_data3.2=0
+for (i in 1:length(categ_PIB)){
+  count_abs_data3.2=count_abs_data3.2+abs_data3.2[i]
+  abscum_data3.2[i]=count_abs_data3.2
+  count_rel_data3.2=count_rel_data3.2+rel_data3.2[i]
+  relcum_data3.2[i]=count_rel_data3.2
+}
+
+data3.2_freq=data.frame(categ_PIB,centre_PIB,abs_data3.2,round(count_rel_data3.2,2),abscum_data3.2,round(relcum_data3.2,2)) 
+```
+ 
+`r polygone_data3.2_freq`  
+_Histogramme de la distribution de la `r table3.2_freq` et polygone des effectifs_
+```{r polygon_PIB, echo=FALSE}
+par(mfrow=c(1,2),mar=c(4,2,2,2),xpd=TRUE)
+amplitude=as.numeric((2)*(maxi-mini)/nb_categ_PIB)-as.numeric((1)*(maxi-mini)/nb_categ_PIB)
+
+hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence absolue",cex.lab=1,xlab="PIB",las=2,cex.axis=.8,xlim=c(0,120000))
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+segments(centre_PIB[length(centre_PIB)],abs_data3.2[length(centre_PIB)],centre_PIB[length(centre_PIB)]+(amplitude),0,lwd=2)  
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abs_data3.2[i],centre_PIB[i+1],abs_data3.2[i+1],lwd=2)
+points(centre_PIB[i],abs_data3.2[i],pch=16)
+}
+
+hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence relative",cex.lab=1,xlab="PIB",yaxt='n',las=2,cex.axis=.8,xlim=c(0,120000))
+axis(2, at = seq(0,max(abs_data3.2),2), labels = round(seq(0,max(abs_data3.2),2)/sum(abs_data3.2),2),las = 2,cex.axis=.8)
+segments(centre_PIB[1]-(amplitude),0,centre_PIB[1],abs_data3.2[1],lwd=2)  
+segments(centre_PIB[length(centre_PIB)],abs_data3.2[length(centre_PIB)],centre_PIB[length(centre_PIB)]+(amplitude),0,lwd=2)  
+for(i in 1:(length(centre_PIB))){
+segments(centre_PIB[i],abs_data3.2[i],centre_PIB[i+1],abs_data3.2[i+1],lwd=2)  
+points(centre_PIB[i],abs_data3.2[i],pch=16)
+}
 ```
