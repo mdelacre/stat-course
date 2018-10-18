@@ -1546,7 +1546,7 @@ Contrairement au deux situations précédentes, les points ne se rapprochent ni d'
 
 ## Détermination algébrique de la relation entre deux variables  
 
- 
+
 ###### Pagebreak
  
 # Références
