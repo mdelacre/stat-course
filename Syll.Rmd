@@ -1453,24 +1453,24 @@ De même que pour la mesure d'asymétrie, il n'est pas important que vous puissiez
 
 # Chapitre 5: relation entre deux variables continues: le coefficient r de Pearson
 
-Jusque là, nous avons passé beaucoup de temps à étudier comment il était possible de représenter graphiquement ou algébriquement les variables prises isolément. Le dernier objectif de ce cours est d'étudier comment deux variables peuvent varier **en même temps**, ou **covarier**. Cela relève de la statistique **bivariée** (par opposition à statistique **univariée**, lorsqu'on les étudie séparément les unes des autres).
+Jusque là, nous avons passé beaucoup de temps à étudier comment il était possible de représenter graphiquement ou algébriquement les variables prises isolément. Le dernier objectif de ce cours est d'étudier comment deux variables peuvent varier **en même temps**, ou **covarier**. Cela relève de la statistique **bivariée** (par opposition à statistique **univariée**, lorsqu'on étudie les variables séparément les unes des autres).
 
-Revenons à l'exemple de la `r notes_compta`  dans laquelle nous avions étudié la note de 10 étudiants à deux cours: le cours de mathématiques et le cours de français. 
+Revenons à l'exemple de la `r notes_compta`  dans laquelle nous avions étudié la note de 10 étudiants à deux cours: mathématiques et français. 
 
 `r notes_compta`  
 _Notes (/10) obtenues par `r length(id)` des étudiants en mathématiques et en français_
 ```{r echo=FALSE, results='asis'}
 kable(notes_brut,format="markdown",align="c",col.names=c("$i$","math($X_i)$","francais($Z_i)$")) 
 ```
-
-Nous avons déjà précédemment déterminé dans quelle mesure les scores de chacun des cours variaient d'un individu à l'autre (nous avions trouvé, respectivement pour les cours de mathématiques et de français, des variances de 
-`r var(math)*(length(math)-1)/length(math)` et `r var(francais)*(length(francais)-1)/length(francais)` et donc par conséquent, des écart-types de respectivement `r sd(math)*(length(math)-1)/length(math)` et `r sd(francais)*(length(francais)-1)/length(francais)`). On se demande à présent s'il existe un **lien** entre la manière dont ces deux cours varient d'un sujet à l'autre. Autrement dit, on se demande si ces deux variables **covarient**.
+ 
+Nous avons déjà déterminé précédemment dans quelle mesure les scores de chacun des cours variaient d'un individu à l'autre (nous avions trouvé, respectivement pour les cours de mathématiques et de français, des variances de 
+`r var(math)*(length(math)-1)/length(math)` et `r var(francais)*(length(francais)-1)/length(francais)` et donc par conséquent, des écart-types de respectivement `r round(sd(math)*(length(math)-1)/length(math))` et `r round(sd(francais)*(length(francais)-1)/length(francais),2)`). On se demande à présent s'il existe un **lien** entre la manière dont ces deux cours varient simultanément d'un sujet à l'autre. Autrement dit, on se demande si ces deux variables **covarient**.
 
 ## Représentation graphique de la relation entre deux variables  
 
 Une première manière d'appréhender la question est de se représenter graphiquement la situation. Lorsque l'on souhaite pouvoir étudier le lien entre deux variables, la meilleure représentation graphique consiste à tracer deux axes perpendiculaires, l'un représentant l'une des deux variables, l'autre représentant l'autre variable.
 
-La `r correlation_graph_a` montre le graphe qui reprend les valeurs aux cours de mathématiques et de français les unes par rapport aux autres. On y voit un nuage de points, chacun de ceux-ci ayant une double coordonnée: sur l'axe des x, et sur l'axe des y. Par exemple, le point entouré correspond à un individu ayant obtenu la note `r math[math==3.5]` au cours de mathématiques (coordonnée sur l'axe des x) et `r francais[math==3.5]` au cours de francais (coordonnée sur l'axe des y). 
+La `r correlation_graph_a` montre le graphe qui reprend les valeurs aux cours de mathématiques et de français les unes par rapport aux autres. On y voit un nuage de points, chaque point ayant une double coordonnée: sur l'axe des x, et sur l'axe des y. Par exemple, le point entouré correspond à un individu ayant obtenu la note `r math[math==3.5]` au cours de mathématiques (coordonnée sur l'axe des x) et `r francais[math==3.5]` au cours de francais (coordonnée sur l'axe des y). 
 
 `r correlation_graph_a`  
 _Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
@@ -1484,9 +1484,9 @@ segments(math[5],0,math[5],francais[5],lty=3)
 segments(0,francais[5],math[5],francais[5],lty=3)
 ```
 
-En observant le nuage de points dans son ensemble, il apparait que celui-ci n'est pas du tout aléatoire. Globalement, les individus ayant les meilleurs points en mathématiques semblent également avoir des points élevés en français. A contrario, ceux qui ont les moins bon points en mathématiques semblent avoir également de moins bons points en français. 
+En observant le nuage de points dans son ensemble, il apparait que celui-ci n'est pas du tout aléatoire. Globalement, les individus ayant les meilleurs points en mathématiques semblent également avoir des points élevés en français. A contrario, ceux qui ont les moins bons points en mathématiques semblent avoir également de moins bons points en français. 
 
-Lorsque les points d'un nuage semblent se répartir naturellement autour d'une droite, on parle de **relation linéaire**. Face à une telle configuration, le meilleur moyen de représenter l'allure générale de la corrélation est de tracer la droite qui se rapproche le plus possible de l'ensemble des points et que l'on appelle la **droite de régression**. 
+Lorsque les points d'un nuage semblent se répartir plus ou moins autour d'une droite, on parle de **relation linéaire**. Le meilleur moyen de représenter l'allure générale de la corrélation est de tracer la droite qui se rapproche le plus possible de l'ensemble des points et que l'on appelle dès lors la **droite de régression**. 
 
 `r correlation_graph_b`  
 _Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
@@ -1500,7 +1500,7 @@ abline(a=lm(francais~math)$coefficients[1],b=lm(francais~math)$coefficients[2],l
 
 On constate que l'ensemble des points semblent se rapprocher d'une droite croissante. Cela signifie que le score des deux variables tend à varier dans le même sens: lorsque la note au cours de mathématiques augmente, il en est de même pour la note au cours de français. On parle alors de relation linéaire **positive**.
 
-Attention: il s'agit d'une **tendance** des données. Autrement dit, ce n'est pas nécessairement vrai pour chaque point du nuage. Regardez les deux points entourés dans la reproduction du  nuage de points ci-dessous. Le point le plus à gauche dans le cercle représente un étudiant ayant obtenu une note de `r math[2]` en mathématiques, et une note de `r francais[2]` en français. Le point le plus à droite dans le cercle représente un étudiant ayant obtenu une note de `r math[3]` en mathématiques, soit une note plus élevée que le premier sujet. Pourtant, la note qu'il a obtenu en français est plus faible, puisqu'elle ne vaut que `r francais[3]`. Le seul cas pour lequel on pourra affirmer avec certitude que la relation est vrai pour chaque point du nuage sera celui où l'entièreté des points seront parfaitement alignés (on parlera alors de relation linéaire positive **parfaite**).
+Attention: il s'agit d'une **tendance** des données. Autrement dit, ce n'est pas nécessairement vrai pour chaque point du nuage. Regardez les deux points entourés dans la reproduction du  nuage de points ci-dessous. Le point le plus à gauche dans le cercle représente un étudiant ayant obtenu une note de `r math[2]` en mathématiques, et une note de `r francais[2]` en français. Le point le plus à droite dans le cercle représente un étudiant ayant obtenu une note de `r math[3]` en mathématiques, soit une note plus élevée que le premier sujet. Pourtant, la note qu'il a obtenu en français est plus faible (`r francais[3]`). Lorsque les points sont parfaitement alignés, on parole de relation linéaire **parfaite**. 
 
 `r correlation_graph_b`  
 _Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
@@ -1540,7 +1540,7 @@ axis(2,at=seq(0,10,1),labels=seq(0,10,1))
 abline(a=lm(geo~math)$coefficients[1],b=lm(geo~math)$coefficients[2],lty=2)
 ```
 
-Cette fois, les points semblent se rapprocher d'une droite de régression décroissante. Cela signifie que le score des deux variables tend à varier dans des sens opposés: lorsque score de mathématiques augmente, celui de géographique diminue, et réciproquement). On parle alors de relation linéaire négative entre deux variables. De même qu'expliqué précédemment, lorsque les points seront parfaitement alignés, on parlera alors de relation linéaire négative **parfaite**.
+Cette fois, les points semblent se rapprocher d'une droite de régression décroissante. Cela signifie que le score des deux variables tend à varier dans des sens opposés: lorsque le score de mathématiques augmente, celui de géographique diminue, et réciproquement). On parle alors de relation linéaire négative entre deux variables. De même qu'expliqué précédemment, lorsque les points seront parfaitement alignés, on parlera alors de relation linéaire négative **parfaite**.
 
 Comme dernier cas de figure, imaginons que nous souhaitions étudier la relation entre le cours d'éducation physique et d'anglais, toujours suivi par les 10 mêmes étudiants. 
 
@@ -1552,7 +1552,7 @@ notes_phys=data.frame(id,phys,anglais)
 ```
 
 `r notes_compta2`  
-_Notes (/10) obtenues par `r length(id)` des étudiants en géographie et en anglais_
+_Notes (/10) obtenues par `r length(id)` des étudiants en éducation physique et en anglais_
 ```{r echo=FALSE, results='asis'}
 kable(notes_phys,format="markdown",align="c",col.names=c("$i$","education physique($V_i)$","anglais($V_i)$")) 
 ```
@@ -1560,10 +1560,10 @@ kable(notes_phys,format="markdown",align="c",col.names=c("$i$","education physiq
 Contrairement au deux situations précédentes, il ne semble pas possible de résumer correctement le nuage de points par une droite croissante ou décroissante. 
 Il ne semble pas y avoir de relation linéaire entre les notes obtenues au cours de géographiques et celles obtenues au cours d'histoire. 
 
-Si l'on essaye malgré tout de résumer le nuage de points par la droite qui se rapproche le plus près possible de tous les points, on trouve une droite de pente pratiquement nulle. C'est ce qui arrive en absence de **relation linéaire** entre deux variables.
+Cela se confirme par la droite qui se rapproche le plus près possible de tous les points, on trouve une droite de pente pratiquement nulle. C'est ce qui arrive en absence de **relation linéaire** entre deux variables.
 
 `r correlation_graph_agls`  
-_Nuage de points représentant la relation entre la note à un cours de géographie et la note à un cours d'anglais_  
+_Nuage de points représentant la relation entre la note à un cours d'éducation physique et la note à un cours d'anglais_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
 plot(phys,anglais,pch=19,bty="n",xlim=c(0,10),ylim=c(0,10))
@@ -1582,7 +1582,7 @@ plot(heures,reussite,yaxt="n")
 axis(2,at=seq(0,60000,10000),labels=seq(0,60000,10000)/10000)
 ```
 
-On pourrait imaginer qu'en commençant à étudier, assimiler tous ces nouveaux concepts demande beaucoup d'énergie et de temps, si bien que parmi les étudiants qui n'ont étudié que quelques heures, une augmentation du temps d'étude ne fait augmenter la note que faiblement. Par contre, chez ceux qui ont dépassé la période frustrante de familiarisation avec toutes ces notations mathématiques compliquées on observe que chaque nouvelle heure consacrée à étudier ce cours amène à une forte augmentation de plus en plus importante de la note finale. Le lien entre les deux matières est indéniable, par contre, il ne sera que mal représenté par une droite. Ceci est une illustration de relation **non linéaire**. Ce type de relation ne fait pas partie de la matière que verrons dans ce cours. Il est cependant important de s'en rendre compte. Cela a des implications bien réelles: une absence de relation se traduira toujours par une relation linéaire nulle. Par contre, une relation linéaire nulle ne signifie pas forcément qu'il n'y a pas de relation entre deux variables: il est toujours possible qu'il existe une relation autre que linéaire. Or, le seul moyen de s'en rendre compte, c'est de réalisation un nuage de points.
+On pourrait imaginer qu'en commençant à étudier, assimiler tous ces nouveaux concepts statistiques demande beaucoup d'énergie et de temps, si bien que parmi les étudiants qui n'ont étudié que quelques heures, une augmentation du temps d'étude ne fait augmenter la note que faiblement. Par contre, chez ceux qui ont dépassé la période frustrante de familiarisation avec toutes ces notations mathématiques compliquées, on observe que chaque nouvelle heure consacrée à étudier ce cours amène à une augmentation de plus en plus importante de la note finale. Le lien entre les deux matières est indéniable, par contre, il ne sera que mal représenté par une droite. Ceci est une illustration de relation **non linéaire**. Ce type de relation ne fait pas partie de la matière que verrons dans ce cours. Il est cependant important de s'en rendre compte. En prendre conscience aide à comprendre qu'une absence de relation se traduira toujours par une relation linéaire nulle. Par contre, une relation linéaire nulle ne signifie pas forcément qu'il n'y a pas de relation entre deux variables: il est toujours possible qu'il existe une relation autre que linéaire. Or, le seul moyen de s'en rendre compte, c'est de réaliser un nuage de points.
 
 ## Détermination algébrique de la relation entre deux variables  
 
@@ -1595,10 +1595,10 @@ La covariance entre deux variables se calcule comme suit:
 $$S_{XY}=\frac{\sum_{i=1}^n (X-\bar{X})(Y-\bar{Y})}{n} $$
 Voyons à présent en quoi cette expression représente une mesure du lien qui existe entre la variable X et la variable Y.
 
-Nous avons précédemment déterminé graphiquement (voir la `r correlation_graph_geo`) que la relation linéaire entre les cours de mathématiques et de francais était positive pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts, en respectant la même logique que précéemment: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en géographie est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en géographie est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
+Nous avions précédemment déterminé graphiquement (voir la `r correlation_graph_geo`) que la relation linéaire entre les cours de mathématiques et de francais était positive pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en français est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en français est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
 
 `r correlation_graph_b`  
-_Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
+_Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
 plot(math,francais,pch=19,bty="n",xlim=c(3,9),ylim=c(4,9))
@@ -1610,12 +1610,12 @@ abline(h=mean(francais))
 
 Dans la mesure où la relation linéaire est positive entre les deux cours, lorsque le score en mathématiques est supérieur à la moyenne, le score associé en français sera généralement lui aussi supérieur à la moyenne. Pour tous les points du quadrant supérieur droit, $X_i-\bar{X}$ sera supérieur à zéro et il en sera de même pour $Y_i-\bar{Y}$. Or, +*+=+. Par ailleurs, lorsque le score en mathématiques est inférieur à la moyenne, le score associé en français sera généralement lui aussi inférieur à la moyenne. Pour tous les points du quadrant inférieur gauche, $X_i-\bar{X}$ sera négatif, et il en sera de meme pour $Y_i-\bar{Y}$. Or, \-\*\-=\+. Cela signifie que le terme $\sum_{i=1}^n=$ consistera à additionner toute une série de nombres positifs, et par voie de conséquence, que la mesure de covariance sera positive. 
 
-Nous avions également déterminé précédemment graphiquement (voir la `r correlation_graph_b`)que la relation linéaire entre les cours de mathématiques et de géographie était négative pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts (notons que pour augmenter la lisibilité, dans cette reproduction, seule une partie du graphique a été représentée, celle dans laquelle il y avait des points... les valeurs des axes ne commencent donc pas à zéro).Tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en français est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en français est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
+Nous avions également déterminé précédemment graphiquement (voir la `r correlation_graph_b`) que la relation linéaire entre les cours de mathématiques et de géographie était négative pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts, en respectant la même logique que précéemment: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en géographie est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en géographie est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
 
-Dans la mesure où la relation linéaire est négative entre les deux cours, lorsque le score en mathématiques est supérieur à la moyenne, le score associé en français sera généralement inférieur à la moyenne. Pour tous les points du quadrant inférieur droit, $X_i-\bar{X}$ sera positif et $Y_i-\bar{Y}$ sera  négatif. Or, +*-=-. Par ailleurs, lorsque le score en mathématiques est inférieur à la moyenne, le score associé en français sera par contre supérieur à la moyenne. Pour tous les points du quadrant supérieur gauche, $X_i-\bar{X}$ sera négatif, par contre $Y_i-\bar{Y}$ sera positif. Or, -\*+=+. Cela signifie que le terme $\sum_{i=1}^n=$ consistera à additionner toute une série de nombres négatifs, et par voie de conséquence, que la mesure de covariance sera négative. 
+Dans la mesure où la relation linéaire est négative entre les deux cours, lorsque le score en mathématiques est supérieur à la moyenne, le score associé en géographie sera généralement inférieur à la moyenne. Pour tous les points du quadrant inférieur droit, $X_i-\bar{X}$ sera positif et $Y_i-\bar{Y}$ sera  négatif. Or, +*-=-. Par ailleurs, lorsque le score en mathématiques est inférieur à la moyenne, le score associé en français sera par contre supérieur à la moyenne. Pour tous les points du quadrant supérieur gauche, $X_i-\bar{X}$ sera négatif, par contre $Y_i-\bar{Y}$ sera positif. Or, -\*+=+. Cela signifie que le terme $\sum_{i=1}^n$ consistera à additionner toute une série de nombres négatifs, et par voie de conséquence, que la mesure de covariance sera négative. 
 
 `r correlation_graph_geo`  
-_Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie_  
+_Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie_  
 ```{r echo=FALSE, results='asis'}
 
 par(mar=c(4,4,2,4))
@@ -1638,16 +1638,16 @@ abline(v=mean(phys))
 abline(h=mean(anglais))
 ```
 
-Il a déjà été déterminé que pour les quadrants inférieur gauche et supérieur droit, le produit $(X-\bar{X})(Y-\bar{Y})$ était positif, et qu'au contraire, pour les quadrants supérieur gauche et inférieur droit, le produit était négatif. Cela signifie que le terme $\sum_{i=1}^n=$ consistera à additionner toute une série de nombres dont certais sont positifs et d'autres sont négatifs, et par voie de conséquence, que la mesure de covariance sera proche de zéro (puisque les positifs et les négatifs s'annulent). 
+Il a déjà été déterminé que pour les quadrants inférieur gauche et supérieur droit, le produit $(X-\bar{X})(Y-\bar{Y})$ était positif, et qu'au contraire, pour les quadrants supérieur gauche et inférieur droit, le produit était négatif. Cela signifie que le terme $\sum_{i=1}^n$ consistera à additionner toute une série de nombres dont certais sont positifs et d'autres sont négatifs, et par voie de conséquence, que la mesure de covariance sera proche de zéro (puisque les positifs et les négatifs s'annulent). 
 
 EN RESUME: 
-* Une mesure de covariance négative traduit une relation linéaire négative entre deux variables.  
-* Une mesure de covariance positive traduit une relation linéaire positive entre deux variables.  
-* Une mesure de covariance nulle traduit une relation linéaire nulle entre deux variables.  
+- Une mesure de covariance négative traduit une relation linéaire négative entre deux variables.  
+- Une mesure de covariance positive traduit une relation linéaire positive entre deux variables.  
+- Une mesure de covariance nulle traduit une relation linéaire nulle entre deux variables.   
 
 #### Corrélation
 
-La covariance est donc une mesure très efficace du lien entre deux variables. Cependant, elle souffre d'un défaut: elle donne une valeur difficilement interprétable en tant que telle. On asit qu'elle augmente, diminue ou s'annule en foncton du lien, mais il n'y a pas de valeur plafond ni de valeur plancher. Admettons que la valeur d'une covariance soit de 1352 (nombre purement choisi au hasard), cela ne permet de dire qu'une seule chose: que le lien est positif. Mais ce lien est-il fort, faible, intéressant, inintéressant? En fait, tout dépend de l'unité de mesure des variables. Si nous étudions des variables à l'aide de valeurs qui tournent autour de 1 ou 2, alors une covariance de 1352 est probablement un lien extrêmement fort entre les deux variables. En revanche, si les variables ont des valeurs qui tournent autour de 10000000 ou 20000000, alors cette même covariance de 1352 représentera probablement un lien tout à fait dérisoire, que l'on peut considérer comme proche de zéro.
+La covariance est une mesure très efficace du lien entre deux variables. Cependant, elle souffre d'un défaut: elle donne une valeur difficilement interprétable en tant que telle. On sait qu'elle augmente, diminue ou s'annule en foncton du lien, mais il n'y a pas de valeur plafond ni de valeur plancher. Admettons que la valeur d'une covariance soit de 1352 (nombre purement choisi au hasard), cela ne permet de dire qu'une seule chose: que le lien est positif. Mais ce lien est-il fort, faible, intéressant, inintéressant? En fait, tout dépend de l'unité de mesure des variables. Si nous étudions des variables à l'aide de valeurs qui tournent autour de 1 ou 2, alors une covariance de 1352 est probablement un lien extrêmement fort entre les deux variables. En revanche, si les variables ont des valeurs qui tournent autour de 10000000 ou 20000000, alors cette même covariance de 1352 représentera probablement un lien tout à fait dérisoire, que l'on peut considérer comme proche de zéro.
 
 Heureusement, il existe une solution qui permet de contourner ce problème. En effet, si l'on divise la covariance par les écarts-types respectifs de ces deux variables, on obtient une mesure réduite dont l'interprétation est beaucoup plus évidente, que l'on appelle la mesure de **corrélation r de Pearson**:
 
@@ -1675,12 +1675,13 @@ plot(0,0,col="white",xaxt="n",yaxt="n",xlab="",ylab="",bty="n")
 plot(A,F,main="",xlab="non parfaite",ylab="")
 ```
 
-Toutes les valeurs comprises entre 0 et +1 ou entre 0 et -1 correspondent aux situations où il existe une corrélation linéaire entre les deux variables, mais non parfaite (tous les points tendront à se rapprocher d'une droite croissante ou décroissante, mais sans être parfaitement superposés à cette droite). 
+Toutes les valeurs comprises entre 0 et +1 (non inclus) ou entre 0 et -1 (non inclus) correspondent aux situations où il existe une corrélation linéaire entre les deux variables, mais non parfaite (tous les points tendront à se rapprocher d'une droite croissante ou décroissante, mais sans être parfaitement superposés à cette droite). 
 
-Plus les mesures r de Pearson se rapprochent de -1 ou de 1, plus la relation linéaire entre les deux variables sera dite forte. Bien qu'il existe de nombreuses balises, nous nous fierons à celles définies par un dénommé Cohen, d'après qui ...
-- une mesure de corrélation comprise entre -.3 et +.3 est faible.
-- une mesure de corrélation comprise entre -.3 et -.5 ou comprise entre .3 et .5 est dite moyenne.
-- une mesure de corrélation inférieure à -.5 ou supérieure à +.5 est dite forte.
+Plus les mesures r de Pearson se rapprochent de -1 ou de 1, plus la relation linéaire entre les deux variables sera dite forte. Bien qu'il existe de nombreuses balises, nous nous fierons à celles définies par un dénommé Cohen, d'après qui ...  
+
+- une mesure de corrélation comprise entre -.3 et +.3 est faible.  
+- une mesure de corrélation comprise entre -.3 et -.5 ou comprise entre .3 et .5 est dite moyenne.  
+- une mesure de corrélation inférieure à -.5 ou supérieure à +.5 est dite forte.  
 
 ```{r echo=FALSE, results='asis'}
 n=length(math)
@@ -1726,7 +1727,7 @@ En transformant ces mesures de covariances en mesure de corrélation, on trouve q
 
 La corrélation entre les cours de mathématiques et de géographie vaut $r_{Math,Geo}= \frac{`r round(covar_math_geo,2)`}{`r round(sd_math,2)` X `r round(sd_geo,2)`}=`r round(correl_math_geo,2)`$, soit une`r interpretation(correl_math_geo)`
 
-Enfin, la corrélation entre les cours d'éducation physique et d'anglais vaut $r_{phys,anglais}=\frac {`r round(covar_phys_agls,2)`}{`r round(sd_phys,2)` X `r round(sd_agls,2)`}=`r round(correl_phys_agls,2)`$, soit une`r interpretation(correl_phys_agls)` (voir même très faible, pratiquement nulle). 
+Enfin, la corrélation entre les cours d'éducation physique et d'anglais vaut $r_{phys,anglais}=\frac {`r round(covar_phys_agls,2)`}{`r round(sd_phys,2)` X `r round(sd_agls,2)`}=`r round(correl_phys_agls,3)`$, soit une`r interpretation(correl_phys_agls)` (voir même très faible, pratiquement nulle). 
 
 ###### Pagebreak
  
