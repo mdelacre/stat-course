@@ -13,6 +13,7 @@ email: marie.delacre@ulb.ac.be
 
 ```{r setup, include=FALSE}
 library(knitr)
+library(moments)
 library(smoothmest)
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -146,7 +147,7 @@ Nous avons déjà évoqué le fait que la _nature_ des variables en jeu aura des imp
 
 ### L'interprétation des données, appelée également la statistique inférentielle
 
-Il est très important de bien comprendre que la simple description d'un échantillon ne permet pas en tant que telle de tirer des conclusions générales sur l'ensemble de la population. Or, s'il est très intéressant de connaitre les caractéristiques de l'échantillon que l'on étudie, il sera souvent plus intéressant encore de pouvoir inférer les caractéristiques de notre échantillon à la population toute entière. Comment s'assurer que la proportion de femmes observées dans notre échantillon soit bien conforme à la proportion de femmes au sein de la population? Cela recquiert de faire de la **statistique inférentielle**. Cette forme de statistique ne fait pas partie des objectifs de ce cours. Sachez cependant qu'elle existe.
+Il est très important de bien comprendre que la simple description d'un échantillon ne permet pas en tant que telle de tirer des conclusions générales sur l'ensemble de la population. Or, s'il est très intéressant de connaitre les caractéristiques de l'échantillon que l'on étudie, il sera souvent plus intéressant encore de pouvoir inférer les caractéristiques de notre échantillon à la population toute entière. Comment s'assurer que la proportion de femmes observées dans notre échantillon soit bien conforme à la proportion de femmes au sein de la population? Cela requiert de faire de la **statistique inférentielle**. Cette forme de statistique ne fait pas partie des objectifs de ce cours. Sachez cependant qu'elle existe.
 
 ###### Pagebreak
 
@@ -170,7 +171,7 @@ Cette fois, si l'on décide d'attribuer des codes numériques à ces variables, il 
 
 ## Les variables quantitatives
 
-Les variables **quantitatives** sont les variables dont les valeurs sont intrinsèquement numériques, c'est-à-dire qu'il fait sens d'effectuer des opérations mathématiques sur leur valeurs. Par exemple, si un particulier a deux poules, que la première pond trois oeufs et la deuxième en pond deux, il est correct de dire que le fermier trouvera 5 oeufs lorsqu'il se rendra dans son poulailler. La variable "nombre d'oeufs" est donc bien une variable quantitative.
+Les variables **quantitatives** sont les variables dont les valeurs sont intrinsèquement numériques, c'est-à-dire qu'il fait sens d'effectuer des opérations mathématiques sur leur valeurs. Par exemple, si un particulier a deux poules, que la première pond trois oufs et la deuxième en pond deux, il est correct de dire que le fermier trouvera 5 oufs lorsqu'il se rendra dans son poulailler. La variable "nombre d'oufs" est donc bien une variable quantitative.
 
 Les variables _**discrètes**_  ne peuvent prendre que des valeurs isolées et généralement entières, dans un intervalle de valeurs spécifiques dans R. Ce sont typiquement les variables de comptage (le nombre d'enfants dans une école, le nombre de filles au sein d'une famille...)
 
@@ -178,7 +179,9 @@ Les variables _**continues**_, au contraire, peuvent prendre (au moins théorique
 
 ## Exercices de fin de chapitre
 
-EN RAJOUTER QUELQUE UNS
+```{r exercice1, echo=FALSE}
+knitr::include_graphics("C:/Users/Marie/Documents/Github_projects/IPFC Compta/stat-course/Exercice 1, chapitre 2.PNG")
+```
 
 ###### Pagebreak
 
@@ -221,11 +224,11 @@ fumeur_tab=data.frame(names_fumeur,abs_fumeur,rel_fumeur)
 kable(fumeur_tab,col.names=c("fumeur ($x_{j})$","$n_{j}$","$f_{j}$"))
 ```
 
-Il s'agit d'un tableau dans lequel chaque ligne représente une valeur possible de la variable. Comme vous pouvez l'observer, deux lignes ont été envisagées (une pour les fumeurs, une pour les non fumeurs) et le nombre de personnes appartenant à chaque catégorie constitue ce que l'on appelle la **fréquence absolue**. 
+Il s'agit d'un tableau dans lequel chaque ligne représente une valeur possible de la variable. Comme vous pouvez l'observer, deux lignes ont été envisagées (une pour les fumeurs, une pour les non fumeurs) et le nombre de personnes appartenant à chaque catégorie constitue ce que l'on appelle la **fréquence absolue** ou l'**effectif** (ce sont deux synonymes). 
 
 De même que pour les données brutes, nous prendrons l'habitude d'utiliser certaines notations. Dans un tableau de fréquence, on symbolise généralement l'ensemble des valeurs que peut prendre la variable par une lettre minuscule (par exemple, les différentes valeurs que peut prendre la variable X seront symbolisées par x). On utilise l'indice _j_ pour se référer à chaque valeur possible, j pouvant varier de 1 à k (dans le cas présent, k = `r length(names_fumeur)`). On symbolise par $x_j$ (x indicé j) la jème valeur possible de la variable X. Par exemple, si l'on choisit de nommer X la variable "fumer", $x_2=`r names_fumeur[2]`$. $n_j$ correspond aux fréquences absolues associées à chaque valeur $x_j$. Par exemple, $n_1$= `r abs_fumeur[1]`. 
 
-La somme des fréquences absolues correspond au nombre total de personnes constituant l'échantillon (ici, n vaut `r sum(fumeur_tab$abs_fumeur)`): 
+La somme des fréquences absolues correspond au nombre total de personnes constituant l'échantillon (ici, n vaut `r sum(fumeur_tab$abs_fumeur)`).
 
 $$n=\sum_{j=1}^k n_j = n_1+n_2=`r abs_fumeur[1]`+`r abs_fumeur[2]` = `r sum(abs_fumeur)`$$
 Avec k étant le nombre de modalités de la variable étudiée.
@@ -247,9 +250,9 @@ Notons que quand on étudie des variables nominales, peu importe l'ordre d'appari
 
 ##### Diagramme en bâtons
 
-Le diagramme en bâtons consiste à représenter en abcisse les différentes valeurs que peut prendre la variable que l'on étudie ($x_j$) et en ordonnée les fréquences associées à chaque valeur $x_j$ (soit $n_j$, soit $f_j$). Pour chaque valeur $x_j$, on trace un bâtonnet dont la hauteur varie en fonction de la fréquence associée à cette valeur $x_j$.
+Le diagramme en bâtons consiste à représenter en abscisse les différentes valeurs que peut prendre la variable que l'on étudie ($x_j$) et en ordonnée les fréquences associées à chaque valeur $x_j$ (soit $n_j$, soit $f_j$). Pour chaque valeur $x_j$, on trace un bâtonnet dont la hauteur varie en fonction de la fréquence associée à cette valeur $x_j$.
 
-L'ordre d'apparition des différents bâtonnets importe peu lorsqu'on représente des variables nominales. De plus, étant donné que l'axe des abcisses n'est pas normé, la largeur des bâtons importe peu également (même si pour le confort des yeux, on les gardera généralement uniformes). 
+L'ordre d'apparition des différents bâtonnets importe peu lorsqu'on représente des variables nominales. De plus, étant donné que l'axe des abscisses n'est pas normé, la largeur des bâtons importe peu également (même si pour le confort des yeux, on les gardera généralement uniformes). 
 
 La `r barplot_fumeur_freq`  montre deux diagrammes en bâtons de notre distribution. Que l'on représente les fréquences absolues ou les fréquences relatives sur l'axe des ordonnées importe peu en termes de forme de graphe. En revanche,  l'information donnée est un petit peu différente: dans le premier cas, on peut dénombrer le nombre de fumeurs et de non fumeurs, dans le second cas, on peut déterminer le pourcentage de personnes qui fument ou ne fument pas dans l'échantillon.
 
@@ -292,9 +295,9 @@ Naturellement, dans la mesure où les parts sont de taille proportionnelle à la f
 $$ 100 \% \longrightarrow 360°$$
 $$\Longleftrightarrow 1\% \longrightarrow \frac{360°}{100}=`r 360/100`°$$
 $$\Longleftrightarrow `r rel_fumeur[1]*100` \% \longrightarrow \frac{360°}{100} \times `r rel_fumeur[1]*100`=`r 360/100*rel_fumeur[1]*100`°$$
-`r abs_fumeur[1]` personnes ne fument pas (valeur $x_j$ = `r names_fumeur[1]`).  Cela représente `r abs_fumeur[1]/length(fumeur)*100`% de l'échantillon, l'angle correspondra donc à `r abs_fumeur[1]/length(fumeur)*100`% des 360°. 
+`r abs_fumeur[1]` personnes ne fument pas (valeur $x_j$ = `r names_fumeur[1]`).  Cela représente `r abs_fumeur[1]/length(fumeur)*100`% de l'échantillon, l'angle correspondra donc à `r abs_fumeur[1]/length(fumeur)*100`% des 360°, à savoir  `r abs_fumeur[1]/length(fumeur)*360`
 
-Bien que ça ne soit pas le cas dans cet exemple, les fréquences relatives contiendront parfois un nombre important (voire infini) de décimales. Il est dès lors généralement plus facile de déterminer les angles de chaque part sur base des fréquences abolues plutôt que sur base des fréquences relatives. La `r  fumeur_degres` fournit les angles qui devraient être associés à chaque catégorie dans l'exemple de la `r fumeur_freq`:
+Bien que ce ne soit pas le cas dans cet exemple, les fréquences relatives contiendront parfois un nombre important (voire infini) de décimales. Il est dès lors généralement plus facile de déterminer les angles de chaque part sur base des fréquences absolues plutôt que sur base des fréquences relatives. La `r  fumeur_degres` fournit les angles qui devraient être associés à chaque catégorie de l'exemple de la `r fumeur_freq`:
                                                                           
 ```{r echo=FALSE, results='asis'} 
 angles_fumeurs=360/length(fumeur)*abs_fumeur
@@ -347,22 +350,22 @@ rel_data3.1=abs_data3.1/sum(freq_data3.1)*100
 abscum_data3.1=cumsum(table(Enfant))
 relcum_data3.1=cumsum(table(Enfant))/length(Enfant)*100
 
-data3.1_freq=data.frame(names_data3.1,abs_data3.1,round(rel_data3.1,2),abscum_data3.1,round(relcum_data3.1,2)) 
+data3.1_freq=data.frame(1:length(names_data3.1),names_data3.1,abs_data3.1,round(rel_data3.1,2),abscum_data3.1,round(relcum_data3.1,2)) 
 ```
 
 La `r table3.1_brut` répertorie le nombre d'enfants vivant au sein de `r length(data3.1_brut$id)` ménages fictifs. Notez que j'ai représenté ces données brutes sur plusieurs colonnes distinctes par soucis d'économie de place. Cependant, dans un logiciel (excel, par exemple), il conviendrait de n'encoder que deux colonnes: une première relative au numéro (ou id) attribué à chaque sujet, et une deuxième relative à la variable "nombre d'enfants". Rappelez-vous: une ligne par sujet, et une colonne par variable!
 
-La `r table3.1_freq` constitue le tableau de fréquence de ces données.
+La `r table3.1_freq` constitue le tableau des fréquences de ces données.
 
 ###### Pagebreak
 
 `r table3.1_freq`  
-_Transformation de la `r table3.1_brut` en tableau de fréquence_
+_Transformation de la `r table3.1_brut` en tableau de fréquences_
 ```{r echo=FALSE, results='asis'}
-kable(data3.1_freq,format="markdown",align="c",col.names=c("nombre d'enfants ($x_j$)","$n_j$","$f_j$ (en %)","$N_j$","$F_j$ (en %)"))
+kable(data3.1_freq,format="markdown",align="c",col.names=c("j","nombre d'enfants ($x_j$)","$n_j$","$f_j$ (en %)","$N_j$","$F_j$ (en %)"))
 ```
  
-Comme vous pouvez l'observer, de même que fait précédemment pour les variables nominales, les nombres possibles d'enfants par ménage (ou modalités de la variable) ont été envisagés et on leur associe  une fréquence absolue ($n_j$), et une fréquence relative ($f_j$). Par ailleurs, la somme des fréquences absolues correspond toujours au nombre total de ménages constituant l'échantillon (ici, n vaut `r sum(data3.1_freq$abs_data3.1)`). 
+Comme vous pouvez l'observer, de même que fait précédemment pour les variables nominales, les nombres possibles d'enfants par ménage (ou modalités de la variable) ont été envisagés et on leur associe  une fréquence absolue ($n_j$), et une fréquence relative ($f_j$). Par ailleurs, la somme des fréquences absolues correspond toujours au nombre total de ménages constituant l'échantillon (ici, n vaut `r sum(data3.1_freq$abs_data3.1)`), et la somme des fréquences relatives correspond toujours à 1 (ou à 100%, si exprimée en pourcentage).
 
 ```{r echo=FALSE, results='asis'}
 chaine=function(variable){
@@ -379,13 +382,16 @@ return(rep)
 
 $$n=\sum_{j=1}^k n_j = `r chaine(abs_data3.1)` = `r sum(abs_data3.1)`$$ 
 
-Contrairement au cas des variables nominales, l'ordre de présentation de chaque ligne a une importance. On triera les valeurs possibles de la variable représentée par ordre croissant (`r names_data3.1[1]` apparait avant `r names_data3.1[2]`, `r names_data3.1[2]` apparait avant `r names_data3.1[3]`, etc.). 
+
+$$\sum_{j=1}^k f_j = `r chaine(rel_data3.1)` = `r sum(rel_data3.1)`$$ 
+
+Contrairement au cas des variables nominales, l'ordre de présentation de chaque ligne a une importance. On triera les valeurs possibles de la variable représentée par ordre croissant (`r names_data3.1[1]` apparaitra avant `r names_data3.1[2]`, `r names_data3.1[2]` apparaitra avant `r names_data3.1[3]`, etc.). 
 
 De plus, on pourra calculer ce qu'on appelle les **fréquences cumulées**, soit le cumul de plusieurs fréquences. 
 
 Les fréquences absolues cumulées sont la somme de plusieurs fréquences absolues (notation: $N_j$).  
 
-$$N_j=\sum_{j=1}^j \frac {n_j}{n},  1 \le j \le k$$
+$$N_j=\sum_{j=1}^j n_j,  1 \le j \le k$$
 
 Cela permet de déterminer rapidement, par exemple, que `r abscum_data3.1[4]` ménages sont constitués de maximum `r names_data3.1[4]` enfants. Enfin,  cette information peut être exprimée par rapport à l'ensemble des ménages. On dira alors que `r round(relcum_data3.1[4],2)` % des ménages sont constitués de maximum `r names_data3.1[4]` enfants. Cette dernière expression correspond aux  **fréquences relatives cumulées**, soit la dernière colonne du tableau (notation: $F_j$). 
 
@@ -419,14 +425,14 @@ _Diagramme circulaire de la distribution de la `r table3.1_freq`_
 ```{r pie_data3.1, echo=FALSE}
 par(mfrow=c(1,2),mar=c(1,2,2,2))
 col_pie=colorRampPalette(c("lightgrey","black"))(length(names_data3.1))
-pie(table(data3.1_brut$Enfant),labels=names_data3.1,cex.main=.9,cex.lab=.9,main="Nombre d'enfants par ménages",col=col_pie)
+pie(table(data3.1_brut$Enfant),labels=abs_data3.1,cex.main=.9,cex.lab=.9,main="Nombre d'enfants par ménages",col=col_pie)
 legend("top", legend=names_data3.1,col=col_pie, pch=c(19,19), cex=0.8,box.lty=0,,horiz=T)
 
 pie(table(data3.1_brut$Enfant)/length(data3.1_brut$id)*100,labels=paste(round(rel_data3.1,2),"%"),cex.main=.9,cex.lab=.9,main="Nombre d'enfants par ménages",col=col_pie)
 legend("top", legend=names_data3.1,col=col_pie, pch=c(19,19), cex=0.8,box.lty=0,horiz=T)
 ```
                 
-La `r  data3.1_degres` fournit les angles qui devraient être associés à chaque catégorie dans l'exemple de la `r table3.1_freq`. Ceux-ci ont été déterminés en procédant à une règle de trois, comme expliqué dans la section dédiée aux diagrammes circulaires pour représenter des variables nominales. Essayez de déterminer ces valeurs par vous-même, afin de vous assurer que vous ayez bien compris le principe. 
+La `r  data3.1_degres` fournit les angles qui devraient être associés à chaque catégorie dans l'exemple de la `r table3.1_freq`. Ceux-ci ont été déterminés en procédant à une règle de trois, comme expliqué dans la section dédiée aux diagrammes circulaires pour représenter des variables nominales. Essayez de déterminer ces valeurs par vous-même, afin de vous assurer que vous avez bien compris le principe. 
                                                                           
 ```{r echo=FALSE, results='asis'} 
 angles_data3.1=360/length(data3.1_brut$id)*abs_data3.1
@@ -439,7 +445,7 @@ _Angle de chaque part du diagramme circulaire représententant les données de la 
 kable(data3.1_deg,format="markdown",align="c",col.names=c("$x_j$","$n_j$","angle (en °)")) 
 ```
 
-Il a déjà été précisé que ce type de graphique est peu précis et que lorsque deux catégories sont associées à des fréquences relativement similaires, il devient très difficile de repérer leur différence. Dans la `r pie_data3.1_freq`, les deux premières catégories semblent de taille égale, alors qu'elles ne le sont pas. Il était nettement plus aisé de le voir dans la `r barplot_data3.1_freq`. C'est dû au fait que notre oeil repère plus facilement une différence d'hauteur entre deux objets alignés (deux rectangles du diagramme en bâtons) qu'une différence d'aire dans un cercle. Pour cette raison, je vous recommanderai de privilégier autant que possible le diagramme en bâtons. La simplicité est la clé d'un bon graphique!
+Il a déjà été précisé que ce type de graphique est peu précis et que lorsque deux catégories sont associées à des fréquences relativement similaires, il devient très difficile de repérer leur différence. Dans la `r pie_data3.1_freq`, les deux premières catégories semblent de taille égale, alors qu'elles ne le sont pas. Il était nettement plus aisé de le voir dans la `r barplot_data3.1_freq`. C'est dû au fait que notre oeil repère plus facilement une différence de hauteur entre deux objets alignés (deux rectangles du diagramme en bâtons) qu'une différence d'aire dans un cercle. Pour cette raison, je vous recommanderai de privilégier autant que possible le diagramme en bâtons. La simplicité est la clé d'un bon graphique!
                                                                           
 ##### Diagramme des fréquences cumulées
 
@@ -448,7 +454,7 @@ Le diagramme des fréquences cumulées consiste à représenter les différentes moda
 `r cumdiag_data3.1_freq`  
 _Diagramme des fréquences cumulées de la distribution de la `r table3.1_freq`_
 ```{r barplotcum_data3.1, echo=FALSE}
-par(mfrow=c(1,2),mar=c(1,2,2,1))
+par(mfrow=c(1,2),mar=c(1,4,2,1))
 barplot(abscum_data3.1,yaxt = "n",ylim=c(0,length(data3.1_brut$Enfant)),main="Nombre d'enfants par ménages",cex.main=.9,col="lightblue",ylab="Fréquence absolue")
 axis(2, at = seq(0,length(data3.1_brut$Enfant),2), labels = seq(0,length(data3.1_brut$Enfant),2), las = 1)
 
@@ -456,12 +462,12 @@ barplot(relcum_data3.1,yaxt = "n",ylim=c(0,100),main="Nombre d'enfants par ménag
 axis(2, at = seq(0,100,5), labels = seq(0,100,5),las = 2,cex.axis=.8)
 ```
 
-Il arrive que l'on parle de "diagramme en escalier", et que l'on choisisse une représentation plus proche de celle de la `r stair_data3.1_freq`, dans laquelle un point noir indique la fréquence associée  à une catégorie en particulier. L'information fournie par les diagrammes en escalier et les diagrammes des fréquences cumulées est identique.
+Il arrive que l'on parle de "diagramme en escalier", et que l'on choisisse une représentation plus proche de celle de la `r stair_data3.1_freq`, dans laquelle un point noir indique la fréquence associée  à une catégorie en particulier. L'information fournie par les diagrammes en escalier et les diagrammes en bâtons des fréquences cumulées est identique.
 
 `r stair_data3.1_freq`  
 _Diagramme en escalier représentant les fréquences cumulées de la distribution de la `r table3.1_freq`_
 ```{r Enf_nb4, echo=FALSE}
-par(mfrow=c(1,2),mar=c(4,2,4,2))
+par(mfrow=c(1,2),mar=c(4,4,4,2))
                                                                           plot(names_data3.1,pch=1,abscum_data3.1,type="s",ylim=c(0,length(Enfant)),lty=1,ylab="Fréquence absolue",xlab="")
                                                                           segments(1,0,1,abs_data3.1[1])
 for (i in 1:length(names_data3.1)){                                                                    points(i,abscum_data3.1[i],pch=19)
@@ -483,7 +489,7 @@ points(i+1,relcum_data3.1[i])
 
 Dans la mesure où les variables _**continues**_ ont une infinité de valeurs possibles, il  n'est évidemment pas possible d'associer une fréquence à chaque valeur possible de la variable, similairement à ce que l'on faisait pour des variables discrètes. On procédera alors à des regroupements des valeurs en classes (d'amplitude à déterminer), et on déterminera les fréquences associées à ces classes. 
 
-Il existe de nombreux critères pour déterminer le nombre de classes. De manière générale, plus on aura de classes, plus grande sera la précision. Lorsque l'on doit effectuer les calculs manuellement, on se contentera généralement d'une dizaine de classes. Le choix peut également être guidé par des raisons théoriques (catégories pré-existantes dans la nature). Lorsqu'on utilise des logiciels informatiques prévus à cet effet, on peut par contre travailler avec beaucoup plus de classes (soit des classes ayant une amplitude nettement plus faible), ce qui permettra de se faire une idée bien plus précise de l'allure des données, comme nous y reviendrons à la fin de cette sous-section (voir la partie sur les distributions statistiques).   
+Il existe de nombreux critères pour déterminer le nombre de classes (cela ne fait pas partie de la matière du cours). De manière générale, plus on aura de classes, plus grande sera la précision. Lorsque l'on doit effectuer les calculs manuellement, on se contentera généralement d'une dizaine de classes. Le choix peut également être guidé par des raisons théoriques (catégories pré-existantes dans la nature). Lorsqu'on utilise des logiciels informatiques prévus à cet effet, on peut par contre travailler avec beaucoup plus de classes (soit des classes ayant une amplitude nettement plus faible), ce qui permettra de se faire une idée bien plus précise de l'allure des données, comme nous y reviendrons à la fin de cette sous-section (voir la partie sur les distributions statistiques).   
 
 Lorsque c'est possible, il est préférable d'utiliser des classes ayant toutes la même amplitude, tel que dans la `r table3.2_freq` et la `r table3.3_freq_a`, notamment pour des raisons de lisibilité graphique. Cependant, il peut arriver que pour des raisons théoriques, nous soyons amenés à envisager des classes de tailles différentes. Par exemple, si l'on veut distinguer des caractéristiques de la petite enfance, enfance, adolescence, de l'âge adulte et du troisième âge, on pourra créer 5 classes: une regroupant les individus	de	0	à	3 ans, de 3 à 12 ans ,	de	 12 à 18 ans, 18 à 65	ans et de plus de 65 ans (voir la `r table3.3_freq_b`).
 
@@ -632,13 +638,13 @@ kable(data3.3_freq_b,format="markdown",align="c",col.names=c("Classe","Centre","
 
 Le graphique le plus couramment utilisé pour représenter des variables continues est l'histogramme. Un histogramme ressemble à un diagramme en bâtons, mais au lieu d'avoir des bâtons isolés qui représentent une valeur unique, on a des rectangles, collés les uns aux autres (pour rendre compte du caractère continu de la variable) qui représentent une classe de valeurs. 
 
-Les classes de valeurs sont représentées en abcisse. Lorsque toutes les classes sont de taille égale, la hauteur des rectangles est proportionnelle aux fréquences (absolues ou relatives; les fréquences correspondent à l'ordonnée), tel qu'on peut le voir dans la `r barplot_data3.2_freq` ainsi que dans la `r barplot_data3.3_freq_a`   .  
+Les classes de valeurs sont représentées en abscisse. Lorsque toutes les classes sont de taille égale, la hauteur des rectangles est proportionnelle aux fréquences (absolues ou relatives; les fréquences correspondent à l'ordonnée), tel qu'on peut le voir dans la `r barplot_data3.2_freq` ainsi que dans la `r barplot_data3.3_freq_a`   .  
 
 `r barplot_data3.2_freq`  
 _Histogramme de la distribution de la `r table3.2_freq`_
 ```{r PIB, echo=FALSE}
 
-par(mfrow=c(1,2),mar=c(4,2,2,2))
+par(mfrow=c(1,2),mar=c(4,4,2,2))
 
 hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,col="lightgrey",cex.main=.8,main="Histogramme de PIB",ylab="Fréquence absolue",cex.lab=1,xlab="PIB",las=2,cex.axis=.8)
 
@@ -649,7 +655,7 @@ axis(2, at = seq(0,max(abs_data3.2),2), labels = round(seq(0,max(abs_data3.2),2)
 `r barplot_data3.3_freq_a`  
 _Histogramme de la distribution de la `r table3.3_freq_a`_ 
 ```{r Agea, echo=FALSE}
-par(mfrow=c(1,2),mar=c(2,2,2,2))
+par(mfrow=c(1,2),mar=c(2,4,2,2))
 
 hist(data3.3_brut$Age,breaks=length(categ_Age_a),xlim=c(0,110),col="lightgrey",cex.main=.8,main="Histogramme de l'âge",ylab="Fréquence absolue",cex.lab=1,xlab="Age",las=2,cex.axis=.8,xaxt="n")
 axis(1, at = seq(0,110,10), labels = seq(0,110,10),las = 2,cex.axis=.8)
@@ -660,23 +666,25 @@ axis(1, at = seq(0,110,10), labels = seq(0,110,10),las = 2,cex.axis=.8)
 axis(2, at = seq(0,limsup_y,limsup_y/7), labels = round(seq(0,limsup_y,limsup_y/7)/sum(abs_data3.3.1),2),las = 2,cex.axis=.8)
 ```
 
-Par contre, lorsque les classes sont de tailles inégales, la hauteur du rectancle est proportionnelle à la densité de la classe (soit l'effectif divisé par l'amplitude de la classe), ce qui rend la comparaison des fréquences des classes plus compliquée.
+Par contre, lorsque les classes sont de tailles inégales, la hauteur du rectangle est proportionnelle à la densité de la classe (soit l'effectif divisé par l'amplitude de la classe), ce qui rend la comparaison des fréquences entre les classes plus compliquée.
 
-$h_i=\frac{n_i}{a_i}$
+$h_i=\frac{n_i}{a_i}$ avec $a_{j}$ = amplitude de la classe.
 
 `r barplot_data3.3_freq_b`
 _Histogramme de la distribution de la `r table3.3_freq_b`_
 ```{r ageb, echo=FALSE}
-par(mfrow=c(1,1),mar=c(2,2,2,2))
+par(mfrow=c(1,1),mar=c(2,4,2,2))
 
-hist(data3.3_brut$Age,breakpoints <- c(0, 3,12,18,65,110),xaxt="n",col="lightgrey",main="Histogramme de l'âge",ylab="Densité",cex.lab=1,xlab="Age")
+hist(data3.3_brut$Age,breakpoints <- c(0, 3,12,18,65,110),xaxt="n",col="lightgrey",main="Histogramme de l'âge",ylab="hi",cex.lab=1,xlab="Age")
 axis(1, at = c(0, 3,12,18,65,110), labels = c(0, 3,12,18,65,110),las = 2,cex.axis=.8)
 ```
 
-Dans la mesure où les données sont continues, cela signifie que toutes les valeurs de la variable représentée sont considérées comme possibles. Par exemple, le premier rectangle de la `r barplot_data3.3_freq_a` englobe toutes les personnes dont l'âge est compris entre 0 et 10 ans (incluant les personnes ayant 2,38574 ans), et lorsque je me déplace du premier centre de classe vers le deuxième centre de classe, j'envisage n'importe quelle valeur comprise entre `r centre_Age_a[1]` et `r centre_Age_a[2]`. Pour mieux rendre compte de la continuité de la variable, on peut tracer ce qu'on appelle le **polygone des effectifs**, en reliant par des segments de droite le centre du côté supérieur de chaque rectangle.  
+Dans la mesure où les données sont continues, cela signifie que toutes les valeurs de la variable représentée sont considérées comme possibles. Par exemple, le premier rectangle de la `r barplot_data3.3_freq_a` englobe toutes les personnes dont l'âge est compris entre 0 et 10 ans (incluant les personnes ayant 2,38574 ans), et lorsque je me déplace du premier centre de classe vers le deuxième centre de classe, j'envisage n'importe quelle valeur comprise entre `r centre_Age_a[1]` et `r centre_Age_a[2]`. 
+
+Pour mieux rendre compte de la continuité de la variable, on peut tracer ce qu'on appelle le **polygone des fréquences**, en reliant par des segments de droite le centre du côté supérieur de chaque rectangle.  
   
 `r polygone_data3.2_freq`  
-_Histogramme de la distribution de la `r table3.2_freq` et polygone des effectifs_
+_Histogramme de la distribution de la `r table3.2_freq` et polygone des fréquences_
 ```{r polygon_PIB, echo=FALSE}
 par(mfrow=c(1,2),mar=c(4,2,2,2),xpd=TRUE)
 amplitude=as.numeric((2)*(maxi-mini)/nb_categ_PIB)-as.numeric((1)*(maxi-mini)/nb_categ_PIB)
@@ -701,7 +709,7 @@ points(centre_PIB[i],abs_data3.2[i],pch=16)
 ```
 
 `r polygone_data3.3_freq_a`  
-_Histogramme de la distribution de la `r table3.3_freq_a` et polygone des effectifs_ 
+_Histogramme de la distribution de la `r table3.3_freq_a` et polygone des fréquences_ 
 ```{r polygon_Agea, echo=FALSE}
 par(mfrow=c(1,2),mar=c(2,4,2,2),xpd=TRUE)
 
@@ -729,14 +737,14 @@ points(centre_Age_a[i],abs_data3.3.1[i],pch=16)
 }
 ```
 
-##### Histogramme des effectifs (ou fréquences) cumulé(e)s
+##### Histogramme des fréquences cumulées
 
-Les histogrammes des effectifs (ou fréquences) cumulées ressemblent aux diagrammes des fréquences cumulées, si ce n'est que cette fois, les différents bâtons sont collés les uns aux autres pour rendre compte du caractère continu de la variable. 
+Les histogrammes des fréquences cumulées ressemblent aux diagrammes en bâtons des fréquences cumulées, si ce n'est que cette fois, les différents bâtons sont collés les uns aux autres pour rendre compte du caractère continu de la variable. 
 
-De même que pour les histogrammes vu dans la section précédente, il est possible de tracer le polygone des effectifs (ou fréquences) cumulé(e)s pour mieux rendre compte du caractère continu de la variable. 
+De même que pour les histogrammes vu dans la section précédente, il est possible de tracer le polygone des fréquences cumulées pour mieux rendre compte du caractère continu de la variable. 
 
 `r polygone_data3.2_freq`  
-_Histogramme de la distribution de la `r table3.2_freq` et polygone des effectifs_
+_Histogramme de la distribution de la `r table3.2_freq` et polygone des fréquences_
 ```{r cumpolygon_PIB, echo=FALSE}
 
 amplitude=centre_PIB[2]-centre_PIB[1]
@@ -801,7 +809,7 @@ Bien que le principe soit identique quel que soit le quantile envisagé, nous ne 
 
 ##### Au départ d'une série de données brutes
 
-```{r med, echo=FALSE,include=FALSE}
+```{r med6, echo=FALSE,include=FALSE}
 serie1=c(3,7,2,11,9,8,1,13,15)
 serie1_ordered=sort(serie1)
 serie2=c(3,7,2,6,9,8,11,14,13,15)
@@ -873,31 +881,31 @@ Par exemple, si l'on revient à la série 1, soit la série suivante:  $`r serie1_o
 
 * La partie des données à gauche de la médiane est la suivante: `r quartiles(serie1)[[2]]`
 
-La valeur du premier quartile sera donc égal à `r quartiles(serie1)[[1]][1]`.
+La valeur du premier quartile sera donc égale à `r quartiles(serie1)[[1]][1]`.
 
 * La partie à droite de la médiane est la partie suivante: `r quartiles(serie1)[[3]]`  
 
-La valeur du troisième quartile sera donc égal à `r quartiles(serie1)[[1]][3]`.
+La valeur du troisième quartile sera donc égale à `r quartiles(serie1)[[1]][3]`.
 
 Si l'on revient à la série 2, soit la série suivante:  $`r serie2_ordered`$
 
 * La partie des données à gauche de la médiane est la suivante: `r quartiles(serie2)[[2]]`
 
-La valeur du premier quartile sera donc égal à `r quartiles(serie2)[[1]][1]`.
+La valeur du premier quartile sera donc égale à `r quartiles(serie2)[[1]][1]`.
 
 * La partie à droite de la médiane est la partie suivante: `r quartiles(serie2)[[3]]`  
 
-La valeur du troisième quartile sera donc égal à `r quartiles(serie2)[[1]][3]`.
+La valeur du troisième quartile sera donc égale à `r quartiles(serie2)[[1]][3]`.
 
 Enfin, si l'on revient à la série 3, soit la série suivante:  $`r serie3_ordered`$
 
 * La partie des données à gauche de la médiane est la suivante: `r quartiles(serie3)[[2]]`
 
-La valeur du premier quartile sera donc égal à `r quartiles(serie3)[[1]][1]`.
+La valeur du premier quartile sera donc égale à `r quartiles(serie3)[[1]][1]`.
 
 * La partie à droite de la médiane est la partie suivante: `r quartiles(serie3)[[3]]`  
 
-La valeur du troisième quartile sera donc égal à `r quartiles(serie3)[[1]][3]`.
+La valeur du troisième quartile sera donc égale à `r quartiles(serie3)[[1]][3]`.
 
 ##### Au départ d'un tableau de fréquences
 
@@ -1027,7 +1035,7 @@ axis(2,at=seq(0,20,2),labels=seq(0,20,2))
 
 L'axe vertical représente les différentes valeurs que peut prendre la variable étudiée. Etant donné que la valeur la plus basse de la série est `r min(data3.7_brut)`, et que sa valeur la plus haute est `r max(data3.7_brut)`, cela signifie que l'ensemble des observations de la série devra être représenté entre ces deux valeurs.
 
-La **boîte centrale** (en bleu) s'étend du premier quartile (la limite inférieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][1]`) au troisème quartile (= la limite supérieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][3]`). Elle correspond donc aux 50% des données centrales de la distribution. La distance qui sépare Q1 et Q3 s'appelle **l'écart inter-quartile** et se calcule comme suit: Q3 - Q1 = `r quartiles(data3.7_brut)[[1]][3]`-`r quartiles(data3.7_brut)[[1]][1]`=`r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]`. L'écart inter-quartile est une mesure de dispersion. Ce type de mesure sera décrit ultérieurement. 
+La **boîte centrale** (en bleu) s'étend du premier quartile (la limite inférieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][1]`) au troisième quartile (= la limite supérieure de la boîte centrale = `r quartiles(data3.7_brut)[[1]][3]`). Elle correspond donc aux 50% des données centrales de la distribution. La distance qui sépare Q1 et Q3 s'appelle **l'écart interquartile** et se calcule comme suit: Q3 - Q1 = `r quartiles(data3.7_brut)[[1]][3]`-`r quartiles(data3.7_brut)[[1]][1]`=`r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]`. L'écart interquartile est une mesure de dispersion. Ce type de mesure sera décrit ultérieurement. 
 
 La barre à l'intérieur de la boîte représente la **médiane** (valant `r quartiles(data3.7_brut)[[1]][2]` dans l'exemple de la `r table3.7`). La position de la médiane à l'intérieur de la boîte indique le degré de symétrie ou d'asymétrie de la portion centrale de la distribution.
 
@@ -1037,15 +1045,15 @@ msup_data3.7=quartiles(data3.7_brut)[[1]][3]+ moustaches_data3.7
 minf_data3.7=quartiles(data3.7_brut)[[1]][1]- moustaches_data3.7
 ```
 
-Les **moustaches** (les lignes qui sortent de part et d'autre de la boîte centrale)  dépendent des **barrières** qui sont situées à une distance de 1,5 l'écart inter-quartile (soit la longueur de la boîte) de part et d'autre de la boîte. Etant donné que dans l'exemple développé, l'écart inter-quartile vaut `r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]`, les barrières s'éloigneront de $1,5 \times `r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]` = `r moustaches_data3.7`$ points des extrémités de la boîte centrale. En conséquence:  
+Les **moustaches** (les lignes qui sortent de part et d'autre de la boîte centrale)  dépendent des **barrières** qui sont situées à une distance de 1,5 l'écart interquartile (soit la longueur de la boîte) de part et d'autre de la boîte. Etant donné que dans l'exemple développé, l'écart interquartile vaut `r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]`, les barrières s'éloigneront de $1,5 \times `r quartiles(data3.7_brut)[[1]][3]-quartiles(data3.7_brut)[[1]][1]` = `r moustaches_data3.7`$ points des extrémités de la boîte centrale. En conséquence:  
 
 * la barrière supérieure vaut `r quartiles(data3.7_brut)[[1]][3]`+`r moustaches_data3.7`= `r msup_data3.7`
 
 * la barrière inférieure vaut `r quartiles(data3.7_brut)[[1]][1]`-`r moustaches_data3.7`= `r minf_data3.7`
 
-Cependant, une fois les barrières déterminées, il se peut qu'elles ne correspondent à aucune valeur existante de la distribution. Nous allons donc observer les valeurs adjacentes à l'intérieur des barrières. Les scores de la variables étudiée qui se situent à l'**intérieur** des barrières varient de `r min(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])` à `r max(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])`. Donc, la valeur adjacente inférieure est de `r min(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])` et la valeur adjacente supérieure est de `r max(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])`. C'est à ces valeurs adjacentes que correspondent les extrémités visibles des moustaches. 
+Cependant, une fois les barrières déterminées, il se peut qu'elles ne correspondent à aucune valeur existante de la distribution. Nous allons donc observer les valeurs adjacentes à l'intérieur des barrières. Les scores de la variable étudiée qui se situent à l'**intérieur** des barrières varient de `r min(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])` à `r max(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])`. Donc, la valeur adjacente inférieure est de `r min(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])` et la valeur adjacente supérieure est de `r max(data3.7_brut[data3.7_brut>=minf_data3.7&data3.7_brut<=msup_data3.7])`. C'est à ces valeurs adjacentes que correspondent les extrémités visibles des moustaches. 
 
-Les **valeurs extrêmes** sont les points de part et d'autres des moustaches. Ce sont des valeurs qui sont supérieures à la barrière supérieure, ou inférieures à la barrière inférieure. Elles correspondent à des valeurs dont le score semble anormalement élevé ou bas, compte tenu de l'ensemble des observations étudiées. Ce serait par exemple le cas de l'âge d'un individu ayant 51 ans, dans une étude consacrée à des adolescents. 
+Les **valeurs extrêmes** sont les points de part et d'autre des moustaches. Ce sont des valeurs qui sont supérieures à la barrière supérieure, ou inférieures à la barrière inférieure. Elles correspondent à des valeurs dont le score semble anormalement élevé ou bas, compte tenu de l'ensemble des observations étudiées. Ce serait par exemple le cas de l'âge d'un individu ayant 51 ans, dans une étude consacrée à des adolescents. 
 
 Le boxplot a pour avantage de permettre de détecter très rapidement ces valeurs extrêmes. Par ailleurs, elle permet de se représenter mentalement l'allure de la distribution: est-elle symétrique ou asymétrique?
 
@@ -1059,9 +1067,9 @@ Lorsque les données brutes sont fournies, le calcul de la médiane se réalise exa
 
 ##### Au départ de tableaux de fréquences
 
-Au début du chapitre, il a été vu que réaliser un tableau de fréquences de données continues implique préalablement de regrouper les valeurs par classe. Bien que ces regroupements constituent une perte d'information, il est malgré tout possible d'estimer la valeur de la médiane et des quantiles, en utilisant le **polygone des effectifs**.
+Au début du chapitre, il a été vu que réaliser un tableau de fréquences de données continues implique préalablement de regrouper les valeurs par classe. Bien que ces regroupements constituent une perte d'information, il est malgré tout possible d'estimer la valeur de la médiane et des quantiles, en utilisant le **polygone des fréquences**.
 
-Revenons une fois encore à l'exemple du PIB de la `r table3.2_freq` dont je reproduis ci-dessous le polygone des effectifs cumulés, pour votre convénience. Comme vous l'aurez compris, travailler sur le graphique dans lequel l'axe des y représente les fréquences absolues cumulées, ou dans celui sur lequel l'axe des y représente les fréquences relatives cumulées revient au même. Comme je trouve personnellement plus facile d'utiliser celui qui représente les fréquences relatives cumulées, j'opte pour ce choix.
+Revenons une fois encore à l'exemple du PIB de la `r table3.2_freq` dont je reproduis ci-dessous le polygone des fréquences cumulées, pour votre convénience. Comme vous l'aurez compris, travailler sur le graphique dans lequel l'axe des y représente les fréquences absolues cumulées, ou dans celui sur lequel l'axe des y représente les fréquences relatives cumulées revient au même. Comme je trouve personnellement plus facile d'utiliser celui qui représente les fréquences relatives cumulées, j'opte pour ce choix.
 
 ```{r cumpolygon_PIB2, echo=FALSE}
 h=hist(data3.2_brut$PIB_hab,breaks=nb_categ_PIB,plot=FALSE)
@@ -1096,10 +1104,102 @@ knitr::include_graphics("C:/Users/Marie/Documents/Github_projects/IPFC Compta/Sy
 
 ## Exercices de fin de chapitre
 
-EN RAJOUTER QUELQUE UNS
+```{r echo=FALSE, results='asis'}
+statut=c("veuf","divorcé","divorcé","célibataire","séparé","divorcé","marié","veuf","célibataire","divorcé","divorcé","marié","séparé","séparé","veuf","marié","célibataire","divorcé","marié","divorcé","divorcé","célibataire","divorcé","célibataire","divorcé","veuf","séparé","marié","divorcé","célibataire","marié","divorcé","veuf","marié","célibataire","séparé","célibataire","veuf","séparé","marié","célibataire","marié","célibataire","célibataire")
+id=1:length(statut)
+Table=data.frame(id,statut)
 
-###### Pagebreak
+# découpe en vue de l'affichage graphique
+affich_col=4
+Num_gr=matrix(0,length(statut)/affich_col,affich_col) 
+Statut_gr=matrix(0,length(statut)/affich_col,affich_col)
+affich_ex=matrix(0,length(statut)/affich_col,affich_col*2)
 
+for(j in 1:affich_col){
+  Num_gr[,j]=((length(statut)/affich_col)*(j-1)+1):(length(statut)/affich_col*j)
+  Statut_gr[,j]=statut[((length(statut)/affich_col)*(j-1)+1):(length(statut)/affich_col*j)]
+  affich_ex[,((3*j)-(j+1)):(2*j)]=cbind(Num_gr[,j],Statut_gr[,j])
+  }
+```
+
+1. Pour `r length(statut)` domiciliée dans le brabant wallon, on dispose d'une information sur le statut matrimonial. 
+
+```{r echo=FALSE, results='asis'}
+kable(affich_ex,format="markdown",align="c",col.names=rep(c("i","Statut matrimonial ($X_i$)"),affich_col))
+```
+
+Répondez aux questions suivantes:
+
+1.1. A quel type de variable correspond la variable étudiée?  
+1.2. Construisez le tableau de la distribution des fréquences absolues et relatives associé à ces observations.  
+1.3. Dessinez le diagramme en barres des fréquences absolues et relatives correspondant. L'ordre d'apparition des différentes catégories est-il important?  
+1.4. Dessinez le diagramme circulaire. En quoi ce type de graphique est-il problématique?  
+
+2.Considérons la série statistique ordonnée suivante relative aux âges des membres d'un club sportif (à traiter comme une variable **continue**): 
+
+```{r echo=FALSE, results='asis'}
+km=c(17,18,19,20,22,22,23,23,24,25,25,26,26,27,27,27,27,27,28,28,28,28,28,29,29,29,29,30,30,30,30,30,31,31,31,31,31,32,32,33,33,34,35,35,36,36,38,39,40,41)
+id=1:length(age)
+
+Table=data.frame(age,id)
+
+# découpe en vue de l'affichage graphique
+affich_col=5
+Num_gr=matrix(0,length(age)/affich_col,affich_col) 
+age_gr=matrix(0,length(age)/affich_col,affich_col)
+affich_ex2=matrix(0,length(age)/affich_col,affich_col*2)
+
+for(j in 1:affich_col){
+  Num_gr[,j]=((length(age)/affich_col)*(j-1)+1):(length(age)/affich_col*j)
+  age_gr[,j]=age[((length(age)/affich_col)*(j-1)+1):(length(age)/affich_col*j)]
+  affich_ex2[,((3*j)-(j+1)):(2*j)]=cbind(Num_gr[,j],age_gr[,j])
+  }
+```
+
+```{r echo=FALSE, results='asis'}
+kable(affich_ex2,format="markdown",align="c",col.names=rep(c("i","age ($Y_i$)"),affich_col))
+```
+
+2.1. Groupez cette série en classes d'amplitude 5, dont les centres valent respectivement 19,24,29,34 et 39 (à vous de déterminer les valeurs des bornes inférieures et supérieures de chaque classe, de sorte à pouvoir procéder aux regroupements). Construisez le tableau de la distribution observée des fréquences absolues (effectifs) et relatives correspondant.    
+2.2. Dessinez l'histogramme et le polygone des fréquences de cette distribution observée.  
+2.3. Dessinez l'histogramme des fréquences cumulées, et le polygone des fréquences cumulées.  
+2.4. Sur base des valeurs de la série, en considérant la variable comme étant continue, calculez: la médiane, les premier et troisième quartiles, l'écart interquartile. Quel type de graphique permet de représenter toutes ces valeurs?   
+
+3. Soit le tableau de fréquences suivants, relatif au nombre d'enfants à charge dans une famille.
+
+```{r echo=FALSE, results='asis'}
+age=c(rep(0,80),rep(1,95),rep(2,125),rep(3,75),rep(4,60),rep(5,65))
+Table=table(age)
+kable(Table,col.names=c("age ($x_{j}$)","$n_{j}$"))
+```
+
+3.1. Sur base des informations de ce tableau, calculez les fréquences absolues cumulées, les fréquences relatives, les fréquences relatives cumulées exprimées en pourcentage.  
+3.2. Pour combien de familles a-t-on déterminé le nombre d'enfants à charge? Quelle est la notation pour décrire le nombre total de familles?  
+3.3. Dans combien de familles y a-t-il exactement 3 enfants à charge? Donnez la notation mathématique adéquate pour décrire cette quantité, et déterminez sa valeur.  
+3.4. Dans combien de familles y a-t-il strictement moins de 2 enfants? Donnez la notation mathématique adéquate pour décrire cette quantité, et déterminez sa valeur.  
+3.5. Dans quelle proportion de familles y a-t-il 2 enfants ou moins? Donnez la notation mathématique adéquate pour décrire cette quantité, et déterminez sa valeur.  
+3.6. Représentez les fréquences cumulées sous forme de diagramme des fréquences cumulées.  
+3.7. Sur base des valeurs de la série, calculez: la médiane, les premier et troisième quartiles, l'écart interquartile. Quel type de graphique permet de représenter toutes ces valeurs?   
+
+4. Dans le graphique suivant, les diverses boîtes à moustaches représentent le QI de 4 groupes de sujets (qu'on appellera A, B, C et D).
+
+```{r,include=TRUE, echo=FALSE, results='asis'}
+QI=c(69.5,107.51,77.02,99.63,108.89,97.03,113.38,99.61,90.29,109.7,93.49,126.59,99.73,112.79,103.08,54.88,79.51,93.64,103.55,64.86,114.43,90.93,88.71,76.67,78.19,100.84,107.64,68.53,84.93,108.04,93.2,132.48,118.69,108.93,100.07,104.19,89.41,109.42,122.2,116.25,87.8,75.72,98.36,106.61,120.26,80.22,105.47,103.5,117.91,99.58,101,103)
+Groupe=c(rep("A",13),rep("B",13),rep("C",13),rep("D",13))
+data_QI=data.frame(QI,Groupe)
+```
+
+_Boîte à moustaches représentant le QI de 4 groupes: A, B, C et D_
+```{r "boxplot exercice", echo=FALSE}
+par(mar=c(2,2,2,2))
+boxplot(QI~Groupe)
+```
+
+4.1. Combien vaut (approximativement) la médiane du groupe A?   
+4.2.Considérant chaque groupe séparément (A, B, C et D), y a-t-il des sujets ayant un QI anormalement bas par rapport au reste du groupe? Y a-t-il des sujets ayant un QI anormalement haut?  
+4.3. Quel est le groupe ayant le plus grand écart interquartile?  
+
+###### Pagebreak 
 # Chapitre 4: exploration algébrique des données à une dimension
 
 Jusqu'à présent, nous n'avons envisagé la présentation d'une distribution statistique que sous forme graphique. Cependant, plusieurs caractéristiques sont importantes à déterminer algébriquement. On peut distinguer trois grandes catégories d'indicateurs algébriques essentiels:
@@ -1157,7 +1257,7 @@ data4.2_freq=data.frame(as.character(names_data4.2),as.character(abs_data4.2),ro
 colnames(data4.2_freq)=c("$y_j$","$n_j$","$f_j$")
 ```
 
-Le mode correspond à la classe la plus représentée. Dans la `r table4.1` (a ou b), vous consaterez aisément que `r names_data4.1[which(abs_data4.1 == max(abs_data4.1))]` est le nombre d'années d'ancienneté le plus représenté, puisque 
+Le mode correspond à la classe la plus représentée. Dans la `r table4.1` (a ou b), vous constaterez aisément que `r names_data4.1[which(abs_data4.1 == max(abs_data4.1))]` est le nombre d'années d'ancienneté le plus représenté, puisque 
 `r max(abs_data4.1)` employés ont cette ancienneté. C'est donc le mode de la distribution.   
 
 Remarquez qu'une distribution peut être multimodale. Par exemple, dans la série de la table `r table4.2`, il y a deux valeurs plus représentées que les autres: ce sont les valeurs  `r names_data4.2[which(abs_data4.2 == max(abs_data4.2))][1]` et `r names_data4.2[which(abs_data4.2 == max(abs_data4.2))][2]`. Quand il y a deux modes, on parle plus spécifiquement de distribution bimodale.
@@ -1185,7 +1285,7 @@ Le grand avantage du mode est d'être insensible aux valeurs extrêmes. Imaginons 
 
 ### Moyenne
 
-Lorsqu'on parle de moyenne statistique, on entend toujours (à notre niveau) la moyenne arithmétique. Si l'on part des données brutes, la moyenne arithmétique peut se calculer en prenant la somme des valeurs de chaque observation de la variable dont on veut calculer la moyenne, et en divisant cette somme par le nombre d'observations additionnées. La moyenne arithématique se symbolise par une barre horizontale placée au dessus de la lettre majuscule qui représente la variable étudiée. Dans les formules, nous utilisons généralement la lettre "X", mais cette lettre peut être remplacée par n'importe quelle autre lettre représentant une variable). Pour reprendre l'exemple de la `r table4.1`,  dans la mesure où l'ancienneté est représentée par la lettre Y, la moyenne de cette variable se notera $\bar{Y}$.
+Lorsqu'on parle de moyenne statistique, on entend toujours (à notre niveau) la moyenne arithmétique. Si l'on part des données brutes, la moyenne arithmétique peut se calculer en prenant la somme des valeurs de chaque observation de la variable dont on veut calculer la moyenne, et en divisant cette somme par le nombre d'observations additionnées. La moyenne arithmétique se symbolise par une barre horizontale placée au-dessus de la lettre majuscule qui représente la variable étudiée. Dans les formules, nous utilisons généralement la lettre "X", mais cette lettre peut être remplacée par n'importe quelle autre lettre représentant une variable). Pour reprendre l'exemple de la `r table4.1`,  dans la mesure où l'ancienneté est représentée par la lettre Y, la moyenne de cette variable se notera $\bar{Y}$.
 
 **Formule de la moyenne arithmétique calculée à partir des données brutes de l'ancienneté **
 
@@ -1235,7 +1335,7 @@ $$ = \frac {`r chaine_abs2`}{`r length(data4.1_brut$anciennete)`} = \frac {`r su
 _**En utilisant les valeurs $x_j$ et les fréquences relatives**_
 $$ \bar{Y} = `r chaine_rel` = `r round(mean(data4.1_brut$anciennete),2)` $$ 
 
-Bien entendu, les trois formules donnent une valeur identique de la moyenne (bien sûr, à condition d'utiliesr des valeurs non arrondies pour les fréquences relatives). C'est parce qu'il s'agit de trois manières différentes de calculer la même chose. 
+Bien entendu, les trois formules donnent une valeur identique de la moyenne (bien sûr, à condition d'utiliser des valeurs non arrondies pour les fréquences relatives). C'est parce qu'il s'agit de trois manières différentes de calculer la même chose. 
 
 ```{r echo=FALSE, results='asis'}
 anciennete2=data4.1_brut$anciennete # remplacement de 10 en 100
@@ -1253,7 +1353,7 @@ Nous voyons bien à quel point il est important d'étudier la forme d'une distribu
 
 ## Mesures de dispersion
 
-Une mesure de dispersion sert à quantifier à quel point les données ont tendance à s'étaler, se disperser autour de la tendance centrale. Ces mesures sont importantes car la mesure de tendance centrale résumera d'autant mieux les données que la dispersion des données autour de celle-ci sera faible. Pour illustrer cela, considérons les deux séries suivantes qui représentent (fictivement) les notes (sur 10) obtenues par 10 étudiants en mathématiques et en français.
+Une mesure de dispersion sert à quantifier à quel point les données ont tendance à se disperser autour de la tendance centrale. Ces mesures sont importantes car la mesure de tendance centrale résumera d'autant mieux les données que la dispersion des données autour de celle-ci sera faible. Pour illustrer cela, considérons les deux séries suivantes qui représentent (fictivement) les notes (sur 10) obtenues par 10 étudiants en mathématiques et en français.
 
 ```{r echo=FALSE, results='asis'} 
 id = 1:10
@@ -1270,7 +1370,7 @@ kable(notes_brut,format="markdown",align="c",col.names=c("$i$","math($X_i)$","fr
 
 Je vous laisse le soin de calculer la moyenne de ces deux séries et de constater que dans les deux cours, elle vaut exactement `r mean(math)`. Par contre, la dispersion des données autour de cette tendance centrale n'est pas la même pour les deux cours. 
 
-Dans la `r Figure4.1`, les notes de chaque cours sont représentées. La ligne horizontale représente la moyenne. Les points au dessus de la ligne horizontale sont les  notes supérieures à la moyenne et les points en dessous de cette ligne sont les notes inférieures à la moyenne. On observe graphiquement que généralement, les notes s'éloignent plus de la moyenne pour le cours de mathématiques que pour le cours de français. Cela se confirme algébriquement: en français, les notes s'éloignent au maximum de `r max(notes_brut$francais-mean(notes_brut$francais))` points de la moyenne alors qu'en mathématiques, les notes peuvent s'éloigner jusqu'à `r max(notes_brut$math-mean(notes_brut$math))` points de la moyenne. Autrement dit, la dispersion des notes est plus forte pour le cours de mathématiques que pour le cours de français.
+Dans la `r Figure4.1`, les notes de chaque cours sont représentées. La ligne horizontale représente la moyenne. Les points au-dessus de la ligne horizontale sont les  notes supérieures à la moyenne et les points en dessous de cette ligne sont les notes inférieures à la moyenne. On observe graphiquement que généralement, les notes s'éloignent plus de la moyenne pour le cours de mathématiques que pour le cours de français. Cela se confirme algébriquement: en français, les notes s'éloignent au maximum de `r max(notes_brut$francais-mean(notes_brut$francais))` points de la moyenne alors qu'en mathématiques, les notes peuvent s'éloigner jusqu'à `r max(notes_brut$math-mean(notes_brut$math))` points de la moyenne. Autrement dit, la dispersion des notes est plus forte pour le cours de mathématiques que pour le cours de français.
 
 `r Figure4.1`  
 _Etalement des notes de la `r notes_compta` autour de la moyenne (`r mean(notes_brut$math)`)_
@@ -1280,7 +1380,7 @@ plot(id,notes_brut$math,xaxt="n",bty="n",ylim=c(mean(notes_brut$math)-3,mean(not
 abline(h=mean(notes_brut$math),lty=2)
 segments(id,mean(notes_brut$math),id,notes_brut$math,lty=3)
 
-plot(id,notes_brut$francais,xaxt="n",bty="n",ylim=c(mean(notes_brut$francais)-3,mean(notes_brut$francais)+3),pch=16,col="black",cex=1.5,ylab="notes",main="Francais",,xlab=" ")
+plot(id,notes_brut$francais,xaxt="n",bty="n",ylim=c(mean(notes_brut$francais)-3,mean(notes_brut$francais)+3),pch=16,col="black",cex=1.5,ylab="notes",main="Francais",xlab=" ")
 abline(h=mean(notes_brut$francais),lty=2)
 segments(id,mean(notes_brut$francais),id,notes_brut$francais,lty=3)
 ```
@@ -1291,13 +1391,13 @@ Quantifier la dispersion des données peut se faire de plusieurs manières plus ou
 - L'écart moyen absolu  
 - La variance et l'écart-type  
 
-### Etendue
+### Étendue
 
 L'étendue est une mesure très élémentaire qui consiste à mesurer la différence entre la plus grande et la plus petite des valeurs observées. 
-$$ etendue = max(X_i) - min (X_i)$$
-Dans l'exemple des notes de cours de la `r notes_compta`, on trouve que l'étendue des notes en français vaut `r max(notes_brut$francais)`-`r min(notes_brut$francais)`=`r max(notes_brut$francais)-min(notes_brut$francais)`, et que celle des notes en mathématiques vaut ``r max(notes_brut$math)`-`r max(notes_brut$math)`= `r max(notes_brut$math)-min(notes_brut$math)`. 
+$$ étendue = max(X_i) - min (X_i)$$
+Dans l'exemple des notes de cours de la `r notes_compta`, on trouve que l'étendue des notes en français vaut `r max(notes_brut$francais)`-`r min(notes_brut$francais)`=`r max(notes_brut$francais)-min(notes_brut$francais)`, et que celle des notes en mathématiques vaut `r max(notes_brut$math)`-`r min(notes_brut$math)`= `r max(notes_brut$math)-min(notes_brut$math)`. 
 
-L'avantage de cette mesure est qu'elle est très simple à calculer. En contre-partie, elle présente des inconvénients importants. Premièrement, elle ne dépend que deux valeurs de la série (la plus grande et la plus petite) et ne prend pas du tout en compte toutes les autres valeurs. Deuxièmement, elle est très sensible aux valeurs extrêmes: il suffit qu'un seul sujet ait un score atypique pour que l'étendue augmente considérablement. Vous pouvez donc regarder cet indicateur lorsque vous abordez en un coup d'oeil la distribution de vos résultats, mais n'accordez aucun crédit à cet indicateur dès lors que vous entrez dans une analyse plus fine.
+L'avantage de cette mesure est qu'elle est très simple à calculer. En contrepartie, elle présente des inconvénients importants. Premièrement, elle ne dépend que deux valeurs de la série (la plus grande et la plus petite) et ne prend pas du tout en compte toutes les autres valeurs. Deuxièmement, elle est très sensible aux valeurs extrêmes: il suffit qu'un seul sujet ait un score atypique pour que l'étendue augmente considérablement. Vous pouvez donc regarder cet indicateur lorsque vous abordez en un coup d'oeil la distribution de vos résultats, mais n'accordez aucun crédit à cet indicateur dès lors que vous entrez dans une analyse plus fine.
 
 ### Ecart interquartile
 
@@ -1349,7 +1449,7 @@ Pour le cours de français: $\sum_{i=1}^n E_i=`r chaine(francais_ecarts)`=`r sum(
 
 Il existe deux moyens de contourner ce problème. Soit on prend la valeur absolue de chaque écart, soit on élève toutes les erreurs au carré (et donc, on ne doit plus se soucier du signe, puisqu'un chiffre négatif élevé au carré devient positif). 
 
-La première stratégie est celle choisie lorqu'on calcule l'EMA. l'EMA est une estimation de l'écart à la moyenne, en moyenne, par sujet. Il se calcule comme suit:
+La première stratégie est celle choisie lorsqu'on calcule l'EMA. l'EMA est une estimation de l'écart à la moyenne, en moyenne, par sujet. Il se calcule comme suit:
 $$EMA=\frac {\sum_{i=1}^n |X_i-\bar{X}|}{n}$$
 
 Appliquée aux notes de mathématiques de la `r notes_compta`, cela donne $$\frac{`r chaine(abs(math_ecarts))`}{`r length(math_ecarts)`}=`r sum(abs(math_ecarts))/length(math_ecarts)`.$$ 
@@ -1377,7 +1477,7 @@ L'écart-type, soit la racine carrée de la variance vaut $\sqrt{`r sum(francais_e
 
 Remarquez que la mesure de l'écart-type est un petit peu différente de celle que nous obtenions en utilisant l'EMA (Pour le cours de math, écart-type = `r round(sqrt(sum(math_ecarts^2)/length(math_ecarts)),2)` vs. EMA = `r sum(abs(math_ecarts))/length(math_ecarts)`; pour le cours de français, écart-type =  `r round(sqrt(sum(francais_ecarts^2)/length(francais_ecarts)),2)` vs. EMA = `r sum(abs(francais_ecarts))/length(francais_ecarts)`). L'écart-type est un petit peu plus conservateur, c'est-à-dire qu'il surestime un petit peu l'erreur par rapport à l'EMA. 
 
-La variance et l'écart-type souffrent de la même limite que la moyenne: ils sont tous les deux sensibles aux valeurs abberrantes. Cette sensibilité est accentuée par le fait que l'on élève les écarts au carré. Ces mesures restent malgré tout les mesures de dispersion les plus utilisées en pratique. 
+La variance et l'écart-type souffrent de la même limite que la moyenne: ils sont tous les deux sensibles aux valeurs aberrantes. Cette sensibilité est accentuée par le fait que l'on élève les écarts au carré. Ces mesures restent malgré tout les mesures de dispersion les plus utilisées en pratique. 
 
 ## Mesures d'asymétrie et d'aplatissement
 
@@ -1455,6 +1555,65 @@ De même que pour la mesure d'asymétrie, il n'est pas important que vous puissiez
 - Lorsque la distribution a l'aplatissement d'une distribution normale, le coefficient G2 vaut exactement 0.   
 - Lorsque la distribution est leptokurtique, le coefficient G2 a une valeur supérieure à 0.   
 - Lorsque la distribution est platikurtique, le coefficient G2 a une valeur inférieure à 0.   
+
+###### Pagebreak 
+
+## Exercices de fin de chapitre
+
+```{r med2, echo=FALSE,include=FALSE}
+ex4.1=c(6,1,3,15,6,12,3,13,15,15)
+serie1_ordered=sort(ex4.1)
+ex4.2=c(9,12,15,8,75)
+serie2_ordered=sort(ex4.1)
+```
+
+1. Voici une série statistique: 
+
+$$ `r ex4.1`$$
+
+1.1. Calculez la moyenne de trois manières différentes.    
+1.2. Calculez la médiane ainsi que le mode de la série.  
+1.3. Calculez l'étendue et l'écart interquartile de la série.  
+1.4. Calculez la variance et l'écart-type de la série.  
+
+2. Voici une série statistique: 
+
+$$ `r ex4.2`$$
+
+2.1. Calculez la moyenne de trois manières différentes. La valeur est-elle représentative de la série? Commentez.   
+2.2. Calculez la médiane ainsi que le mode de la série.  
+2.3. Calculez l'étendue et l'écart interquartile de la série.  
+2.4. Calculez la variance et l'écart-type de la série.  
+ 
+3. Voici un tableau de fréquence:
+
+```{r med3, echo=FALSE,include=FALSE}
+ex4.3=c(rep(7,6),rep(8,4),rep(9,5),rep(10,9),rep(11,6))
+name=names(table(ex4.3))
+tab=tabulate(ex4.3)
+freq=tab[min(as.numeric(name[1])):length(tab)]
+kable(data.frame(name,freq,round(freq/sum(tab)*100,2)),format="markdown",align="c",col.names=c("j","$n_j$","$f_j$"))
+```
+
+3.1. Calculez la moyenne de la série.   
+3.2. Calculez la médiane ainsi que le mode de la série.  
+3.3. Calculez l'étendue et l'écart interquartile de la série.  
+
+```{r med4, echo=FALSE,include=FALSE}
+n=10000000
+data1=rchisq(n,5)
+data2=rnorm(n,0,2)
+data3=1-rchisq(n,12)
+```
+
+4. Voici trois distributions. L'une des trois distributions a une valeur G2 (asymétrie) de `r round(skewness(data1),2)`. Une autre a une valeur G2 de `r round(skewness(data3),2)`et enfin, la dernière a une valeur G2 de `r round(skewness(data2),2)`. Veuillez déterminer quelle valeur se rapporte à chaque distribution.
+
+```{r med5, echo=FALSE,include=FALSE}
+par(mfrow=c(1,3))
+plot(density(data1),xlab="",main="Série A")
+plot(density(data2),xlab="",main="Série B")
+plot(density(data3),xlab="",main="Série C")
+```
 
 ###### Pagebreak 
 
@@ -1564,7 +1723,7 @@ _Notes (/10) obtenues par `r length(id)` des étudiants en éducation physique et 
 kable(notes_phys,format="markdown",align="c",col.names=c("$i$","education physique($V_i)$","anglais($V_i)$")) 
 ```
 
-Contrairement au deux situations précédentes, il ne semble pas possible de résumer correctement le nuage de points par une droite croissante ou décroissante. 
+Contrairement aux deux situations précédentes, il ne semble pas possible de résumer correctement le nuage de points par une droite croissante ou décroissante. 
 Il ne semble pas y avoir de relation linéaire entre les notes obtenues au cours de géographiques et celles obtenues au cours d'histoire. 
 
 Cela se confirme par la droite qui se rapproche le plus près possible de tous les points, on trouve une droite de pente pratiquement nulle. C'est ce qui arrive en absence de **relation linéaire** entre deux variables.
@@ -1579,7 +1738,7 @@ axis(2,at=seq(0,10,1),labels=seq(0,10,1))
 abline(a=lm(phys~anglais)$coefficients[1],b=lm(phys~anglais)$coefficients[2],lty=2)
 ```
 
-Depuis le début de ce chapitre, le terme "linéaire" revient régulièrement, parce que nous essayons de résumer le  nuage de points par une droite. Il est important de bien comprendre qu'il peut exister une relation autre que linéaire entre deux variables. Imaginons la `r correlation_cours` qui représente la relation entre le temps d'études du cours de statistiques et le résultat à l'examen. 
+Depuis le début de ce chapitre, le terme "linéaire" revient régulièrement, parce que nous essayons de résumer le  nuage de points par une droite. Il est important de bien comprendre qu'il peut exister une relation autre que linéaire entre deux variables. Imaginons la `r correlation_graph_f` qui représente la relation entre le temps d'études du cours de statistiques et le résultat à l'examen. 
 
 `r correlation_graph_f`
 _Nuage de points représentant la relation entre le nombre d'heures d'études et la note obtenue à l'examen de statistiques_  
@@ -1604,10 +1763,10 @@ La covariance entre deux variables se calcule comme suit:
 $$S_{XY}=\frac{\sum_{i=1}^n (X-\bar{X})(Y-\bar{Y})}{n} $$
 Voyons à présent en quoi cette expression représente une mesure du lien qui existe entre la variable X et la variable Y.
 
-Nous avions précédemment déterminé graphiquement (voir la `r correlation_graph_geo`) que la relation linéaire entre les cours de mathématiques et de francais était positive pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en français est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en français est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
+Nous avions précédemment déterminé graphiquement (voir la `r correlation_graph_a`) que la relation linéaire entre les cours de mathématiques et de francais était positive pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en français est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en français est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
 
 `r correlation_graph_g`
-_Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
+_Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français, découpé en 4 quadrants_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
 plot(math,francais,pch=19,bty="n",xlim=c(3,9),ylim=c(4,9))
@@ -1619,12 +1778,12 @@ abline(h=mean(francais))
 
 Dans la mesure où la relation linéaire est positive entre les deux cours, lorsque le score en mathématiques est supérieur à la moyenne, le score associé en français sera généralement lui aussi supérieur à la moyenne. Pour tous les points du quadrant supérieur droit, $X_i-\bar{X}$ sera supérieur à zéro et il en sera de même pour $Y_i-\bar{Y}$. Or, +*+=+. Par ailleurs, lorsque le score en mathématiques est inférieur à la moyenne, le score associé en français sera généralement lui aussi inférieur à la moyenne. Pour tous les points du quadrant inférieur gauche, $X_i-\bar{X}$ sera négatif, et il en sera de meme pour $Y_i-\bar{Y}$. Or, \-\*\-=\+. Cela signifie que le terme $\sum_{i=1}^n=$ consistera à additionner toute une série de nombres positifs, et par voie de conséquence, que la mesure de covariance sera positive. 
 
-Nous avions également déterminé précédemment graphiquement (voir la `r correlation_graph_b`) que la relation linéaire entre les cours de mathématiques et de géographie était négative pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts, en respectant la même logique que précéemment: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en géographie est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en géographie est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
+Nous avions également déterminé précédemment graphiquement (voir la `r correlation_graph_b`) que la relation linéaire entre les cours de mathématiques et de géographie était négative pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts, en respectant la même logique que précédemment: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en géographie est supérieur à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en géographie est inférieur à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieur à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieur à la moyenne.
 
 Dans la mesure où la relation linéaire est négative entre les deux cours, lorsque le score en mathématiques est supérieur à la moyenne, le score associé en géographie sera généralement inférieur à la moyenne. Pour tous les points du quadrant inférieur droit, $X_i-\bar{X}$ sera positif et $Y_i-\bar{Y}$ sera  négatif. Or, +*-=-. Par ailleurs, lorsque le score en mathématiques est inférieur à la moyenne, le score associé en français sera par contre supérieur à la moyenne. Pour tous les points du quadrant supérieur gauche, $X_i-\bar{X}$ sera négatif, par contre $Y_i-\bar{Y}$ sera positif. Or, -\*+=+. Cela signifie que le terme $\sum_{i=1}^n$ consistera à additionner toute une série de nombres négatifs, et par voie de conséquence, que la mesure de covariance sera négative. 
 
 `r correlation_graph_h`
-_Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie_  
+_Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie, découpé en 4 quadrants_  
 ```{r echo=FALSE, results='asis'}
 
 par(mar=c(4,4,2,4))
@@ -1635,10 +1794,10 @@ abline(v=mean(math))
 abline(h=mean(geo))
 ```
 
-Comme dernier exemple, nous avions déterminé précédemment graphiquement une absence de relation linéaire entre les cours d'éducation physique et celui d'anglais. Cela signifiait que lorsque la note au cours d'éducation physique augmentait, celle du cours d'anglais pouvait tantôt augmenter, tantôt diminuer. Graphiquement, cela amène à observer un nuage de points avec des points qui se répartissent aléatoirement dans les 4 quadrants (voir la `r correlation_graph_agls` ). 
+Comme dernier exemple, nous avions déterminé précédemment graphiquement une absence de relation linéaire entre les cours d'éducation physique et celui d'anglais. Cela signifiait que lorsque la note au cours d'éducation physique augmentait, celle du cours d'anglais pouvait tantôt augmenter, tantôt diminuer. Graphiquement, cela amène à observer un nuage de points avec des points qui se répartissent aléatoirement dans les 4 quadrants (voir la `r correlation_graph_i` ). 
  
  `r correlation_graph_i`
-_Nuage de points représentant la relation entre la note à un cours de géographie et la note à un cours d'anglais_  
+_Reproduction du nuage de points représentant la relation entre la note à un cours de géographie et la note à un cours d'anglais, découpé en 4 quadrants_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
 plot(phys,anglais,pch=19,bty="n",xlim=c(5,10),ylim=c(4,10))
@@ -1657,7 +1816,7 @@ EN RESUME:
 
 #### Corrélation
 
-La covariance est une mesure très efficace du lien entre deux variables. Cependant, elle souffre d'un défaut: elle donne une valeur difficilement interprétable en tant que telle. On sait qu'elle augmente, diminue ou s'annule en foncton du lien, mais il n'y a pas de valeur plafond ni de valeur plancher. Admettons que la valeur d'une covariance soit de 1352 (nombre purement choisi au hasard), cela ne permet de dire qu'une seule chose: que le lien est positif. Mais ce lien est-il fort, faible, intéressant, inintéressant? En fait, tout dépend de l'unité de mesure des variables. Si nous étudions des variables à l'aide de valeurs qui tournent autour de 1 ou 2, alors une covariance de 1352 est probablement un lien extrêmement fort entre les deux variables. En revanche, si les variables ont des valeurs qui tournent autour de 10000000 ou 20000000, alors cette même covariance de 1352 représentera probablement un lien tout à fait dérisoire, que l'on peut considérer comme proche de zéro.
+La covariance est une mesure très efficace du lien entre deux variables. Cependant, elle souffre d'un défaut: elle donne une valeur difficilement interprétable en tant que telle. On sait qu'elle augmente, diminue ou s'annule en fonction du lien, mais il n'y a pas de valeur plafond ni de valeur plancher. Admettons que la valeur d'une covariance soit de 1352 (nombre purement choisi au hasard), cela ne permet de dire qu'une seule chose: que le lien est positif. Mais ce lien est-il fort, faible, intéressant, inintéressant? En fait, tout dépend de l'unité de mesure des variables. Si nous étudions des variables à l'aide de valeurs qui tournent autour de 1 ou 2, alors une covariance de 1352 est probablement un lien extrêmement fort entre les deux variables. En revanche, si les variables ont des valeurs qui tournent autour de 10000000 ou 20000000, alors cette même covariance de 1352 représentera probablement un lien tout à fait dérisoire, que l'on peut considérer comme proche de zéro.
 
 Heureusement, il existe une solution qui permet de contourner ce problème. En effet, si l'on divise la covariance par les écarts-types respectifs de ces deux variables, on obtient une mesure réduite dont l'interprétation est beaucoup plus évidente, que l'on appelle la mesure de **corrélation r de Pearson**:
 
@@ -1735,14 +1894,44 @@ interpretation=function(rel){
 
 A titre d'exercice, vérifiez que $S_{Math,Francais}=`r round(covar_math_francais,2)`$, $S_{Math,Geographie}=`r round(correl_math_geo,2)`$ et $S_{Education physique,Anglais}= `r round(correl_phys_agls,2)`$.
 
-En transformant ces mesures de covariances en mesure de corrélation, on trouve que la corrélation entre les cours de mathématiques et de français vaut $r_{Math,Francais}=\frac{`r round(covar_math_francais,2)`}{`r round(sd_math,2)` X `r round(sd_francais,2)`}=`r round(correl_math_francais,2)`$, soit une`r interpretation(correl_math_francais)`
+En transformant ces mesures de covariances en mesure de corrélation, on trouve que la corrélation entre les cours de mathématiques et de français vaut $r_{Math,Francais}=\frac{`r round(covar_math_francais,2)`}{`r round(sd_math,2)` X `r round(sd_francais,2)`}=`r round(correl_math_francais,2)`$, soit une `r interpretation(correl_math_francais)`
 
-La corrélation entre les cours de mathématiques et de géographie vaut $r_{Math,Geo}= \frac{`r round(covar_math_geo,2)`}{`r round(sd_math,2)` X `r round(sd_geo,2)`}=`r round(correl_math_geo,2)`$, soit une`r interpretation(correl_math_geo)`
+La corrélation entre les cours de mathématiques et de géographie vaut $r_{Math,Geo}= \frac{`r round(covar_math_geo,2)`}{`r round(sd_math,2)` X `r round(sd_geo,2)`}=`r round(correl_math_geo,2)`$, soit une `r interpretation(correl_math_geo)`
 
-Enfin, la corrélation entre les cours d'éducation physique et d'anglais vaut $r_{phys,anglais}=\frac {`r round(covar_phys_agls,2)`}{`r round(sd_phys,2)` X `r round(sd_agls,2)`}=`r round(correl_phys_agls,3)`$, soit une`r interpretation(correl_phys_agls)` (voir même très faible, pratiquement nulle). 
+Enfin, la corrélation entre les cours d'éducation physique et d'anglais vaut $r_{phys,anglais}=\frac {`r round(covar_phys_agls,2)`}{`r round(sd_phys,2)` X `r round(sd_agls,2)`}=`r round(correl_phys_agls,3)`$, soit une `r interpretation(correl_phys_agls)` (voir même très faible, pratiquement nulle). 
+
+## Exercices de fin de chapitre
+
+1. Voici un graphique qui représente la relation entre la quantité de caféine ingurgitée (exprimée en ml) sur le temps de midi et le taux d'énergie lors de la reprise du travail (pour le déterminer, les participants devaient compléter une échelle allant de 0 = très endormi à 10 = en pleine forme), en début d'après-midi.
+
+```{r echo=FALSE, results='asis'}
+x=seq(-50,50,.1) 
+y=-x^2+3+rnorm(length(x),0,100)
+plot(x,y,pch=19,cex=.5,xaxt="n",xlim=c(-60,60),xlab="Quantité de caféine (en ml)",ylab="niveau d'énergie",ylim=c(-3000,500),yaxt="n")
+axis(2, at = seq(-3000,500,500), labels = seq(1,8,1), las = 1)
+axis(1, at = seq(-60,60,20), labels = seq(0,600,100), las = 1)
+```
+
+1.1. Que pouvez-vous dire de cette relation?
+1.2. Pensez-vous que le coefficient r de Pearson représentera cette série de manière adéquate?
+
+2. On mesure la corrélation de Pearson pour évaluer la relation entre deux variables. On trouve une valeur très proche de 0. Comment interpréter cette valeur?
+
+3. Voici les notes obtenues par 10 étudiants (en %) en mathématiques et en économie.
+
+```{r echo=FALSE, results='asis'}
+math=c(75,38,49,80,71,65,68,20,90,52)
+eco=c(100,48,68,95,87,92,80,24,83,64)
+plot(math,eco,pch=19,cex=.5)
+```
+
+3.1. Représenter graphiquement la relation entre les deux variables.
+3.2. Calculez la covariance entre les cours de mathématiques et d'économie.
+3.3. Calculez la corrélation entre les cours de mathématiques et d'économies.
 
 ###### Pagebreak
- 
+
+
 # Références
 
 Labreuche, J. (2010). Les différents types de variables, leurs représentations graphiques et paramêtres descriptifs. Sang Thrombose Vaisseaux, 22(10), 536-543.
