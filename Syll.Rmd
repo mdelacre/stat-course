@@ -81,9 +81,16 @@ Figure4.4="Figure 4.4"
 
 correlation_graph_a= "Figure 5.1"
 correlation_graph_b= "Figure 5.2"
-correlation_graph_geo= "Figure 5.3"
-correlation_graph_agls= "Figure 5.4"
-correlation_cours= "Figure 5.5"
+correlation_graph_c= "Figure 5.3"
+correlation_graph_d= "Figure 5.4"
+correlation_graph_e= "Figure 5.5"
+correlation_graph_f= "Figure 5.6"
+correlation_graph_g= "Figure 5.7"
+correlation_graph_h= "Figure 5.8"
+correlation_graph_i= "Figure 5.9"
+correlation_graph_j= "Figure 5.10"
+
+
 ```
 
 ###### Pagebreak
@@ -1502,7 +1509,7 @@ On constate que l'ensemble des points semblent se rapprocher d'une droite croiss
 
 Attention: il s'agit d'une **tendance** des données. Autrement dit, ce n'est pas nécessairement vrai pour chaque point du nuage. Regardez les deux points entourés dans la reproduction du  nuage de points ci-dessous. Le point le plus à gauche dans le cercle représente un étudiant ayant obtenu une note de `r math[2]` en mathématiques, et une note de `r francais[2]` en français. Le point le plus à droite dans le cercle représente un étudiant ayant obtenu une note de `r math[3]` en mathématiques, soit une note plus élevée que le premier sujet. Pourtant, la note qu'il a obtenu en français est plus faible (`r francais[3]`). Lorsque les points sont parfaitement alignés, on parole de relation linéaire **parfaite**. 
 
-`r correlation_graph_b`  
+`r correlation_graph_c`  
 _Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
@@ -1530,7 +1537,7 @@ kable(notes_geo,format="markdown",align="c",col.names=c("$i$","math($X_i)$","geo
 
 Comme précédemment, l'étude du nuage de points et de la droite de régression associée aidera à mieux se représenter la relation entre les deux variables (voir `r `).
 
-`r correlation_graph_geo`  
+`r correlation_graph_d`  
 _Nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
@@ -1562,7 +1569,7 @@ Il ne semble pas y avoir de relation linéaire entre les notes obtenues au cours 
 
 Cela se confirme par la droite qui se rapproche le plus près possible de tous les points, on trouve une droite de pente pratiquement nulle. C'est ce qui arrive en absence de **relation linéaire** entre deux variables.
 
-`r correlation_graph_agls`  
+`r correlation_graph_e`  
 _Nuage de points représentant la relation entre la note à un cours d'éducation physique et la note à un cours d'anglais_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
@@ -1574,6 +1581,8 @@ abline(a=lm(phys~anglais)$coefficients[1],b=lm(phys~anglais)$coefficients[2],lty
 
 Depuis le début de ce chapitre, le terme "linéaire" revient régulièrement, parce que nous essayons de résumer le  nuage de points par une droite. Il est important de bien comprendre qu'il peut exister une relation autre que linéaire entre deux variables. Imaginons la `r correlation_cours` qui représente la relation entre le temps d'études du cours de statistiques et le résultat à l'examen. 
 
+`r correlation_graph_f`
+_Nuage de points représentant la relation entre le nombre d'heures d'études et la note obtenue à l'examen de statistiques_  
 ```{r echo=FALSE, results='asis'} 
 id = 1:100
 heures=runif(id,0,40)
@@ -1597,7 +1606,7 @@ Voyons à présent en quoi cette expression représente une mesure du lien qui exis
 
 Nous avions précédemment déterminé graphiquement (voir la `r correlation_graph_geo`) que la relation linéaire entre les cours de mathématiques et de francais était positive pour les dix étudiants considérés à titre illustratif. Ci-dessous, reproduisons cette figure mais en la divisant en 4 quadrants distincts: tous les points qui tombent dans les deux quadrants du haut correspondent aux étudiants dont le score obtenu en français est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants du bas correspondent aux étudiants dont le score obtenu en français est inférieure à la moyenne. De plus, tous les points qui tombent dans les deux quadrants de droite correspondent aux étudiants dont le score obtenu en mathématiques est supérieure à la moyenne, et tous les points qui tombent dans les deux quadrants de gauche correspondent aux étudiants dont le score obtenu en mathématiques est inférieure à la moyenne.
 
-`r correlation_graph_b`  
+`r correlation_graph_g`
 _Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de français_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
@@ -1614,7 +1623,7 @@ Nous avions également déterminé précédemment graphiquement (voir la `r correlati
 
 Dans la mesure où la relation linéaire est négative entre les deux cours, lorsque le score en mathématiques est supérieur à la moyenne, le score associé en géographie sera généralement inférieur à la moyenne. Pour tous les points du quadrant inférieur droit, $X_i-\bar{X}$ sera positif et $Y_i-\bar{Y}$ sera  négatif. Or, +*-=-. Par ailleurs, lorsque le score en mathématiques est inférieur à la moyenne, le score associé en français sera par contre supérieur à la moyenne. Pour tous les points du quadrant supérieur gauche, $X_i-\bar{X}$ sera négatif, par contre $Y_i-\bar{Y}$ sera positif. Or, -\*+=+. Cela signifie que le terme $\sum_{i=1}^n$ consistera à additionner toute une série de nombres négatifs, et par voie de conséquence, que la mesure de covariance sera négative. 
 
-`r correlation_graph_geo`  
+`r correlation_graph_h`
 _Reproduction du nuage de points représentant la relation entre la note à un cours de math et la note à un cours de géographie_  
 ```{r echo=FALSE, results='asis'}
 
@@ -1628,6 +1637,7 @@ abline(h=mean(geo))
 
 Comme dernier exemple, nous avions déterminé précédemment graphiquement une absence de relation linéaire entre les cours d'éducation physique et celui d'anglais. Cela signifiait que lorsque la note au cours d'éducation physique augmentait, celle du cours d'anglais pouvait tantôt augmenter, tantôt diminuer. Graphiquement, cela amène à observer un nuage de points avec des points qui se répartissent aléatoirement dans les 4 quadrants (voir la `r correlation_graph_agls` ). 
  
+ `r correlation_graph_i`
 _Nuage de points représentant la relation entre la note à un cours de géographie et la note à un cours d'anglais_  
 ```{r echo=FALSE, results='asis'}
 par(mar=c(4,4,2,4))
@@ -1657,6 +1667,8 @@ Cette mesure est nécessairement comprise entre -1 et 1.
 
 Dans ce cas, -1 correspond à une corrélation linéaire négative parfaite entre deux variables (tous les points du  nuage seront parfaitement superposés à une droite de régression décroissante), +1 correspond à une corrélation linéaire positive parfaite (tous les points du  nuage seront parfaitement superposés à une droite de régression croissante) et 0 correspond à une absence de corrélation linéaire. 
 
+ `r correlation_graph_j`
+_Synthèse_  
 ```{r echo=FALSE, results='asis'}
 par(mfrow=c(2,3),mar=c(4,2,2,1))
 n=100
